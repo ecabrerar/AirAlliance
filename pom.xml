@@ -64,24 +64,16 @@
         </dependency>        
         <dependency>
             <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
-        </dependency>   
+        </dependency>
+ 
     </dependencies>
-    <build>
+     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.7 compatibility and activates annotation 
-            processors -->
-            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
@@ -90,40 +82,15 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.glassfish.embedded</groupId>
-                <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                <version>3.1.2.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
-                    <app>target/${project.artifactId}-${project.version}</app>
-                    <port>8080</port>
-                    <contextRoot>${project.artifactId}</contextRoot>
-                    <autoDelete>true</autoDelete>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.glassfish.main</groupId>
-                        <artifactId>simple-glassfish-api</artifactId>
-                        <version>4.0-b79</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.glassfish.main.extras</groupId>
-                        <artifactId>glassfish-embedded-all</artifactId>
-                        <version>4.0-b83</version>
-                    </dependency>
-                </dependencies>
-            </plugin>            
-        </plugins>       
+            </plugin>
+            
+        </plugins>
     </build>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>maven.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>https://maven.java.net/content/groups/promoted/</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/glassfish/</url>
-        </pluginRepository>
-    </pluginRepositories>
+   
 </project>

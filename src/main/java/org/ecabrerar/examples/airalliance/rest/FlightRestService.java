@@ -18,7 +18,6 @@
 package org.ecabrerar.examples.airalliance.rest;
 
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,7 +31,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Flight;
-import org.ecabrerar.examples.airalliance.jaxb.Flights;
 import org.ecabrerar.examples.airalliance.service.FlightService;
 
 /**
@@ -41,7 +39,6 @@ import org.ecabrerar.examples.airalliance.service.FlightService;
  */
 
 @Path("/flights")
-@ApplicationScoped
 public class FlightRestService {
     
     @Inject
@@ -78,8 +75,8 @@ public class FlightRestService {
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Flights findAll() {
-        return new Flights(flightService.findAll());
+    public List<Flight> findAll() {
+        return flightService.findAll();
     }
 
     @GET

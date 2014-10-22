@@ -22,7 +22,7 @@ import javax.ws.rs.core.Application;
  *
  * @author ecabrerar
  */
-@javax.ws.rs.ApplicationPath("rest")
+@javax.ws.rs.ApplicationPath("webapi")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -44,6 +44,8 @@ public class ApplicationConfig extends Application {
         resources.add(org.ecabrerar.examples.airalliance.rest.ItineraryRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.ScheduleRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.SectorRestService.class);
+        
     }
+        
     
 }

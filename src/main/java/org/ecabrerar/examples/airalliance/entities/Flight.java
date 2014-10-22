@@ -16,9 +16,10 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,6 +29,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +40,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "flight")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Flight implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,18 +55,26 @@ public class Flight implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "name")
     private String name;
+    
     @JoinColumn(name = "source_sector_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Sector sourceSector;
+    
     @JoinColumn(name = "dest_sector_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne (optional = false)
     private Sector destSector;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")
-    private Collection<Schedule> scheduleCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")
-    private Collection<Itinerary> itineraryCollection;
+    
+    @OneToMany(mappedBy = "flight")
+    @XmlTransient
+    private List<Schedule> schedules;
+    
+    @OneToMany(mappedBy = "flight")
+    @XmlTransient
+    private List<Itinerary> itineraries;
 
     public Flight() {
+        this.itineraries = new ArrayList<>();
+        this.schedules = new ArrayList<>();
     }
 
     public Flight(Integer id) {
@@ -105,20 +120,20 @@ public class Flight implements Serializable {
         this.destSector = destSectorId;
     }
 
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
+    public Collection<Schedule> getSchedules() {
+        return schedules;
     }
 
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 
-    public Collection<Itinerary> getItineraryCollection() {
-        return itineraryCollection;
+    public Collection<Itinerary> getItineraries() {
+        return itineraries;
     }
 
-    public void setItineraryCollection(Collection<Itinerary> itineraryCollection) {
-        this.itineraryCollection = itineraryCollection;
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
     }
 
     @Override

@@ -16,9 +16,9 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +28,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +39,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "sector")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Sector implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,12 +55,18 @@ public class Sector implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "sector")
     private String sector;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceSector")
-    private Collection<Flight> flightCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "destSector")
-    private Collection<Flight> flightCollection1;
+    
+    @OneToMany(mappedBy = "sourceSector")
+    @XmlTransient
+    private List<Flight> flights;
+    
+    @OneToMany(mappedBy = "destSector")
+    @XmlTransient
+    private List<Flight> flightsDest;
 
     public Sector() {
+        this.flights = new ArrayList<>();
+        this.flightsDest = new ArrayList<>();
     }
 
     public Sector(Integer id) {
@@ -89,20 +101,20 @@ public class Sector implements Serializable {
         return hash;
     }
 
-    public Collection<Flight> getFlightCollection() {
-        return flightCollection;
+    public List<Flight> getFlights() {
+        return flights;
     }
 
-    public void setFlightCollection(Collection<Flight> flightCollection) {
-        this.flightCollection = flightCollection;
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
     }
 
-    public Collection<Flight> getFlightCollection1() {
-        return flightCollection1;
+    public List<Flight> getFlightsDest() {
+        return flightsDest;
     }
 
-    public void setFlightCollection1(Collection<Flight> flightCollection1) {
-        this.flightCollection1 = flightCollection1;
+    public void setFlightsDest(List<Flight> flightList1) {
+        this.flightsDest = flightList1;
     }
 
     @Override

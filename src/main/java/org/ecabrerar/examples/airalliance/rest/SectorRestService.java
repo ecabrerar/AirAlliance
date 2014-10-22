@@ -16,7 +16,7 @@
 package org.ecabrerar.examples.airalliance.rest;
 
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -26,6 +26,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.service.SectorService;
 
@@ -33,22 +36,27 @@ import org.ecabrerar.examples.airalliance.service.SectorService;
  *
  * @author ecabrerar
  */
-@Stateless
+
 @Path("/sectors")
+@ApplicationScoped
 public class SectorRestService {
 
     @Inject
     SectorService sectorService;
+    
+    @Context
+    private UriInfo uriInfo;   
+    
 
     @POST
-    @Consumes({"application/json"})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(Sector entity) {
         sectorService.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({"application/json"})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Integer id, Sector entity) {
         sectorService.edit(entity);
     }
@@ -61,20 +69,20 @@ public class SectorRestService {
 
     @GET
     @Path("{id}")
-    @Produces({"application/json"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Sector find(@PathParam("id") Integer id) {
         return sectorService.find(id);
     }
 
     @GET
-    @Produces({"application/json"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Sector> findAll() {
         return sectorService.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({"application/json"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Sector> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return sectorService.findRange(new int[]{from, to});
     }

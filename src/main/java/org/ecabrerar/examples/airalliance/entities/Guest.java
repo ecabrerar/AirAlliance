@@ -16,9 +16,9 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +28,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +39,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "guest")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Guest implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,12 +60,18 @@ public class Guest implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "lastname")
     private String lastname;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "guest")
-    private Collection<Schedule> scheduleCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "guest")
-    private Collection<Itinerary> itineraryCollection;
+    
+    @OneToMany(mappedBy = "guest")
+    @XmlTransient
+    private List<Schedule> schedules;
+    
+    @OneToMany(mappedBy = "guest")
+    @XmlTransient
+    private List<Itinerary> itineraries;
 
     public Guest() {
+        this.schedules = new ArrayList<>();
+        this.itineraries = new ArrayList<>();
     }
 
     public Guest(Integer id) {
@@ -101,20 +113,20 @@ public class Guest implements Serializable {
         return String.valueOf(id);
     }
 
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
+    public List<Schedule> getSchedules() {
+        return schedules;
     }
 
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 
-    public Collection<Itinerary> getItineraryCollection() {
-        return itineraryCollection;
+    public List<Itinerary> getItineraryList() {
+        return itineraries;
     }
 
-    public void setItineraryCollection(Collection<Itinerary> itineraryCollection) {
-        this.itineraryCollection = itineraryCollection;
+    public void setItineraryList(List<Itinerary> itineraryList) {
+        this.itineraries = itineraryList;
     }
 
     @Override

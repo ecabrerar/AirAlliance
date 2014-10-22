@@ -16,22 +16,25 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +42,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "schedule")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Schedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,16 +58,19 @@ public class Schedule implements Serializable {
     @Column(name = "schedule_date")
     @Temporal(TemporalType.DATE)
     private Date scheduleDate;
-    @JoinColumn(name = "guest_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    
+    @ManyToOne
     private Guest guest;
-    @JoinColumn(name = "flight_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    
+    @ManyToOne
     private Flight flight;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "schedule")
-    private Collection<Itinerary> itineraryCollection;
+    
+    @OneToMany(mappedBy = "schedule")
+    @XmlTransient
+    private List<Itinerary> itineraries;
 
     public Schedule() {
+        this.itineraries = new ArrayList<>();
     }
 
     public Schedule(Integer id) {
@@ -108,12 +116,12 @@ public class Schedule implements Serializable {
         this.flight = flight;
     }
 
-    public Collection<Itinerary> getItineraryCollection() {
-        return itineraryCollection;
+    public List<Itinerary> getItineraries() {
+        return itineraries;
     }
 
-    public void setItineraryCollection(Collection<Itinerary> itineraryCollection) {
-        this.itineraryCollection = itineraryCollection;
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
     }
 
     @Override

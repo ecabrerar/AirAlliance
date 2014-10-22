@@ -22,9 +22,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -32,6 +34,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "itinerary")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Itinerary implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,14 +45,14 @@ public class Itinerary implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "guest_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+   
+    @ManyToOne
     private Guest guest;
-    @JoinColumn(name = "flight_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    
+    @ManyToOne
     private Flight flight;
-    @JoinColumn(name = "schedule_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+   
+    @ManyToOne
     private Schedule schedule;
 
     public Itinerary() {
