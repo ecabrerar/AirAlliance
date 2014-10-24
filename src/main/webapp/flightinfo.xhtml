@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2014 ecabrerar.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" template="WEB-INF/template/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">Air Alliance :: JEE 7::Flight Info </ui:define>
+
+
+    <ui:define name="content">
+
+        <div>
+            <h1>Itinerary List</h1>
+            <p>
+                You can find out the sectors we support through our broad range of comfortable aircrafts.
+            </p>
+        </div>
+        <h:dataTable id="flightlist" class="table table-bordered" value="#{flight.allFlights}" var="f">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Flight ID"/>
+                    </f:facet>                 
+                    <h:outputText value="#{f.id}"/>
+                </h:column>
+                 <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Flight"/>
+                    </f:facet>                 
+                     <h:outputText value="#{f.name}"/>
+                </h:column>
+                
+                 <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Flies From"/>
+                    </f:facet>                 
+                     <h:outputText value="#{f.source.sector}"/>
+                </h:column>
+                
+                 <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Flies To"/>
+                    </f:facet>                 
+                     <h:outputText value="#{f.dest.sector}"/>
+                </h:column>                 
+            </h:dataTable>
+        
+    </ui:define>
+</ui:composition>

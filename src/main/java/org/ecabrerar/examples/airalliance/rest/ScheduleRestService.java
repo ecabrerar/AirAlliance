@@ -74,7 +74,7 @@ public class ScheduleRestService {
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Schedule> findAll() {
         return scheduleService.findAll();
     }

@@ -16,27 +16,17 @@
 
 package org.ecabrerar.examples.airalliance.formbean;
 
-/**
- * This is a Flight Backing Bean. Instance of this class can store flight information.
+/** 
+ * This is a Schedule Backing Bean. 
+ * Instance of this class can store Schedule information.
  * @author ecabrerar
  */
 
-public class Flight {
+public class Schedule {
     private String id;
-    private String name;
-    private Sector source;
-    private Sector dest;
-
-    public Flight(String id, String name, Sector source, Sector dest) {
-        this.id = id;
-        this.name = name;
-        this.source = source;
-        this.dest = dest;
-    }
-
-    public Flight() {
-    }
-        
+    private String scheduleDate;
+    private Guest guest;
+    private Flight flight;
 
     /**
      * @return the id
@@ -53,46 +43,46 @@ public class Flight {
     }
 
     /**
-     * @return the name
+     * @return the scheduleDate
      */
-    public String getName() {
-        return name;
+    public String getScheduleDate() {
+        return scheduleDate;
     }
 
     /**
-     * @param name the name to set
+     * @param scheduleDate the scheduleDate to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setScheduleDate(String scheduleDate) {
+        this.scheduleDate = scheduleDate;
     }
 
     /**
-     * @return the source
+     * @return the guest
      */
-    public Sector getSource() {
-        return source;
+    public Guest getGuest() {
+        return guest;
     }
 
     /**
-     * @param source the source to set
+     * @param guest the guest to set
      */
-    public void setSource(Sector source) {
-        this.source = source;
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 
     /**
-     * @return the dest
+     * @return the flight
      */
-    public Sector getDest() {
-        return dest;
+    public Flight getFlight() {
+        return flight;
     }
 
     /**
-     * @param dest the dest to set
+     * @param flight the flight to set
      */
-    public void setDest(Sector dest) {
-        this.dest = dest;
-    }
-    
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }       
+
     
 }

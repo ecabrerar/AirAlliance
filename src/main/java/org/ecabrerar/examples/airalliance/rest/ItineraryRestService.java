@@ -46,7 +46,7 @@ public class ItineraryRestService  {
     @Inject
     ItineraryService itineraryService;
     
-     @Context
+    @Context
     private UriInfo uriInfo;
     
 
@@ -77,7 +77,7 @@ public class ItineraryRestService  {
     }
 
     @GET   
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Itinerary> findAll() {
         return itineraryService.findAll();
     }

@@ -74,7 +74,7 @@ public class FlightRestService {
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findAll() {
         return flightService.findAll();
     }

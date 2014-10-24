@@ -57,12 +57,16 @@ limitations under the License.
                     <h:link class="navbar-brand" value="Air Alliance" outcome="index.xhtml" />
                 </div>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                     <li class="active"><h:link value="Home" outcome="index.xhtml" /></li>
+                      <li><h:link value="Check" outcome="confirmreservation.xhtml" /></li>                    
+                     <li><h:link value="Book" outcome="processitinerary.xhtml" /></li>                     
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><h:link value="Home" outcome="index.xhtml" /></li>
-                        <li><h:link value="Book" outcome="processitinerary.xhtml" /></li>
-                        <li><h:link value="Check" outcome="confirmreservation.xhtml" /></li>
-                        <li><h:link value="About" outcome="about.xhtml" /></li>
-                        <li><h:link value="Check Flight Info" outcome="flightinfo.xhtml"/></li>
+                         <li><h:link value="View Itinerary" outcome="listitinerary.xhtml"/></li>           
+                         <li><h:link value="Check Flight Info" outcome="flightinfo.xhtml"/></li>
+                         <li><h:link value="View Schedule" outcome="scheduleinfo.xhtml"/></li>
+                         <li><h:link value="About" outcome="about.xhtml" /></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -71,7 +75,7 @@ limitations under the License.
             <ui:insert name="content">Default content</ui:insert>
            
 
-            <hr/>
+            
                  <footer>
                       <p>AirAlliance (C) 2014 ecabrerar. POC for some nice JSRs in JEE 7 .</p>
                  </footer>
