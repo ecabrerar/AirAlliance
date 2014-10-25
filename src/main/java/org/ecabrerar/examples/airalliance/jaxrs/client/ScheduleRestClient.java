@@ -68,22 +68,21 @@ public class ScheduleRestClient {
 
                JsonObject object = (JsonObject) result;               
               
-               JsonObject scheduleObject = object.getJsonObject("schedule");
                
                Schedule schedule = new Schedule();
-               schedule.setId(scheduleObject.getString("id"));
-               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+               schedule.setId(object.getJsonNumber("id").toString());
+               schedule.setScheduleDate(object.getString("scheduleDate"));
                
-                JsonObject guestObject = scheduleObject.getJsonObject("guest");
+                JsonObject guestObject = object.getJsonObject("guest");
                 
                 Guest guest = new Guest();
                 guest.setId(guestObject.getJsonNumber("id").toString());
-                guest.setFirstName(guestObject.getString("firstName"));
-                guest.setLastName(guestObject.getString("lastName"));
+                guest.setFirstName(guestObject.getString("firstname"));
+                guest.setLastName(guestObject.getString("lastname"));
                 
                 schedule.setGuest(guest);
                 
-                JsonObject flightObject = scheduleObject.getJsonObject("flight");                
+                JsonObject flightObject = object.getJsonObject("flight");                
 
                 Flight flight = new Flight();
                 flight.setId(flightObject.getJsonNumber("id").toString());
@@ -96,7 +95,7 @@ public class ScheduleRestClient {
                 source.setSector(sourceObj.getString("sector"));
 
                 flight.setSource(source);
-                JsonObject destObj = object.getJsonObject("destSector");
+                JsonObject destObj = flightObject.getJsonObject("destSector");
 
                 Sector dest = new Sector();
                 dest.setId(destObj.getJsonNumber("id").toString());

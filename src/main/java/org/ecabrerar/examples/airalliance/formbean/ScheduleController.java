@@ -35,35 +35,36 @@ public class ScheduleController {
     @Inject
     ScheduleRestClient rc;
     
-    private Schedule itinerary = new Schedule();
-    private List<Schedule> itineraries = new ArrayList<>();
+    private Schedule schedule = new Schedule();
+    private List<Schedule> schedules = new ArrayList<>();
     FacesContext facesContext = FacesContext.getCurrentInstance();
 
     public ScheduleController() {
     }
 
+ 
+
     /**
-     * @return the itinerary
+     * @return the schedule
      */
-    public Schedule getItinerary() {
-        return itinerary;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     /**
-     * @param itinerary the itinerary to set
+     * @param schedule the schedule to set
      */
-    public void setItinerary(Schedule itinerary) {
-        this.itinerary = itinerary;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     /**
-     * @return the itineraries
+     * @return the schedules
      */
-    public List<Schedule> getItineraries() {
-       
-        itineraries = rc.getSchedules();
+    public List<Schedule> getSchedules() {
+        schedules = rc.getSchedules();
         
-        return itineraries;
+        return schedules;
     }
     
     
