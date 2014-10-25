@@ -48,14 +48,14 @@ public class FlightRestService {
     private UriInfo uriInfo;
 
     @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public void create(Flight entity) {
         flightService.create(entity);
     }
 
     @PUT
     @Path("{id}")
-    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Integer id, Flight entity) {
         flightService.edit(entity);
     }
@@ -68,7 +68,7 @@ public class FlightRestService {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Flight find(@PathParam("id") Integer id) {
         return flightService.find(id);
     }
@@ -81,7 +81,7 @@ public class FlightRestService {
 
     @GET
     @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return flightService.findRange(new int[]{from, to});
     }
