@@ -20,6 +20,8 @@ import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -44,26 +46,98 @@ import org.ecabrerar.examples.airalliance.formbean.Sector;
 @Stateless
 public class ItineraryRestClient {
 
-    private final URI uri;
-    private final Client client;
+    private  URI uri;
+    private  Client client;
     
-    public ItineraryRestClient() {
-         uri = UriBuilder
+    public ItineraryRestClient() {         
+    }
+    
+    @PostConstruct
+    private void init() {
+        uri = UriBuilder
                 .fromUri("http://localhost:8080/AirAlliance/webapi/itineraries")
                 .port(8080).build();
         client = ClientBuilder.newClient();
     }
     
+    public List<Itinerary> getItineraries(int idItinerary){
+         String data = client.target(uri)
+                 .path(String.valueOf(idItinerary))
+                .request(MediaType.APPLICATION_JSON)
+                .get(String.class);
+         
+           /* Parse the data using the document object model approach */    
+        List<Itinerary> itineraries = new ArrayList<>();
+
+        try (JsonReader reader = Json.createReader(new StringReader(data))) {
+
+                JsonObject object = reader.readObject();
+                
+                Itinerary itinerary = new Itinerary();
+                itinerary.setId(object.getJsonNumber("id").intValue());  
+
+               JsonObject scheduleObject = object.getJsonObject("schedule");
+               
+               Schedule schedule = new Schedule();
+               schedule.setId(scheduleObject.getJsonNumber("id").toString());
+               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+               
+                JsonObject guestObject = object.getJsonObject("guest");
+                
+                Guest guest = new Guest();
+                guest.setId(guestObject.getJsonNumber("id").toString());
+                guest.setFirstName(guestObject.getString("firstname"));
+                guest.setLastName(guestObject.getString("lastname"));
+                
+                schedule.setGuest(guest);
+                
+                JsonObject flightObject = object.getJsonObject("flight");                
+
+                Flight flight = new Flight();
+                flight.setId(flightObject.getJsonNumber("id").toString());
+                flight.setName(flightObject.getString("name"));
+
+                JsonObject sourceObj = flightObject.getJsonObject("sourceSector");
+
+                Sector source = new Sector();
+                source.setId(sourceObj.getJsonNumber("id").toString());
+                source.setSector(sourceObj.getString("sector"));
+
+                flight.setSource(source);
+                JsonObject destObj = flightObject.getJsonObject("destSector");
+
+                Sector dest = new Sector();
+                dest.setId(destObj.getJsonNumber("id").toString());
+                dest.setSector(destObj.getString("sector"));
+
+                flight.setDest(dest);
+                
+                schedule.setFlight(flight);
+     
+                itinerary.setSchedule(schedule);
+                
+                itineraries.add(itinerary);
+            
+        }
+        
+        return itineraries;
+    }
     
     public List<Itinerary> getItineraries(){
         String data = client.target(uri)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
         
+        return  getItinerariesFromJson(data);       
+               
+    }
+    
+    
+    private List<Itinerary> getItinerariesFromJson(String jsonData){
          /* Parse the data using the document object model approach */    
         List<Itinerary> itineraries = new ArrayList<>();
 
-        try (JsonReader reader = Json.createReader(new StringReader(data))) {
+        try (JsonReader reader = Json.createReader(new StringReader(jsonData))) {
 
             for (JsonValue result : reader.readArray()) {
 
@@ -116,10 +190,10 @@ public class ItineraryRestClient {
             }
         }
         
-        return itineraries;        
+        return itineraries;
     }
     
-    
+    @PreDestroy
     public void close() {
         client.close();
     }

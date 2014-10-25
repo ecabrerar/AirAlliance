@@ -20,6 +20,8 @@ import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -41,11 +43,15 @@ import org.ecabrerar.examples.airalliance.formbean.Sector;
 @Stateless
 public class ScheduleRestClient {
 
-    private final URI uri;
-    private final Client client;
+    private  URI uri;
+    private  Client client;
     
-    public ScheduleRestClient() {
-         uri = UriBuilder
+    public ScheduleRestClient() {         
+    }
+    
+    @PostConstruct
+    private void init() {
+        uri = UriBuilder
                 .fromUri("http://localhost:8080/AirAlliance/webapi/schedules")
                 .port(8080).build();
         client = ClientBuilder.newClient();
@@ -113,6 +119,7 @@ public class ScheduleRestClient {
         return schedules;      
     }
     
+    @PreDestroy
     public void close() {
         client.close();
     }
