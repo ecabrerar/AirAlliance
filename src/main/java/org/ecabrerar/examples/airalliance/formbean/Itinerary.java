@@ -26,6 +26,8 @@ package org.ecabrerar.examples.airalliance.formbean;
 public class Itinerary{
     
    private String id;     
+   private Guest guest;   
+   private Flight flight;
    private Schedule schedule;    
   
     
@@ -42,6 +44,8 @@ public class Itinerary{
     public void setId(String id) {
         this.id = id;
     }
+    
+    
    
     /**
      * @return the schedule
@@ -55,6 +59,34 @@ public class Itinerary{
      */
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    /**
+     * @return the guest
+     */
+    public Guest getGuest() {
+        return guest;
+    }
+
+    /**
+     * @param guest the guest to set
+     */
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
+    /**
+     * @return the flight
+     */
+    public Flight getFlight() {
+        return flight;
+    }
+
+    /**
+     * @param flight the flight to set
+     */
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
 

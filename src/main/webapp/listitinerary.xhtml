@@ -35,33 +35,35 @@ limitations under the License.
                     <f:facet name="header">
                         <h:outputText value="Guest Name"/>
                     </f:facet>                 
-                    <h:outputText value="#{i.schedule.guest.firstName} #{i.schedule.guest.lastName}"/>
+                    <h:outputText value="#{i.guest.firstName} #{i.guest.lastName}"/>
                 </h:column>
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.flight.name}"/>
+                     <h:outputText value="#{i.flight.name}"/>
                 </h:column>
                 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Source"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.flight.source.sector}"/>
+                     <h:outputText value="#{i.flight.source.sector}"/>
                 </h:column>
                 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Destination"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.flight.dest.sector}"/>
+                     <h:outputText value="#{i.flight.dest.sector}"/>
                 </h:column> 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Travel Date"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.scheduleDate}"/>
+                     <h:outputText value="#{i.schedule.scheduleDate}">
+                         <f:convertDateTime pattern="yyyy-MM-dd"/>
+                     </h:outputText>
                 </h:column>  
             </h:dataTable>
 

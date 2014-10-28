@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,12 +79,11 @@ public class ItineraryController {
          itineraries = rc.getItineraries(idItinerary);      
     }  
     
-    public void confirmReservation(AjaxBehaviorEvent event){
-        
-        int id;
+    public void confirmReservation(AjaxBehaviorEvent event){        
+       
         if (this.itinerary.getId().trim().length() > 0) {
             
-            id= Integer.parseInt(this.itinerary.getId());
+           int  id= Integer.parseInt(this.itinerary.getId());
             getItineraries(id);
             
         } else {

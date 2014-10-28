@@ -36,7 +36,9 @@ limitations under the License.
                 <f:facet name="header">
                     <h:outputText value="Travel Date"/>
                 </f:facet>                 
-                <h:outputText value="#{s.scheduleDate}"/>
+                <h:outputText value="#{s.scheduleDate}">
+                 <f:convertDateTime pattern="yyyy-MM-dd"/>
+                     </h:outputText>
             </h:column>
             <h:column>
                 <f:facet name="header">

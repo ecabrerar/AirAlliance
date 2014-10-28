@@ -76,12 +76,6 @@ public class ItineraryRestClient {
                 Itinerary itinerary = new Itinerary();
                 itinerary.setId(object.getJsonNumber("id").toString());  
 
-               JsonObject scheduleObject = object.getJsonObject("schedule");
-               
-               Schedule schedule = new Schedule();
-               schedule.setId(scheduleObject.getJsonNumber("id").toString());
-               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
-               
                 JsonObject guestObject = object.getJsonObject("guest");
                 
                 Guest guest = new Guest();
@@ -89,8 +83,8 @@ public class ItineraryRestClient {
                 guest.setFirstName(guestObject.getString("firstname"));
                 guest.setLastName(guestObject.getString("lastname"));
                 
-                schedule.setGuest(guest);
-                
+                itinerary.setGuest(guest);
+               
                 JsonObject flightObject = object.getJsonObject("flight");                
 
                 Flight flight = new Flight();
@@ -112,8 +106,14 @@ public class ItineraryRestClient {
 
                 flight.setDest(dest);
                 
-                schedule.setFlight(flight);
-     
+                itinerary.setFlight(flight);
+                
+                JsonObject scheduleObject = object.getJsonObject("schedule");
+               
+                Schedule schedule = new Schedule();
+                schedule.setId(scheduleObject.getJsonNumber("id").toString());
+                schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+               
                 itinerary.setSchedule(schedule);
                 
                 itineraries.add(itinerary);
@@ -146,12 +146,6 @@ public class ItineraryRestClient {
                 Itinerary itinerary = new Itinerary();
                 itinerary.setId(object.getJsonNumber("id").toString());  
 
-               JsonObject scheduleObject = object.getJsonObject("schedule");
-               
-               Schedule schedule = new Schedule();
-               schedule.setId(scheduleObject.getJsonNumber("id").toString());
-               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
-               
                 JsonObject guestObject = object.getJsonObject("guest");
                 
                 Guest guest = new Guest();
@@ -159,8 +153,7 @@ public class ItineraryRestClient {
                 guest.setFirstName(guestObject.getString("firstname"));
                 guest.setLastName(guestObject.getString("lastname"));
                 
-                schedule.setGuest(guest);
-                
+                itinerary.setGuest(guest);
                 JsonObject flightObject = object.getJsonObject("flight");                
 
                 Flight flight = new Flight();
@@ -182,8 +175,14 @@ public class ItineraryRestClient {
 
                 flight.setDest(dest);
                 
-                schedule.setFlight(flight);
-     
+                itinerary.setFlight(flight);                
+                
+               JsonObject scheduleObject = object.getJsonObject("schedule");
+               
+               Schedule schedule = new Schedule();
+               schedule.setId(scheduleObject.getJsonNumber("id").toString());
+               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+               
                 itinerary.setSchedule(schedule);
                 
                 itineraries.add(itinerary);
