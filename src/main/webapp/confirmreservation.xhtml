@@ -34,18 +34,17 @@ limitations under the License.
         <h:form id="form" class="form-inline">
            
                 <div class="form-group">                    
-                    <h:inputText  id="itineraryID" p:required="required"  p:title="Enter the Itinerary ID. (Example: 5)" class="form-control" value="#{itinerary.itinerary.id}"/>
-                    <h:commandButton  class="btn btn-default" value="Submit" action="#{itinerary.confirmReservation()}" type="submit">
-
+                    <h:inputText  id="itineraryID" p:required="required"  p:title="Enter the Itinerary ID. (Example: 5)" class="form-control"  value="#{itinerary.itinerary.id}"/>
+                    <h:commandButton id="idSubmit" class="btn btn-default" value="Submit">
+                        <f:ajax execute="itineraryID" listener="#{itinerary.confirmReservation}" render="@all" />
                     </h:commandButton>
                 </div>
                        
             <div id="note">
                 <p>Enter the Itinerary ID. (Example: 5)</p>
-            </div>          
-        </h:form> 
-        
-            <h:dataTable id="itineraryList" class="table table-bordered" value="#{itinerary.listItinerary}" var="i">
+            </div>      
+         </h:form> 
+        <h:dataTable id="itineraryList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Guest Name"/>
@@ -79,5 +78,6 @@ limitations under the License.
                      <h:outputText value="#{i.schedule.scheduleDate}"/>
                 </h:column>  
             </h:dataTable>
+            
     </ui:define>
 </ui:composition>

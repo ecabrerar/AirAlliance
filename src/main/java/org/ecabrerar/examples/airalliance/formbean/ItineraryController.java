@@ -22,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
@@ -78,10 +80,13 @@ public class ItineraryController {
          itineraries = rc.getItineraries(idItinerary);      
     }  
     
-    public void confirmReservation(){
-        if (this.itinerary.getId() > 0) {
+    public void confirmReservation(AjaxBehaviorEvent event){
+        
+        int id;
+        if (this.itinerary.getId().trim().length() > 0) {
             
-            getItineraries(this.itinerary.getId());
+            id= Integer.parseInt(this.itinerary.getId());
+            getItineraries(id);
             
         } else {
             logger.log(Level.WARNING, "current event is null");

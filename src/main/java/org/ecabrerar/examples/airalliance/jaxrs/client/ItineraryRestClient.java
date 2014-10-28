@@ -74,7 +74,7 @@ public class ItineraryRestClient {
                 JsonObject object = reader.readObject();
                 
                 Itinerary itinerary = new Itinerary();
-                itinerary.setId(object.getJsonNumber("id").intValue());  
+                itinerary.setId(object.getJsonNumber("id").toString());  
 
                JsonObject scheduleObject = object.getJsonObject("schedule");
                
@@ -144,7 +144,7 @@ public class ItineraryRestClient {
                 JsonObject object = (JsonObject) result;
                 
                 Itinerary itinerary = new Itinerary();
-                itinerary.setId(object.getJsonNumber("id").intValue());  
+                itinerary.setId(object.getJsonNumber("id").toString());  
 
                JsonObject scheduleObject = object.getJsonObject("schedule");
                
