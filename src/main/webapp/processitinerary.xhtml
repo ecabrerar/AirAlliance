@@ -17,7 +17,8 @@ limitations under the License.
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets" template="WEB-INF/template/default.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">Air Alliance :: JEE 7::Provide Itinerary Details </ui:define>
 
 
@@ -30,31 +31,33 @@ limitations under the License.
             <h:panelGrid >
                 <div class="form-group">
                     <h:outputLabel value="First Name : "/>
-                    <h:inputText  id="fname" class="form-control" value=""/>
+                    <h:inputText  id="fname" class="form-control" value="#{itinerary.itinerary.guest.firstName}"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Last Name : "/>
-                    <h:inputText  id="lname" class="form-control" value=""/>
+                    <h:inputText  id="lname" class="form-control" value="#{itinerary.itinerary.guest.lastName}"/>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel value="Select Source Sector : "/>
-                    <h:selectOneListbox id="sourcelist">
-
+                    <h:selectOneListbox id="sourcelist" value="#{itinerary.itinerary.flight.source.sector}" size="1">
+                        <f:selectItems value="#{sector.sectors}" var="source" itemValue="#{source.id}" itemLabel="#{source.sector}">
+                        </f:selectItems> 
 
                     </h:selectOneListbox>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel value="Select Destination Sector : "/>
-                    <h:selectOneListbox id="destlist">
-
+                    <h:selectOneListbox id="destlist" value="#{itinerary.itinerary.flight.dest.sector}" size="1" >
+                        <f:selectItems value="#{sector.sectors}" var="dest" itemValue="#{dest.id}" itemLabel="#{dest.sector}">
+                        </f:selectItems> 
 
                     </h:selectOneListbox>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Start Date: "/>
-                    <h:inputText id="sdate"  class="form-control" p:date="date" value=""/>
+                    <h:inputText id="sdate"  class="form-control" p:date="date" value="#{itinerary.itinerary.schedule.scheduleDate}"/>
                 </div>
 
                 <div id="note">
@@ -62,7 +65,7 @@ limitations under the License.
                 </div>
             </h:panelGrid>
 
-            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="" type="submit">
+            <h:commandButton  class="btn btn-default" value="Process Itinerary" type="submit">
 
             </h:commandButton>                  
 

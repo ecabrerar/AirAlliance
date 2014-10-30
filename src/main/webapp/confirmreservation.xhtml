@@ -44,6 +44,7 @@ limitations under the License.
                 <p>Enter the Itinerary ID. (Example: 5)</p>
             </div>      
          </h:form> 
+         <h:form>
         <h:dataTable id="itineraryList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
                 <h:column>
                     <f:facet name="header">
@@ -55,7 +56,9 @@ limitations under the License.
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.flight.name}"/>
+                                         
+                     <h:commandLink value="#{i.flight.name}" action="#" />                     
+                     
                 </h:column>
                 
                  <h:column>
@@ -78,6 +81,6 @@ limitations under the License.
                      <h:outputText value="#{i.schedule.scheduleDate}"/>
                 </h:column>  
             </h:dataTable>
-            
+         </h:form>
     </ui:define>
 </ui:composition>

@@ -31,6 +31,7 @@ limitations under the License.
             </p>
 
         </div>
+        <h:form>
         <h:dataTable id="flightSchedule" class="table table-bordered" value="#{schedule.schedules}" var="s">
             <h:column>
                 <f:facet name="header">
@@ -44,7 +45,8 @@ limitations under the License.
                 <f:facet name="header">
                     <h:outputText value="Flight"/>
                 </f:facet>                 
-                <h:outputText value="#{s.flight.name}"/>
+               
+                  <h:commandLink value="#{s.flight.name}" action="#" /> 
             </h:column>
 
             <h:column>
@@ -61,7 +63,7 @@ limitations under the License.
                 <h:outputText value="#{s.flight.dest.sector}"/>
             </h:column>                 
         </h:dataTable>
-
+        </h:form>
 
         <div id="note">
             <p>Click the Flight Name to find more information.</p>
