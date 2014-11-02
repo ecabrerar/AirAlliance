@@ -46,7 +46,7 @@ limitations under the License.
                     <h:outputText value="Flight"/>
                 </f:facet>                 
                
-                  <h:commandLink value="#{s.flight.name}" action="#" /> 
+                <h:commandLink value="#{s.flight.name}" action="#{flight.viewFlight(s.flight)}" /> 
             </h:column>
 
             <h:column>

@@ -62,9 +62,9 @@ public class ItineraryRestClient {
     
     public List<Itinerary> getItineraries(int idItinerary){
          String data = client.target(uri)
-                 .path(String.valueOf(idItinerary))
-                .request(MediaType.APPLICATION_JSON)
-                .get(String.class);
+                    .path(String.valueOf(idItinerary))
+                    .request(MediaType.APPLICATION_JSON)
+                    .get(String.class);
          
            /* Parse the data using the document object model approach */    
         List<Itinerary> itineraries = new ArrayList<>();
