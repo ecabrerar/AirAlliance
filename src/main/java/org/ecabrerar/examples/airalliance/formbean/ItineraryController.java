@@ -72,8 +72,7 @@ public class ItineraryController {
     
     public List<Itinerary> getListItinerary() {
          return itineraries;
-    }  
-    
+    }      
     
     private void getItineraries(int idItinerary) {
          itineraries = rc.getItineraries(idItinerary);      

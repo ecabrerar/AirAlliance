@@ -16,7 +16,6 @@
 
 package org.ecabrerar.examples.airalliance.formbean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +23,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.core.MediaType;
 import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 
 /**
@@ -36,8 +34,7 @@ import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 public class FlightController {
     @Inject
     private FlightRestClient rc;
-    private Flight currentFlight;
-   // List<Flight> flights = new ArrayList<>();
+    private Flight currentFlight;   
     FacesContext facesContext = FacesContext.getCurrentInstance();
     private static final Logger logger = Logger.getLogger(FlightController.class.getName());
     

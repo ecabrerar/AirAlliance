@@ -35,15 +35,12 @@ public class ScheduleController {
     @Inject
     ScheduleRestClient rc;
     
-    private Schedule schedule = new Schedule();
-    private List<Schedule> schedules = new ArrayList<>();
+    private Schedule schedule = new Schedule();    
     FacesContext facesContext = FacesContext.getCurrentInstance();
 
     public ScheduleController() {
     }
-
  
-
     /**
      * @return the schedule
      */
@@ -61,13 +58,8 @@ public class ScheduleController {
     /**
      * @return the schedules
      */
-    public List<Schedule> getSchedules() {
-        schedules = rc.getSchedules();
-        
-        return schedules;
+    public List<Schedule> getSchedules() {     
+        return rc.getSchedules();
     }
-    
-    
-    
     
 }

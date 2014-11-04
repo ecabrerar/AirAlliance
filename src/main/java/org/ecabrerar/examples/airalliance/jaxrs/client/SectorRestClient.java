@@ -30,7 +30,6 @@ import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 import org.ecabrerar.examples.airalliance.formbean.Sector;
 
 /**
@@ -39,23 +38,22 @@ import org.ecabrerar.examples.airalliance.formbean.Sector;
  */
 @Stateless
 public class SectorRestClient {
-    private  URI uri;
+  
     private  Client client;
+    
+    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/sectors";
     
     public SectorRestClient() {         
     }
     
     @PostConstruct
-    private void init() {
-        uri = UriBuilder
-                .fromUri("http://localhost:8080/AirAlliance/webapi/sectors")
-                .port(8080).build();
+    private void init() {        
         client = ClientBuilder.newClient();
     }
     
     public List<Sector> getAllSector() {
 
-        String data = client.target(uri)
+        String data = client.target(baseUri)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
 

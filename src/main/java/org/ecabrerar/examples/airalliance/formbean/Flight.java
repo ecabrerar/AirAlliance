@@ -36,7 +36,7 @@ public class Flight {
 
     public Flight() {
     }
-        
+       
 
     /**
      * @return the id
@@ -93,6 +93,4 @@ public class Flight {
     public void setDest(Sector dest) {
         this.dest = dest;
     }
-    
-    
 }

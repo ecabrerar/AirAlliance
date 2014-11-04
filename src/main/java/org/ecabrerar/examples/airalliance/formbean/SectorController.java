@@ -32,13 +32,11 @@ import org.ecabrerar.examples.airalliance.jaxrs.client.SectorRestClient;
 @RequestScoped
 public class SectorController {
     
-     @Inject
-     SectorRestClient rc;
+    @Inject
+    SectorRestClient rc;
     
-    private Sector sector = new Sector();
-    private List<Sector> sectors = new ArrayList<>();
+    private Sector sector = new Sector();   
     FacesContext facesContext = FacesContext.getCurrentInstance();
-
 
     public SectorController() {
     }
@@ -60,13 +58,9 @@ public class SectorController {
     /**
      * @return the sectors
      */
-    public List<Sector> getSectors() {
-        
-        sectors = rc.getAllSector();
-        
-        return sectors;
-    }
-    
-    
+    public List<Sector> getSectors() {     
+            
+        return rc.getAllSector();
+    }   
     
 }

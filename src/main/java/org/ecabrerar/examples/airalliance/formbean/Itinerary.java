@@ -29,8 +29,7 @@ public class Itinerary{
    private Guest guest;   
    private Flight flight;
    private Schedule schedule;    
-  
-    
+     
     /**
      * @return the id
      */
@@ -88,7 +87,5 @@ public class Itinerary{
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
-
-
     
 }

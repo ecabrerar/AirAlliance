@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.jaxrs.client;
 
 import java.io.StringReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -30,7 +28,6 @@ import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 
 import org.ecabrerar.examples.airalliance.formbean.Flight;
 import org.ecabrerar.examples.airalliance.formbean.Guest;
@@ -46,95 +43,93 @@ import org.ecabrerar.examples.airalliance.formbean.Sector;
 @Stateless
 public class ItineraryRestClient {
 
-    private  URI uri;
-    private  Client client;
-    
-    public ItineraryRestClient() {         
+    private Client client;
+
+    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/itineraries";
+
+    public ItineraryRestClient() {
     }
-    
+
     @PostConstruct
     private void init() {
-        uri = UriBuilder
-                .fromUri("http://localhost:8080/AirAlliance/webapi/itineraries")
-                .port(8080).build();
+
         client = ClientBuilder.newClient();
     }
-    
-    public List<Itinerary> getItineraries(int idItinerary){
-         String data = client.target(uri)
-                    .path(String.valueOf(idItinerary))
-                    .request(MediaType.APPLICATION_JSON)
-                    .get(String.class);
-         
-           /* Parse the data using the document object model approach */    
+
+    public List<Itinerary> getItineraries(int idItinerary) {
+        String data = client.target(baseUri)
+                .path(String.valueOf(idItinerary))
+                .request(MediaType.APPLICATION_JSON)
+                .get(String.class);
+
+        /* Parse the data using the document object model approach */
         List<Itinerary> itineraries = new ArrayList<>();
 
         try (JsonReader reader = Json.createReader(new StringReader(data))) {
 
-                JsonObject object = reader.readObject();
-                
-                Itinerary itinerary = new Itinerary();
-                itinerary.setId(object.getJsonNumber("id").toString());  
+            JsonObject object = reader.readObject();
 
-                JsonObject guestObject = object.getJsonObject("guest");
-                
-                Guest guest = new Guest();
-                guest.setId(guestObject.getJsonNumber("id").toString());
-                guest.setFirstName(guestObject.getString("firstname"));
-                guest.setLastName(guestObject.getString("lastname"));
-                
-                itinerary.setGuest(guest);
-               
-                JsonObject flightObject = object.getJsonObject("flight");                
+            Itinerary itinerary = new Itinerary();
+            itinerary.setId(object.getJsonNumber("id").toString());
 
-                Flight flight = new Flight();
-                flight.setId(flightObject.getJsonNumber("id").toString());
-                flight.setName(flightObject.getString("name"));
+            JsonObject guestObject = object.getJsonObject("guest");
 
-                JsonObject sourceObj = flightObject.getJsonObject("sourceSector");
+            Guest guest = new Guest();
+            guest.setId(guestObject.getJsonNumber("id").toString());
+            guest.setFirstName(guestObject.getString("firstname"));
+            guest.setLastName(guestObject.getString("lastname"));
 
-                Sector source = new Sector();
-                source.setId(sourceObj.getJsonNumber("id").toString());
-                source.setSector(sourceObj.getString("sector"));
+            itinerary.setGuest(guest);
 
-                flight.setSource(source);
-                JsonObject destObj = flightObject.getJsonObject("destSector");
+            JsonObject flightObject = object.getJsonObject("flight");
 
-                Sector dest = new Sector();
-                dest.setId(destObj.getJsonNumber("id").toString());
-                dest.setSector(destObj.getString("sector"));
+            Flight flight = new Flight();
+            flight.setId(flightObject.getJsonNumber("id").toString());
+            flight.setName(flightObject.getString("name"));
 
-                flight.setDest(dest);
-                
-                itinerary.setFlight(flight);
-                
-                JsonObject scheduleObject = object.getJsonObject("schedule");
-               
-                Schedule schedule = new Schedule();
-                schedule.setId(scheduleObject.getJsonNumber("id").toString());
-                schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
-               
-                itinerary.setSchedule(schedule);
-                
-                itineraries.add(itinerary);
-            
+            JsonObject sourceObj = flightObject.getJsonObject("sourceSector");
+
+            Sector source = new Sector();
+            source.setId(sourceObj.getJsonNumber("id").toString());
+            source.setSector(sourceObj.getString("sector"));
+
+            flight.setSource(source);
+            JsonObject destObj = flightObject.getJsonObject("destSector");
+
+            Sector dest = new Sector();
+            dest.setId(destObj.getJsonNumber("id").toString());
+            dest.setSector(destObj.getString("sector"));
+
+            flight.setDest(dest);
+
+            itinerary.setFlight(flight);
+
+            JsonObject scheduleObject = object.getJsonObject("schedule");
+
+            Schedule schedule = new Schedule();
+            schedule.setId(scheduleObject.getJsonNumber("id").toString());
+            schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+
+            itinerary.setSchedule(schedule);
+
+            itineraries.add(itinerary);
+
         }
-        
+
         return itineraries;
     }
-    
-    public List<Itinerary> getItineraries(){
-        String data = client.target(uri)
+
+    public List<Itinerary> getItineraries() {
+        String data = client.target(baseUri)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
-        
-        return  getItinerariesFromJson(data);       
-               
+
+        return getItinerariesFromJson(data);
+
     }
-    
-    
-    private List<Itinerary> getItinerariesFromJson(String jsonData){
-         /* Parse the data using the document object model approach */    
+
+    private List<Itinerary> getItinerariesFromJson(String jsonData) {
+        /* Parse the data using the document object model approach */
         List<Itinerary> itineraries = new ArrayList<>();
 
         try (JsonReader reader = Json.createReader(new StringReader(jsonData))) {
@@ -142,19 +137,19 @@ public class ItineraryRestClient {
             for (JsonValue result : reader.readArray()) {
 
                 JsonObject object = (JsonObject) result;
-                
+
                 Itinerary itinerary = new Itinerary();
-                itinerary.setId(object.getJsonNumber("id").toString());  
+                itinerary.setId(object.getJsonNumber("id").toString());
 
                 JsonObject guestObject = object.getJsonObject("guest");
-                
+
                 Guest guest = new Guest();
                 guest.setId(guestObject.getJsonNumber("id").toString());
                 guest.setFirstName(guestObject.getString("firstname"));
                 guest.setLastName(guestObject.getString("lastname"));
-                
+
                 itinerary.setGuest(guest);
-                JsonObject flightObject = object.getJsonObject("flight");                
+                JsonObject flightObject = object.getJsonObject("flight");
 
                 Flight flight = new Flight();
                 flight.setId(flightObject.getJsonNumber("id").toString());
@@ -174,27 +169,27 @@ public class ItineraryRestClient {
                 dest.setSector(destObj.getString("sector"));
 
                 flight.setDest(dest);
-                
-                itinerary.setFlight(flight);                
-                
-               JsonObject scheduleObject = object.getJsonObject("schedule");
-               
-               Schedule schedule = new Schedule();
-               schedule.setId(scheduleObject.getJsonNumber("id").toString());
-               schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
-               
+
+                itinerary.setFlight(flight);
+
+                JsonObject scheduleObject = object.getJsonObject("schedule");
+
+                Schedule schedule = new Schedule();
+                schedule.setId(scheduleObject.getJsonNumber("id").toString());
+                schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+
                 itinerary.setSchedule(schedule);
-                
+
                 itineraries.add(itinerary);
             }
         }
-        
+
         return itineraries;
     }
-    
+
     @PreDestroy
     public void close() {
         client.close();
     }
-    
+
 }
