@@ -112,12 +112,12 @@ public class Flight implements Serializable {
         this.sourceSector = sourceSector;
     }
 
-    public Sector getDestSectorId() {
+    public Sector getDestSector() {
         return destSector;
     }
 
-    public void setDestSectorId(Sector destSectorId) {
-        this.destSector = destSectorId;
+    public void setDestSector(Sector destSector) {
+        this.destSector = destSector;
     }
 
     public Collection<Schedule> getSchedules() {

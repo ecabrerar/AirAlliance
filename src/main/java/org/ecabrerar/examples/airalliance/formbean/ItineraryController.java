@@ -18,7 +18,6 @@ package org.ecabrerar.examples.airalliance.formbean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -41,6 +40,7 @@ public class ItineraryController {
     private Itinerary itinerary = new Itinerary();
     private List<Itinerary> itineraries = new ArrayList<>();
     FacesContext facesContext = FacesContext.getCurrentInstance();
+    private String message;
     
     private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
 
@@ -78,6 +78,22 @@ public class ItineraryController {
          itineraries = rc.getItineraries(idItinerary);      
     }  
     
+    
+    
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
     public void confirmReservation(AjaxBehaviorEvent event){        
        
         if (this.itinerary.getId().trim().length() > 0) {
@@ -85,9 +101,28 @@ public class ItineraryController {
            int  id= Integer.parseInt(this.itinerary.getId());
             getItineraries(id);
             
+            if(itineraries.isEmpty()){                             
+                setMessage("No record found. Please check the Itinerary ID");                
+            }
+            
         } else {
-            logger.log(Level.WARNING, "current event is null");
+             setMessage("No record found. Please check the Itinerary ID");  
         }
+    }
+
+    /** 
+     *   Guests are allowed to cancel reservation based on their Itinerary
+     *   IID. This method flushes the itinerary records from the Itinerary table and the Schedule table.
+     *   However, the guest information is retained.
+     *
+     *   @param itinerary
+    */
+    public void cancelReservation(Itinerary itinerary){
+        rc.remove(itinerary);
+    }
+    
+    public void processReservation(){
+        
     }
     
     

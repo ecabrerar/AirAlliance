@@ -76,4 +76,9 @@ public class FlightController {
         
         return "flightinfo";
     }
+    
+    
+    public void getAvailableFlights(Sector source, Sector dest){
+        
+    }
 }

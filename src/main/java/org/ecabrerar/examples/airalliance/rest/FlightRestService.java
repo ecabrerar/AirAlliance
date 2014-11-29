@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.service.FlightService;
+import org.ecabrerar.examples.airalliance.service.SectorService;
 
 /**
  *
@@ -43,6 +44,9 @@ public class FlightRestService {
     
     @Inject
     FlightService flightService;
+    
+    @Inject
+    SectorService  sectorService;
     
     @Context
     private UriInfo uriInfo;
@@ -84,6 +88,13 @@ public class FlightRestService {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return flightService.findRange(new int[]{from, to});
+    }
+    
+    @GET
+    @Path("{sourceid}/{destid}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Flight> flightAvailables(@PathParam("sourceid") Integer sourceid, @PathParam("destid") Integer destid){
+        return flightService.getAvailableFlights(sectorService.find(sourceid), sectorService.find(destid));
     }
 
     @GET

@@ -55,6 +55,13 @@ public class ItineraryRestClient {
 
         client = ClientBuilder.newClient();
     }
+    
+    public void remove(Itinerary itinerary){
+        client.target(baseUri)
+                .path(itinerary.getId())
+                .request(MediaType.APPLICATION_JSON)
+                .delete(String.class);
+    }
 
     public List<Itinerary> getItineraries(int idItinerary) {
         String data = client.target(baseUri)
@@ -66,7 +73,7 @@ public class ItineraryRestClient {
         List<Itinerary> itineraries = new ArrayList<>();
 
         try (JsonReader reader = Json.createReader(new StringReader(data))) {
-
+            
             JsonObject object = reader.readObject();
 
             Itinerary itinerary = new Itinerary();

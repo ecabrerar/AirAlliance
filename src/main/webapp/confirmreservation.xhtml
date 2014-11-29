@@ -21,7 +21,6 @@ limitations under the License.
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="title">Reservation Confirmation </ui:define>
 
-
     <ui:define name="content">
 
         <div>
@@ -31,57 +30,77 @@ limitations under the License.
                 You can use that ID to check the status of your reservation.
             </p>
         </div>
-        <h:form id="form" class="form-inline" >
-           
-                <div class="form-group">                    
-                    <h:inputText  id="itineraryID" p:required="required"  p:title="Enter the Itinerary ID. (Example: 5)" class="form-control"  value="#{itinerary.itinerary.id}"/>
-                    <h:commandButton id="idSubmit" class="btn btn-default" value="Submit">
-                        <f:ajax execute="@form" listener="#{itinerary.confirmReservation}" render="@form" />
-                    </h:commandButton>
-                </div>
-                       
+        <h:form id="form" class="form-inline">
+
+            <div class="form-group">                    
+                <h:inputText  id="itineraryID" p:required="required"  p:title="Enter the Itinerary ID. (Example: 5)" class="form-control"  value="#{itinerary.itinerary.id}"/>
+                <h:commandButton id="idSubmit" class="btn btn-default" value="Submit">
+                    <f:ajax execute="@form" listener="#{itinerary.confirmReservation}" render="@form" />
+                </h:commandButton>
+            </div>
+
             <div id="note">
                 <p>Enter the Itinerary ID. (Example: 5)</p>
             </div>  
 
-        <h:dataTable id="itineraryList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
+            <h:outputText id="idNotFound" escape="false" value="#{itinerary.message}" rendered="#{itinerary.listItinerary.size()==0}"/>
+
+            <h:dataTable id="itineraryList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Guest Name"/>
                     </f:facet>                 
                     <h:outputText value="#{i.guest.firstName} #{i.guest.lastName}"/>
                 </h:column>
-                 <h:column>
+                <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
-                                         
-                     <h:commandLink value="#{i.flight.name}" action="#{flight.viewFlight(i.flight)}" />                     
-                     
+
+                    <h:commandLink value="#{i.flight.name}" action="#{flight.viewFlight(i.flight)}" />                     
+
                 </h:column>
-                
-                 <h:column>
+
+                <h:column>
                     <f:facet name="header">
                         <h:outputText value="Source"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.flight.source.sector}"/>
+                    <h:outputText value="#{i.flight.source.sector}"/>
                 </h:column>
-                
-                 <h:column>
+
+                <h:column>
                     <f:facet name="header">
                         <h:outputText value="Destination"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.flight.dest.sector}"/>
+                    <h:outputText value="#{i.flight.dest.sector}"/>
                 </h:column> 
-                 <h:column>
+                <h:column>
                     <f:facet name="header">
                         <h:outputText value="Travel Date"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.scheduleDate}">
-                      <f:convertDateTime pattern="yyyy-MM-dd"/>
-                     </h:outputText>
-                </h:column>  
-            </h:dataTable>
-         </h:form>
-    </ui:define>
+                    <h:outputText value="#{i.schedule.scheduleDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>                 
+
+                    <h:commandLink value="Cancel Reservation"  action="#{itinerary.cancelReservation(i)}" >
+                    
+                    </h:commandLink>
+
+                </h:column>
+            </h:dataTable>   
+
+            <h:panelGroup id="messagePanel" layout="block">
+                <h2>Itinerary Cancelled</h2>
+                <h4>The itinerary has been successfully removed. However the guest information is retained for further processing.</h4>
+                <h:commandLink value="Process new itinerary" action="processitinerary.xhtml"/>
+
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define> 
 </ui:composition>
