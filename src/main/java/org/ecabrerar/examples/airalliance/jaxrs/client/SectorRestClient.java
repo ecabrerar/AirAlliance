@@ -17,7 +17,6 @@
 package org.ecabrerar.examples.airalliance.jaxrs.client;
 
 import java.io.StringReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;

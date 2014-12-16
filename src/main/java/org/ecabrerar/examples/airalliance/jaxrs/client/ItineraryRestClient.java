@@ -123,7 +123,7 @@ public class ItineraryRestClient {
         String data = client.target(baseUri)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
-
+        
         return getItinerariesFromJson(data);
 
     }

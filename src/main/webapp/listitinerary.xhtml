@@ -30,7 +30,7 @@ limitations under the License.
             </p>
 
         </div>
-        <h:form>
+        
         <h:dataTable id="itineraryList" class="table table-bordered" value="#{itinerary.itineraries}" var="i">
                 <h:column>
                     <f:facet name="header">
@@ -42,8 +42,9 @@ limitations under the License.
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
-                     
-                     <h:commandLink value="#{i.flight.name}" action="#{flight.viewFlight(i.flight)}" /> 
+                     <h:form>
+                         <h:commandLink value="#{i.flight.name}" action="#{flight.viewFlight(i.flight)}" /> 
+                     </h:form>
                 </h:column>
                 
                  <h:column>
@@ -68,7 +69,7 @@ limitations under the License.
                      </h:outputText>
                 </h:column>  
             </h:dataTable>
-            </h:form>
+            
 
         <div id="note">
              <p>Click the Flight Name to find more information</p>

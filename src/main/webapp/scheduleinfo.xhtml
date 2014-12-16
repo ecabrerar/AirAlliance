@@ -20,7 +20,6 @@ limitations under the License.
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">Flight Schedule </ui:define>
 
-
     <ui:define name="content">
 
         <div>
@@ -31,22 +30,23 @@ limitations under the License.
             </p>
 
         </div>
-        <h:form>
+
         <h:dataTable id="flightSchedule" class="table table-bordered" value="#{schedule.schedules}" var="s">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Travel Date"/>
                 </f:facet>                 
                 <h:outputText value="#{s.scheduleDate}">
-                 <f:convertDateTime pattern="yyyy-MM-dd"/>
-                     </h:outputText>
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:outputText>
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Flight"/>
                 </f:facet>                 
-               
-                <h:commandLink value="#{s.flight.name}" action="#{flight.viewFlight(s.flight)}" /> 
+                <h:form>
+                    <h:commandLink value="#{s.flight.name}" action="#{flight.viewFlight(s.flight)}" /> 
+                </h:form>
             </h:column>
 
             <h:column>
@@ -63,7 +63,6 @@ limitations under the License.
                 <h:outputText value="#{s.flight.dest.sector}"/>
             </h:column>                 
         </h:dataTable>
-        </h:form>
 
         <div id="note">
             <p>Click the Flight Name to find more information.</p>

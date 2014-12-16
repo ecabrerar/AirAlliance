@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.formbean;
 
 import java.util.ArrayList;
@@ -21,8 +20,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
@@ -34,14 +33,14 @@ import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 @Named(value = "itinerary")
 @RequestScoped
 public class ItineraryController {
-    
+
     @Inject
     ItineraryRestClient rc;
-    
+
     private Itinerary itinerary = new Itinerary();
     private List<Itinerary> itineraries = new ArrayList<>();
     FacesContext facesContext = FacesContext.getCurrentInstance();
-    
+
     private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
 
     public ItineraryController() {
@@ -65,30 +64,42 @@ public class ItineraryController {
      * @return the flights
      */
     public List<Itinerary> getItineraries() {
-         itineraries = rc.getItineraries();
-        
+        itineraries = rc.getItineraries();
+
         return itineraries;
-    }  
-    
+    }
+
     public List<Itinerary> getListItinerary() {
-         return itineraries;
-    }      
-    
+        return itineraries;
+    }
+
     private void getItineraries(int idItinerary) {
-         itineraries = rc.getItineraries(idItinerary);      
-    }  
-    
-    public void confirmReservation(AjaxBehaviorEvent event){        
-       
+        itineraries = rc.getItineraries(idItinerary);
+        Logger.getLogger(ItineraryController.class.getName()).log(Level.WARNING, "Itineraries {0}", itineraries);
+    }
+
+    public void confirmReservation() {
+
         if (this.itinerary.getId().trim().length() > 0) {
-            
-           int  id= Integer.parseInt(this.itinerary.getId());
+
+            int id = Integer.parseInt(this.itinerary.getId());
             getItineraries(id);
-            
+
         } else {
             logger.log(Level.WARNING, "current event is null");
         }
     }
-    
-    
+
+    /**
+     * This method accepts the itinerary information from the guests and updates
+     * the DB.
+     *
+     * @return
+     */
+    public String processReservation() {
+
+        return null;
+
+    }
+
 }

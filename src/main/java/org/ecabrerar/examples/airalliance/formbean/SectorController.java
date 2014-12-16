@@ -16,7 +16,6 @@
 
 package org.ecabrerar.examples.airalliance.formbean;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;

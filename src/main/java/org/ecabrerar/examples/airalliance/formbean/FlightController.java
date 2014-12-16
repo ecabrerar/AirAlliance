@@ -55,6 +55,7 @@ public class FlightController {
      */
     public void setCurrentFlight(Flight currentFlight) {
         this.currentFlight = currentFlight;
+         logger.log(Level.INFO, "current flight {0}",currentFlight);
     }
     
      public List<Flight> retrieveFlights() {      
@@ -65,6 +66,7 @@ public class FlightController {
             
             flights = rc.getFlights();
         } else {
+             logger.log(Level.INFO, "current flight id {0}",currentFlight.getId());
             flights = rc.getFlightById(Integer.parseInt(currentFlight.getId()));
         }
         
