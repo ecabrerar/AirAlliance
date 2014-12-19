@@ -24,6 +24,7 @@ limitations under the License.
 
     <ui:define name="content">
 
+        <h:messages id="messages" styleClass="info" />
         <div>
             <h1>Provide Itinerary Details</h1>
         </div>
@@ -65,7 +66,7 @@ limitations under the License.
                 </div>
             </h:panelGrid>
 
-            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="" type="submit">
+            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="#{itinerary.processReservation()}" type="submit">
 
             </h:commandButton>                  
 

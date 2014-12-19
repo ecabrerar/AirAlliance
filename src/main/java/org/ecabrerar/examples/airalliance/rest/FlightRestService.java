@@ -40,10 +40,10 @@ import org.ecabrerar.examples.airalliance.service.FlightService;
 
 @Path("/flights")
 public class FlightRestService {
-    
+
     @Inject
     FlightService flightService;
-    
+
     @Context
     private UriInfo uriInfo;
 
@@ -87,11 +87,20 @@ public class FlightRestService {
     }
 
     @GET
+    @Path("{source}/{dest}")
+    @Produces("text/plain")
+    public String availableFlights(@PathParam("source") Integer source, @PathParam("dest") Integer dest){
+    	return String.valueOf(flightService.getAvailableFlights(source, dest).size());
+
+    }
+
+
+    @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
         return String.valueOf(flightService.count());
     }
 
-        
+
 }

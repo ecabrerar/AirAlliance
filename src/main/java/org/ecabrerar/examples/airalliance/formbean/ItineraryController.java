@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
 
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 
 /**
@@ -98,8 +100,28 @@ public class ItineraryController {
      */
     public String processReservation() {
 
-        return null;
+    	String status = "";
+
+    	try {
+
+    		if (validate()) {
+
+    			facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
+    					"Your itinerary has been processed successfully.",itinerary.toString()));
+    		}
+    	} catch (Exception ex) {
+    		logger.log(Level.WARNING, ex.getMessage());
+    		facesContext.addMessage(status,
+    				new FacesMessage(FacesMessage.SEVERITY_ERROR, "New Itinerary cannot be added", ex.getMessage()));
+    	}
+
+
+    	return "processitinerary";
 
     }
+
+	private boolean validate() {
+		return false;
+	}
 
 }

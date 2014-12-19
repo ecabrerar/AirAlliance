@@ -16,7 +16,9 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import java.util.List;
+
 import javax.ejb.Stateless;
+
 import org.ecabrerar.examples.airalliance.entities.Flight;
 
 /**
@@ -29,18 +31,25 @@ public class FlightService extends BaseEntityService<Flight> {
     public FlightService() {
         super(Flight.class);
     }
-    
+
     /**
      * This method accepts two sectors and returns all the available flights between
-     *  those two sectors querying the Flights table.
-     *  Pass the source sector (Example, SFO) and the destination sector.
-     *   Returns an List of Flights.
+     * those two sectors querying the Flights table.
+     * Pass the source sector (Example, SFO) and the destination sector.
+     *
+     * Returns an List of Flights.
      * @return
     */
-    public List<Flight> getAvailableFlights(){
-        
-        return null;
-        
+    public List<Flight> getAvailableFlights(int sourceSectorId, int destSectorId){
+
+    	List<Flight> listFlights = getEntityManager()
+    			.createQuery("select f from Flight f where f.sourceSector.id=:sourceSectorId  AND f.destSector.id=:destSectorId", Flight.class)
+    			.setParameter("sourceSectorId", sourceSectorId)
+    			.setParameter("destSectorId", destSectorId)
+    			.getResultList();
+
+        return listFlights;
+
     }
 
 }

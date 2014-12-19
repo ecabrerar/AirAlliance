@@ -17,8 +17,12 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -26,17 +30,17 @@ import javax.persistence.PersistenceContext;
  * @param <T>
  */
 public abstract class BaseEntityService<T> {
-   
+
     private final Class<T> entityClass;
 
     @PersistenceContext(unitName = "AirAlliancePU")
     private EntityManager entityManager;
 
-    
+
     public BaseEntityService(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-    
+
     protected EntityManager getEntityManager() {
         return entityManager;
     }
@@ -58,26 +62,26 @@ public abstract class BaseEntityService<T> {
     }
 
     public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
         cq.select(cq.from(entityClass));
         return entityManager.createQuery(cq).getResultList();
     }
 
     public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
         cq.select(cq.from(entityClass));
-        javax.persistence.Query q = entityManager.createQuery(cq);
+        Query q = entityManager.createQuery(cq);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
         return q.getResultList();
     }
 
     public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(entityManager.getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = entityManager.createQuery(cq);
+        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
+        Root<T> rt = cq.from(entityClass);
+        cq.select(rt);
+        Query q = entityManager.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }
