@@ -108,6 +108,16 @@ public class ItineraryController {
 
     			facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
     					"Your itinerary has been processed successfully.",itinerary.toString()));
+    		} else {
+
+    			StringBuilder strMessage = new StringBuilder()
+    			.append(" Itinerary Rejected !.")
+    			.append(" Your itinerary has been rejected.")
+    			.append(" There is a similiar itinerary present in our records with the same guest name, flight details and travel date..");
+
+    			facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
+    					strMessage.toString(),null));
+
     		}
     	} catch (Exception ex) {
     		logger.log(Level.WARNING, ex.getMessage());
@@ -120,6 +130,11 @@ public class ItineraryController {
 
     }
 
+    /**
+     * Validate if return flights between two sectors querying the Flights table.
+     *
+     * @return
+     */
 	private boolean validate() {
 		return false;
 	}
