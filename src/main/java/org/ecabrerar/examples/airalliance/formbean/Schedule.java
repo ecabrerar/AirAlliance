@@ -16,12 +16,7 @@
 
 package org.ecabrerar.examples.airalliance.formbean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /** 
  * This is a Schedule Backing Bean. 
@@ -60,13 +55,8 @@ public class Schedule {
      * @param scheduleDate the scheduleDate to set
      */
    
-    public void setScheduleDate(String scheduleDate) {
-        try {
-            this.scheduleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(scheduleDate);
-        } catch (ParseException ex) {
-            Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void setScheduleDate(Date scheduleDate) {
+         this.scheduleDate = scheduleDate;
     }
 
     /**

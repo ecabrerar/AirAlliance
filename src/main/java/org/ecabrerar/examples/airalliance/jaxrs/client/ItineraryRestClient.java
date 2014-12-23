@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.jaxrs.client;
 
 import java.io.StringReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +28,7 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
 import org.ecabrerar.examples.airalliance.formbean.Flight;
@@ -55,6 +57,13 @@ public class ItineraryRestClient {
 
         client = ClientBuilder.newClient();
     }
+    
+    public void createReservation(Itinerary itinerary){
+         client.target(baseUri)
+                 .request()
+                 .post(Entity.entity(itinerary,MediaType.APPLICATION_JSON));
+     }
+    
 
     public List<Itinerary> getItineraries(int idItinerary) {
         String data = client.target(baseUri)
@@ -108,7 +117,7 @@ public class ItineraryRestClient {
 
             Schedule schedule = new Schedule();
             schedule.setId(scheduleObject.getJsonNumber("id").toString());
-            schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+            schedule.setScheduleDate(Date.valueOf(scheduleObject.getString("scheduleDate")));
 
             itinerary.setSchedule(schedule);
 
@@ -176,7 +185,7 @@ public class ItineraryRestClient {
 
                 Schedule schedule = new Schedule();
                 schedule.setId(scheduleObject.getJsonNumber("id").toString());
-                schedule.setScheduleDate(scheduleObject.getString("scheduleDate"));
+                schedule.setScheduleDate(Date.valueOf(scheduleObject.getString("scheduleDate")));
 
                 itinerary.setSchedule(schedule);
 

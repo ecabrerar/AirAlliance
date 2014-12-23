@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.jaxrs.client;
 
 import java.io.StringReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -69,7 +70,7 @@ public class ScheduleRestClient {
 
                 Schedule schedule = new Schedule();
                 schedule.setId(object.getJsonNumber("id").toString());
-                schedule.setScheduleDate(object.getString("scheduleDate"));
+                schedule.setScheduleDate(Date.valueOf(object.getString("scheduleDate")));
 
                 JsonObject guestObject = object.getJsonObject("guest");
 

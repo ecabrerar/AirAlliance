@@ -94,7 +94,6 @@ public class FlightRestService {
 
     }
 
-
     @GET
     @Path("count")
     @Produces("text/plain")

@@ -38,6 +38,8 @@ public class FlightService extends BaseEntityService<Flight> {
      * Pass the source sector (Example, SFO) and the destination sector.
      *
      * Returns an List of Flights.
+     * @param sourceSectorId
+     * @param destSectorId
      * @return
     */
     public List<Flight> getAvailableFlights(int sourceSectorId, int destSectorId){

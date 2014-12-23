@@ -24,8 +24,8 @@ package org.ecabrerar.examples.airalliance.formbean;
 public class Flight {
     private String id;
     private String name;
-    private Sector source;
-    private Sector dest;
+    private Sector source=new Sector();
+    private Sector dest=new Sector();
 
     public Flight(String id, String name, Sector source, Sector dest) {
         this.id = id;

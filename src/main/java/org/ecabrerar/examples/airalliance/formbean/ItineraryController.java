@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 
 import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 
@@ -39,13 +41,21 @@ public class ItineraryController {
     @Inject
     ItineraryRestClient rc;
 
-    private Itinerary itinerary = new Itinerary();
+    @Inject
+    FlightRestClient fc;
+
+    private Itinerary itinerary;
     private List<Itinerary> itineraries = new ArrayList<>();
     FacesContext facesContext = FacesContext.getCurrentInstance();
 
     private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
 
     public ItineraryController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        itinerary = new Itinerary();
     }
 
     /**
@@ -96,47 +106,54 @@ public class ItineraryController {
      * This method accepts the itinerary information from the guests and updates
      * the DB.
      *
+     * @param itin
      * @return
      */
-    public String processReservation() {
+    public String processReservation(Itinerary itin) {
 
-    	String status = "";
+        String status = "message";
 
-    	try {
+        try {
 
-    		if (validate()) {
+            if (validate()) {
+                rc.createReservation(itin);
+               
+                facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Your itinerary has been processed successfully.", itin.toString()));
 
-    			facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
-    					"Your itinerary has been processed successfully.",itinerary.toString()));
-    		} else {
+            } else {
 
-    			StringBuilder strMessage = new StringBuilder()
-    			.append(" Itinerary Rejected !.")
-    			.append(" Your itinerary has been rejected.")
-    			.append(" There is a similiar itinerary present in our records with the same guest name, flight details and travel date..");
+                StringBuilder strMessage = new StringBuilder(45)
+                        .append(" Itinerary Rejected !.")
+                        .append(" Your itinerary has been rejected.")
+                        .append(" There is a similiar itinerary present in our records with the same guest name, flight details and travel date..");
 
-    			facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
-    					strMessage.toString(),null));
+                 
+                facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        strMessage.toString(), null));
 
-    		}
-    	} catch (Exception ex) {
-    		logger.log(Level.WARNING, ex.getMessage());
-    		facesContext.addMessage(status,
-    				new FacesMessage(FacesMessage.SEVERITY_ERROR, "New Itinerary cannot be added", ex.getMessage()));
-    	}
+            }
+        } catch (Exception ex) {
+            logger.log(Level.WARNING, ex.getMessage());
+            facesContext.addMessage(status,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "New Itinerary cannot be added", ex.getMessage()));
+        }
 
-
-    	return "processitinerary";
+        return "processitinerary";
 
     }
 
     /**
-     * Validate if return flights between two sectors querying the Flights table.
+     * Validate if return flights between two sectors querying the Flights
+     * table.
      *
      * @return
      */
-	private boolean validate() {
-		return false;
-	}
+    private boolean validate() {
+
+        Integer availableFlights = fc.getAvailableFlights(Integer.parseInt(itinerary.getFlight().getSource().getId()), Integer.parseInt(itinerary.getFlight().getDest().getId()));
+
+        return availableFlights == 0;
+    }
 
 }

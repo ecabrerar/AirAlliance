@@ -130,7 +130,18 @@ public class FlightRestClient {
 
         return flights;
      }
-    
+   
+     public int getAvailableFlights(Integer source, Integer dest){
+         String availableFlights = client.target(baseUri)
+                        .path(String.valueOf(source))
+                        .path(String.valueOf(dest))
+                        .request(MediaType.TEXT_PLAIN)
+                        .get(String.class);
+         
+       return Integer.parseInt(availableFlights);
+
+     }    
+     
 
     @PreDestroy
     public void close() {

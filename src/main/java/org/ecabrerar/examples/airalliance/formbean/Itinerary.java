@@ -26,9 +26,9 @@ package org.ecabrerar.examples.airalliance.formbean;
 public class Itinerary{
     
    private String id;     
-   private Guest guest;   
-   private Flight flight;
-   private Schedule schedule;    
+   private Guest guest=new Guest();   
+   private Flight flight=new Flight();
+   private Schedule schedule=new Schedule();    
      
     /**
      * @return the id
