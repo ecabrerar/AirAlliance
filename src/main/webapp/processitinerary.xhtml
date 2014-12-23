@@ -24,7 +24,9 @@ limitations under the License.
 
     <ui:define name="content">
 
-        <h:messages id="messages" styleClass="info" />
+        <h:messages id="message" errorClass="alert alert-danger" warnClass="alert alert-warning" showSummary="true" infoClass="alert alert-info"  />
+        
+        
         <div>
             <h1>Provide Itinerary Details</h1>
         </div>
@@ -58,7 +60,9 @@ limitations under the License.
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Start Date: "/>
-                    <h:inputText id="sdate"  class="form-control" p:date="date" value="#{itinerary.itinerary.schedule.scheduleDate}"/>
+                    <h:inputText id="sdate"  class="form-control" p:date="date"  value="#{itinerary.itinerary.schedule.scheduleDate}">
+                     <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:inputText>
                 </div>
 
                 <div id="note">
@@ -66,7 +70,7 @@ limitations under the License.
                 </div>
             </h:panelGrid>
 
-            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="#{itinerary.processReservation()}" type="submit">
+            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="#{itinerary.processReservation(itinerary.itinerary)}" type="submit">
 
             </h:commandButton>                  
 
