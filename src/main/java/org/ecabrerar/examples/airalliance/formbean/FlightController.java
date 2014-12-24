@@ -17,7 +17,6 @@
 package org.ecabrerar.examples.airalliance.formbean;
 
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -55,19 +54,18 @@ public class FlightController {
      */
     public void setCurrentFlight(Flight currentFlight) {
         this.currentFlight = currentFlight;
-         logger.log(Level.INFO, "current flight {0}",currentFlight);
+         
     }
     
      public List<Flight> retrieveFlights() {      
         List<Flight> flights;
          
-        if (this.currentFlight == null) {
-            logger.log(Level.WARNING, "current flight is null");
+        if (this.currentFlight == null) {        
             
             flights = rc.getFlights();
         } else {
-             logger.log(Level.INFO, "current flight id {0}",currentFlight.getId());
-            flights = rc.getFlightById(Integer.parseInt(currentFlight.getId()));
+            
+            flights = rc.getFlightById(currentFlight.getId());
         }
         
         return flights;        

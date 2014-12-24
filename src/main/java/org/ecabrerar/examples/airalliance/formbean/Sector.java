@@ -21,20 +21,20 @@ package org.ecabrerar.examples.airalliance.formbean;
  * @author ecabrerar
  */
 public class Sector {
-    private String id;
+    private int id;
     private String sector;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

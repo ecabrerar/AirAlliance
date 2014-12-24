@@ -22,12 +22,12 @@ package org.ecabrerar.examples.airalliance.formbean;
  */
 
 public class Flight {
-    private String id;
+    private int id;
     private String name;
     private Sector source=new Sector();
     private Sector dest=new Sector();
 
-    public Flight(String id, String name, Sector source, Sector dest) {
+    public Flight(int id, String name, Sector source, Sector dest) {
         this.id = id;
         this.name = name;
         this.source = source;
@@ -41,14 +41,14 @@ public class Flight {
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -22,21 +22,21 @@ package org.ecabrerar.examples.airalliance.formbean;
 
 public class Guest {
 
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

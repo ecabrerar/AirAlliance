@@ -37,6 +37,7 @@ import org.ecabrerar.examples.airalliance.formbean.Guest;
 import org.ecabrerar.examples.airalliance.formbean.Itinerary;
 import org.ecabrerar.examples.airalliance.formbean.Schedule;
 import org.ecabrerar.examples.airalliance.formbean.Sector;
+import org.ecabrerar.examples.airalliance.utils.Util;
 
 /**
  *
@@ -79,12 +80,12 @@ public class ItineraryRestClient {
             JsonObject object = reader.readObject();
 
             Itinerary itinerary = new Itinerary();
-            itinerary.setId(object.getJsonNumber("id").toString());
+            itinerary.setId(Integer.valueOf(object.getJsonNumber("id").toString()));
 
             JsonObject guestObject = object.getJsonObject("guest");
 
             Guest guest = new Guest();
-            guest.setId(guestObject.getJsonNumber("id").toString());
+            guest.setId(Integer.valueOf(guestObject.getJsonNumber("id").toString()));
             guest.setFirstName(guestObject.getString("firstname"));
             guest.setLastName(guestObject.getString("lastname"));
 
@@ -93,20 +94,20 @@ public class ItineraryRestClient {
             JsonObject flightObject = object.getJsonObject("flight");
 
             Flight flight = new Flight();
-            flight.setId(flightObject.getJsonNumber("id").toString());
+            flight.setId(Integer.valueOf(flightObject.getJsonNumber("id").toString()));
             flight.setName(flightObject.getString("name"));
 
             JsonObject sourceObj = flightObject.getJsonObject("sourceSector");
 
             Sector source = new Sector();
-            source.setId(sourceObj.getJsonNumber("id").toString());
+            source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
             source.setSector(sourceObj.getString("sector"));
 
             flight.setSource(source);
             JsonObject destObj = flightObject.getJsonObject("destSector");
 
             Sector dest = new Sector();
-            dest.setId(destObj.getJsonNumber("id").toString());
+            dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
             dest.setSector(destObj.getString("sector"));
 
             flight.setDest(dest);
@@ -116,8 +117,8 @@ public class ItineraryRestClient {
             JsonObject scheduleObject = object.getJsonObject("schedule");
 
             Schedule schedule = new Schedule();
-            schedule.setId(scheduleObject.getJsonNumber("id").toString());
-            schedule.setScheduleDate(Date.valueOf(scheduleObject.getString("scheduleDate")));
+            schedule.setId(Integer.valueOf(scheduleObject.getJsonNumber("id").toString()));
+            schedule.setScheduleDate(Util.toDate(scheduleObject.getString("scheduleDate")));
 
             itinerary.setSchedule(schedule);
 
@@ -148,12 +149,12 @@ public class ItineraryRestClient {
                 JsonObject object = (JsonObject) result;
 
                 Itinerary itinerary = new Itinerary();
-                itinerary.setId(object.getJsonNumber("id").toString());
+                itinerary.setId(Integer.valueOf(object.getJsonNumber("id").toString()));
 
                 JsonObject guestObject = object.getJsonObject("guest");
 
                 Guest guest = new Guest();
-                guest.setId(guestObject.getJsonNumber("id").toString());
+                guest.setId(Integer.valueOf(guestObject.getJsonNumber("id").toString()));
                 guest.setFirstName(guestObject.getString("firstname"));
                 guest.setLastName(guestObject.getString("lastname"));
 
@@ -161,20 +162,20 @@ public class ItineraryRestClient {
                 JsonObject flightObject = object.getJsonObject("flight");
 
                 Flight flight = new Flight();
-                flight.setId(flightObject.getJsonNumber("id").toString());
+                flight.setId(Integer.valueOf(flightObject.getJsonNumber("id").toString()));
                 flight.setName(flightObject.getString("name"));
 
                 JsonObject sourceObj = flightObject.getJsonObject("sourceSector");
 
                 Sector source = new Sector();
-                source.setId(sourceObj.getJsonNumber("id").toString());
+                source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
                 flight.setSource(source);
                 JsonObject destObj = flightObject.getJsonObject("destSector");
 
                 Sector dest = new Sector();
-                dest.setId(destObj.getJsonNumber("id").toString());
+                dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
                 flight.setDest(dest);
@@ -184,8 +185,8 @@ public class ItineraryRestClient {
                 JsonObject scheduleObject = object.getJsonObject("schedule");
 
                 Schedule schedule = new Schedule();
-                schedule.setId(scheduleObject.getJsonNumber("id").toString());
-                schedule.setScheduleDate(Date.valueOf(scheduleObject.getString("scheduleDate")));
+                schedule.setId(Integer.valueOf(scheduleObject.getJsonNumber("id").toString()));
+                schedule.setScheduleDate(Util.toDate(scheduleObject.getString("scheduleDate")));
 
                 itinerary.setSchedule(schedule);
 

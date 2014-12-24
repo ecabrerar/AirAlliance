@@ -25,7 +25,7 @@ import java.util.Date;
  */
 
 public class Schedule {
-    private String id;
+    private int id;
     private Date scheduleDate;
     private Guest guest;
     private Flight flight;
@@ -33,14 +33,14 @@ public class Schedule {
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -66,7 +66,7 @@ public class SectorRestClient {
                 JsonObject object = (JsonObject) result;
 
                 Sector sector = new Sector();
-                sector.setId(object.getJsonNumber("id").toString());
+                sector.setId(Integer.valueOf(object.getJsonNumber("id").toString()));
                 sector.setSector(object.getString("sector"));
 
                 sectors.add(sector);

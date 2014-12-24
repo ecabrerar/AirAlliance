@@ -66,20 +66,20 @@ public class FlightRestClient {
                 JsonObject object = (JsonObject) result;
 
                 Flight flight = new Flight();
-                flight.setId(object.getJsonNumber("id").toString());
+                flight.setId(Integer.valueOf(object.getJsonNumber("id").toString()));
                 flight.setName(object.getString("name"));
 
                 JsonObject sourceObj = object.getJsonObject("sourceSector");
 
                 Sector source = new Sector();
-                source.setId(sourceObj.getJsonNumber("id").toString());
+                source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
                 flight.setSource(source);
                 JsonObject destObj = object.getJsonObject("destSector");
 
                 Sector dest = new Sector();
-                dest.setId(destObj.getJsonNumber("id").toString());
+                dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
                 flight.setDest(dest);
@@ -106,20 +106,20 @@ public class FlightRestClient {
                 JsonObject object = reader.readObject();
 
                 Flight flight = new Flight();
-                flight.setId(object.getJsonNumber("id").toString());
+                flight.setId(Integer.valueOf(object.getJsonNumber("id").toString()));
                 flight.setName(object.getString("name"));
 
                 JsonObject sourceObj = object.getJsonObject("sourceSector");
 
                 Sector source = new Sector();
-                source.setId(sourceObj.getJsonNumber("id").toString());
+                source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
                 flight.setSource(source);
                 JsonObject destObj = object.getJsonObject("destSector");
 
                 Sector dest = new Sector();
-                dest.setId(destObj.getJsonNumber("id").toString());
+                dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
                 flight.setDest(dest);

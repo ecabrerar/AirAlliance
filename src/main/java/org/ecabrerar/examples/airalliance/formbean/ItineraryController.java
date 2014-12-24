@@ -92,14 +92,12 @@ public class ItineraryController {
 
     public void confirmReservation() {
 
-        if (this.itinerary.getId().trim().length() > 0) {
+        if (this.itinerary.getId() > 0) {
 
-            int id = Integer.parseInt(this.itinerary.getId());
+            int id = this.itinerary.getId();
             getItineraries(id);
 
-        } else {
-            logger.log(Level.WARNING, "current event is null");
-        }
+        } 
     }
 
     /**
@@ -151,7 +149,7 @@ public class ItineraryController {
      */
     private boolean validate() {
 
-        Integer availableFlights = fc.getAvailableFlights(Integer.parseInt(itinerary.getFlight().getSource().getId()), Integer.parseInt(itinerary.getFlight().getDest().getId()));
+        Integer availableFlights = fc.getAvailableFlights(itinerary.getFlight().getSource().getId(), itinerary.getFlight().getDest().getId());
 
         return availableFlights == 0;
     }
