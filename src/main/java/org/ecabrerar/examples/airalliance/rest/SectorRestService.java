@@ -26,9 +26,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.service.SectorService;
 
@@ -43,9 +41,6 @@ public class SectorRestService {
 
     @Inject
     SectorService sectorService;
-    
-    @Context
-    private UriInfo uriInfo;   
     
 
     @POST

@@ -87,7 +87,7 @@ public class ItineraryController {
 
     private void getItineraries(int idItinerary) {
         itineraries = rc.getItineraries(idItinerary);
-        Logger.getLogger(ItineraryController.class.getName()).log(Level.WARNING, "Itineraries {0}", itineraries);
+        Logger.getLogger(ItineraryController.class.getName()).log(Level.INFO, "Itineraries {0}", itineraries);
     }
 
     public void confirmReservation() {
