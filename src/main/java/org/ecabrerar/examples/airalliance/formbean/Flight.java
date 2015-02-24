@@ -13,30 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.formbean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
- * This is a Flight Backing Bean. Instance of this class can store flight information.
+ * This is a Flight Backing Bean. Instance of this class can store flight
+ * information.
+ *
  * @author ecabrerar
  */
-
+@XmlRootElement(name = "flight")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Flight {
+
     private int id;
     private String name;
-    private Sector source=new Sector();
-    private Sector dest=new Sector();
+    @XmlElement
+    private Sector sourceSector = new Sector();
+    @XmlElement
+    private Sector destSector = new Sector();
 
     public Flight(int id, String name, Sector source, Sector dest) {
         this.id = id;
         this.name = name;
-        this.source = source;
-        this.dest = dest;
+        this.sourceSector = source;
+        this.destSector = dest;
     }
 
     public Flight() {
     }
-       
 
     /**
      * @return the id
@@ -67,30 +76,32 @@ public class Flight {
     }
 
     /**
-     * @return the source
+     * @return the sourceSector
      */
-    public Sector getSource() {
-        return source;
+    public Sector getSourceSector() {
+        return sourceSector;
     }
 
     /**
-     * @param source the source to set
+     * @param sourceSector the sourceSector to set
      */
-    public void setSource(Sector source) {
-        this.source = source;
+    public void setSourceSector(Sector sourceSector) {
+        this.sourceSector = sourceSector;
     }
 
     /**
-     * @return the dest
+     * @return the destSector
      */
-    public Sector getDest() {
-        return dest;
+    public Sector getDestSector() {
+        return destSector;
     }
 
     /**
-     * @param dest the dest to set
+     * @param destSector the destSector to set
      */
-    public void setDest(Sector dest) {
-        this.dest = dest;
+    public void setDestSector(Sector destSector) {
+        this.destSector = destSector;
     }
+
+    
 }

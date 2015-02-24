@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.formbean;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * This is an Itinerary Backing Bean.
- * Instance of this class can store flight information. 
- * 
+ * This is an Itinerary Backing Bean. Instance of this class can store flight
+ * information.
+ *
  * @author ecabrerar
  */
-public class Itinerary{
-    
-   private int id;     
-   private Guest guest=new Guest();   
-   private Flight flight=new Flight();
-   private Schedule schedule=new Schedule();    
-     
+@XmlRootElement(name = "itinerary")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Itinerary {
+
+    private int id;
+    @XmlElement
+    private Guest guest = new Guest();
+    @XmlElement
+    private Flight flight = new Flight();
+    @XmlElement
+    private Schedule schedule = new Schedule();
+
     /**
      * @return the id
      */
@@ -42,8 +51,8 @@ public class Itinerary{
      */
     public void setId(int id) {
         this.id = id;
-    }    
-   
+    }
+
     /**
      * @return the schedule
      */
@@ -85,5 +94,5 @@ public class Itinerary{
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
-    
+
 }

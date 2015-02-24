@@ -15,11 +15,16 @@
  */
 package org.ecabrerar.examples.airalliance.formbean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This is a Guest helper class. Instance of this class can store Guest information.
  * @author ecabrerar
  */
-
+@XmlRootElement(name = "guest")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Guest {
 
     private int id;

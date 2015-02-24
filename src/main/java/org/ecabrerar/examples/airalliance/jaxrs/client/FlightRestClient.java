@@ -75,14 +75,14 @@ public class FlightRestClient {
                 source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
-                flight.setSource(source);
+                flight.setSourceSector(source);
                 JsonObject destObj = object.getJsonObject("destSector");
 
                 Sector dest = new Sector();
                 dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
-                flight.setDest(dest);
+                flight.setDestSector(dest);
 
                 flights.add(flight);
             }
@@ -115,14 +115,14 @@ public class FlightRestClient {
                 source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
-                flight.setSource(source);
+                flight.setSourceSector(source);
                 JsonObject destObj = object.getJsonObject("destSector");
 
                 Sector dest = new Sector();
                 dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
-                flight.setDest(dest);
+                flight.setDestSector(dest);
 
                 flights.add(flight);            
 

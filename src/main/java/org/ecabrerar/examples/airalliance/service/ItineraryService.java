@@ -17,6 +17,8 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.ecabrerar.examples.airalliance.entities.Itinerary;
 
 /**
@@ -26,8 +28,33 @@ import org.ecabrerar.examples.airalliance.entities.Itinerary;
 @Stateless
 public class ItineraryService extends BaseEntityService<Itinerary>{
 
+    @PersistenceContext(unitName = "AirAlliancePU")
+    private EntityManager entityManager;
+    
     public ItineraryService() {
         super(Itinerary.class);
     }
+
+    @Override
+    public void create(Itinerary itinerary) {
+        
+
+        
+        if(itinerary.getGuest() !=null && itinerary.getGuest().getId() == null){
+            entityManager.persist(itinerary.getGuest());
+        }
+        
+        if(itinerary.getFlight()!=null && itinerary.getFlight().getId()==null){
+            entityManager.persist(itinerary.getFlight());
+        }
+        
+        if(itinerary.getScheduleId()!=null && itinerary.getScheduleId().getId()==null){
+            entityManager.persist(itinerary.getScheduleId());            
+        }
+        
+        entityManager.persist(itinerary);
+    }
+    
+    
     
 }

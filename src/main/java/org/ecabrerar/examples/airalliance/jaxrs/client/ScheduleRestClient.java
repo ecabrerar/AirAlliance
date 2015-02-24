@@ -27,6 +27,7 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import org.ecabrerar.examples.airalliance.formbean.Flight;
 import org.ecabrerar.examples.airalliance.formbean.Guest;
@@ -93,14 +94,14 @@ public class ScheduleRestClient {
                 source.setId(Integer.valueOf(sourceObj.getJsonNumber("id").toString()));
                 source.setSector(sourceObj.getString("sector"));
 
-                flight.setSource(source);
+                flight.setSourceSector(source);
                 JsonObject destObj = flightObject.getJsonObject("destSector");
 
                 Sector dest = new Sector();
                 dest.setId(Integer.valueOf(destObj.getJsonNumber("id").toString()));
                 dest.setSector(destObj.getString("sector"));
 
-                flight.setDest(dest);
+                flight.setDestSector(dest);
 
                 schedule.setFlight(flight);
 

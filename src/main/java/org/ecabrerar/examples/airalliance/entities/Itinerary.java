@@ -17,6 +17,7 @@ package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,13 +47,13 @@ public class Itinerary implements Serializable {
     @Column(name = "id")
     private Integer id;
    
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Guest guest;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Flight flight;
    
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Schedule schedule;
 
     public Itinerary() {

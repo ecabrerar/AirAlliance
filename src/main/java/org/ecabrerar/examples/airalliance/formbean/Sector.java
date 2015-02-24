@@ -16,10 +16,16 @@
 
 package org.ecabrerar.examples.airalliance.formbean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * This is a Sector helper class. Instance of this class can store Sector information.
  * @author ecabrerar
  */
+@XmlRootElement(name="sector")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Sector {
     private int id;
     private String sector;

@@ -87,7 +87,7 @@ public class ItineraryController {
 
     private void getItineraries(int idItinerary) {
         itineraries = rc.getItineraries(idItinerary);
-        Logger.getLogger(ItineraryController.class.getName()).log(Level.INFO, "Itineraries {0}", itineraries);
+        Logger.getLogger(ItineraryController.class.getName()).log(Level.WARNING, "Itineraries {0}", itineraries);
     }
 
     public void confirmReservation() {
@@ -112,7 +112,7 @@ public class ItineraryController {
         String status = "message";
 
         try {
-
+            
             if (validate()) {
                 rc.createReservation(itin);
                
@@ -149,7 +149,7 @@ public class ItineraryController {
      */
     private boolean validate() {
 
-        Integer availableFlights = fc.getAvailableFlights(itinerary.getFlight().getSource().getId(), itinerary.getFlight().getDest().getId());
+        Integer availableFlights = fc.getAvailableFlights(itinerary.getFlight().getSourceSector().getId(), itinerary.getFlight().getDestSector().getId());
 
         return availableFlights == 0;
     }

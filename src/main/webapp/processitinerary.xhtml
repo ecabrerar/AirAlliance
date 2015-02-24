@@ -43,7 +43,7 @@ limitations under the License.
 
                 <div class="form-group">
                     <h:outputLabel value="Select Source Sector : "/>
-                    <h:selectOneListbox id="sourcelist" value="#{itinerary.itinerary.flight.source.sector}" size="1">
+                    <h:selectOneListbox id="sourcelist" value="#{itinerary.itinerary.flight.sourceSector.sector}" size="1">
                         <f:selectItems value="#{sector.sectors}" var="source" itemValue="#{source.id}" itemLabel="#{source.sector}">
                         </f:selectItems> 
 
@@ -52,7 +52,7 @@ limitations under the License.
 
                 <div class="form-group">
                     <h:outputLabel value="Select Destination Sector : "/>
-                    <h:selectOneListbox id="destlist" value="#{itinerary.itinerary.flight.dest.sector}" size="1" >
+                    <h:selectOneListbox id="destlist" value="#{itinerary.itinerary.flight.destSector.sector}" size="1" >
                         <f:selectItems value="#{sector.sectors}" var="dest" itemValue="#{dest.id}" itemLabel="#{dest.sector}">
                         </f:selectItems> 
 
@@ -70,7 +70,7 @@ limitations under the License.
                 </div>
             </h:panelGrid>
 
-            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="#{itinerary.processReservation(itinerary.itinerary)}" type="submit">
+            <h:commandButton  class="btn btn-default" value="Process Itinerary" action="#{itinerary.processReservation}" type="submit">
 
             </h:commandButton>                  
 
