@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.jaxb.data;
 
-import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is a Schedule Backing Bean. Instance of this class can store Schedule
+ *
+ * This is an Itinerary Backing Bean. Instance of this class can store flight
  * information.
  *
  * @author ecabrerar
  */
-@XmlRootElement(name = "schedule")
+@XmlRootElement(name = "itinerary")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Schedule {
+public class Itinerary {
 
     private int id;
-    private Date scheduleDate;
     @XmlElement
     private Guest guest = new Guest();
     @XmlElement
     private Flight flight = new Flight();
+    @XmlElement
+    private Schedule schedule = new Schedule();
 
     /**
      * @return the id
@@ -53,17 +54,17 @@ public class Schedule {
     }
 
     /**
-     * @return the scheduleDate
+     * @return the schedule
      */
-    public Date getScheduleDate() {
-        return scheduleDate;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     /**
-     * @param scheduleDate the scheduleDate to set
+     * @param schedule the schedule to set
      */
-    public void setScheduleDate(Date scheduleDate) {
-        this.scheduleDate = scheduleDate;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     /**

@@ -14,32 +14,30 @@
  * limitations under the License.
  */
 
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
-import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 
 /**
  *
  * @author ecabrerar
  */
-@Named(value = "flight")
-@RequestScoped
-public class FlightController {
+@Model
+public class FlightController implements Serializable{
+   
+    private Flight currentFlight;  
+    
     @Inject
-    private FlightRestClient rc;
-    private Flight currentFlight;   
-    FacesContext facesContext = FacesContext.getCurrentInstance();   
+    private FlightBean flightBean;
     
     public FlightController() {
         
     }
-
     
     /**
      * @return the currentFlight
@@ -61,10 +59,10 @@ public class FlightController {
          
         if (this.currentFlight == null) {        
             
-            flights = rc.getFlights();
+            flights = flightBean.getFlights();
         } else {
-            
-            flights = rc.getFlightById(currentFlight.getId());
+            flights = new ArrayList<>();
+            flights.add(flightBean.getFlightById(currentFlight.getId()));
         }
         
         return flights;        

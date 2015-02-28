@@ -31,19 +31,19 @@ limitations under the License.
 
         </div>
         
-        <h:dataTable id="itineraryList" class="table table-bordered" value="#{itinerary.itineraries}" var="i">
+        <h:dataTable id="itineraryList" class="table table-bordered" value="#{itineraryController.itineraries}" var="itinerary">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Guest Name"/>
                     </f:facet>                 
-                    <h:outputText value="#{i.guest.firstName} #{i.guest.lastName}"/>
+                    <h:outputText value="#{itinerary.guest.firstName} #{itinerary.guest.lastName}"/>
                 </h:column>
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
                      <h:form>
-                         <h:commandLink value="#{i.flight.name}" action="#{flight.viewFlight(i.flight)}" /> 
+                         <h:commandLink value="#{itinerary.flight.name}" action="#{flightController.viewFlight(itinerary.flight)}" /> 
                      </h:form>
                 </h:column>
                 
@@ -51,20 +51,20 @@ limitations under the License.
                     <f:facet name="header">
                         <h:outputText value="Source"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.flight.sourceSector.sector}"/>
+                     <h:outputText value="#{itinerary.flight.sourceSector.sector}"/>
                 </h:column>
                 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Destination"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.flight.destSector.sector}"/>
+                     <h:outputText value="#{itinerary.flight.destSector.sector}"/>
                 </h:column> 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Travel Date"/>
                     </f:facet>                 
-                     <h:outputText value="#{i.schedule.scheduleDate}">
+                     <h:outputText value="#{itinerary.schedule.scheduleDate}">
                          <f:convertDateTime pattern="yyyy-MM-dd"/>
                      </h:outputText>
                 </h:column>  

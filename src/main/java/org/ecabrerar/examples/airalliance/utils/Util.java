@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ecabrerar.examples.airalliance.formbean.Schedule;
+import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
 
 /**
  *

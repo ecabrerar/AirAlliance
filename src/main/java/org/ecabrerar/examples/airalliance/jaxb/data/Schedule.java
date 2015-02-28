@@ -13,39 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.jaxb.data;
 
+import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is a Flight Backing Bean. Instance of this class can store flight
+ * This is a Schedule Backing Bean. Instance of this class can store Schedule
  * information.
  *
  * @author ecabrerar
  */
-@XmlRootElement(name = "flight")
+@XmlRootElement(name = "schedule")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Flight {
+public class Schedule {
 
     private int id;
-    private String name;
+    private Date scheduleDate;
     @XmlElement
-    private Sector sourceSector = new Sector();
+    private Guest guest = new Guest();
     @XmlElement
-    private Sector destSector = new Sector();
-
-    public Flight(int id, String name, Sector source, Sector dest) {
-        this.id = id;
-        this.name = name;
-        this.sourceSector = source;
-        this.destSector = dest;
-    }
-
-    public Flight() {
-    }
+    private Flight flight = new Flight();
 
     /**
      * @return the id
@@ -62,46 +53,45 @@ public class Flight {
     }
 
     /**
-     * @return the name
+     * @return the scheduleDate
      */
-    public String getName() {
-        return name;
+    public Date getScheduleDate() {
+        return scheduleDate;
     }
 
     /**
-     * @param name the name to set
+     * @param scheduleDate the scheduleDate to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setScheduleDate(Date scheduleDate) {
+        this.scheduleDate = scheduleDate;
     }
 
     /**
-     * @return the sourceSector
+     * @return the guest
      */
-    public Sector getSourceSector() {
-        return sourceSector;
+    public Guest getGuest() {
+        return guest;
     }
 
     /**
-     * @param sourceSector the sourceSector to set
+     * @param guest the guest to set
      */
-    public void setSourceSector(Sector sourceSector) {
-        this.sourceSector = sourceSector;
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 
     /**
-     * @return the destSector
+     * @return the flight
      */
-    public Sector getDestSector() {
-        return destSector;
+    public Flight getFlight() {
+        return flight;
     }
 
     /**
-     * @param destSector the destSector to set
+     * @param flight the flight to set
      */
-    public void setDestSector(Sector destSector) {
-        this.destSector = destSector;
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
-    
 }

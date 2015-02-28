@@ -13,42 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.web;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import org.ecabrerar.examples.airalliance.jaxb.data.Itinerary;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
-import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 
-import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 
 /**
  *
  * @author ecabrerar
  */
-@Named(value = "itinerary")
-@RequestScoped
-public class ItineraryController {
-
-    @Inject
-    ItineraryRestClient rc;
-
-    @Inject
-    FlightRestClient fc;
-
-    private Itinerary itinerary;
-    private List<Itinerary> itineraries = new ArrayList<>();
-    FacesContext facesContext = FacesContext.getCurrentInstance();
+@Model
+public class ItineraryController implements Serializable{
 
     private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
+   
+    private Itinerary itinerary;
+    private List<Itinerary> itineraries;
+    
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    
+    @Inject
+    ItineraryBean itineraryBean;
+
+    @Inject
+    FlightBean flightBean;
+
 
     public ItineraryController() {
     }
@@ -76,17 +74,15 @@ public class ItineraryController {
      * @return the flights
      */
     public List<Itinerary> getItineraries() {
-        itineraries = rc.getItineraries();
-
-        return itineraries;
+        return itineraryBean.getItineraries();
     }
-
+    
     public List<Itinerary> getListItinerary() {
         return itineraries;
     }
 
     private void getItineraries(int idItinerary) {
-        itineraries = rc.getItineraries(idItinerary);
+        itineraries.add(itineraryBean.getItineraries(idItinerary));
         Logger.getLogger(ItineraryController.class.getName()).log(Level.WARNING, "Itineraries {0}", itineraries);
     }
 
@@ -114,7 +110,7 @@ public class ItineraryController {
         try {
             
             if (validate()) {
-                rc.createReservation(itin);
+                itineraryBean.createReservation(itin);
                
                 facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Your itinerary has been processed successfully.", itin.toString()));
@@ -149,9 +145,15 @@ public class ItineraryController {
      */
     private boolean validate() {
 
-        Integer availableFlights = fc.getAvailableFlights(itinerary.getFlight().getSourceSector().getId(), itinerary.getFlight().getDestSector().getId());
+        Integer availableFlights = flightBean.getAvailableFlights(itinerary.getFlight().getSourceSector().getId(), itinerary.getFlight().getDestSector().getId());
 
         return availableFlights == 0;
     }
 
+    /**
+     * @param itineraries the itineraries to set
+     */
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
+    }
 }

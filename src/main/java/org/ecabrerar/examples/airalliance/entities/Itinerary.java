@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -46,14 +47,17 @@ public class Itinerary implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-   
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    
+    @JoinColumn(name = "guest_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
     private Guest guest;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "flight_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
     private Flight flight;
    
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "schedule_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
     private Schedule schedule;
 
     public Itinerary() {

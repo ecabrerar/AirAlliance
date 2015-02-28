@@ -37,10 +37,10 @@ limitations under the License.
                 <h:inputText  id="itineraryID" p:required="required" p:type="number" p:min="0"  
                               p:title="Enter the Itinerary ID. (Example: 5)" 
                               class="form-control"  
-                              value="#{itinerary.itinerary.id}">
+                              value="#{itineraryController.itinerary.id}">
                   
                 </h:inputText>
-                <h:commandButton id="idSubmit" class="btn btn-default" value="Submit" action="#{itinerary.confirmReservation}">
+                <h:commandButton id="idSubmit" class="btn btn-default" value="Submit" action="#{itineraryController.confirmReservation}">
                 </h:commandButton>
             </div>
 
@@ -50,7 +50,7 @@ limitations under the License.
             </div>  
         </h:form>
         
-        <h:dataTable id="itinList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
+        <h:dataTable id="itinList" class="table table-bordered" rendered="#{itineraryController.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Guest Name"/>

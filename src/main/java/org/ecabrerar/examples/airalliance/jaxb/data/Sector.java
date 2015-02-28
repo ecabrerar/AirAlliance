@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.formbean;
+
+package org.ecabrerar.examples.airalliance.jaxb.data;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is a Guest helper class. Instance of this class can store Guest information.
+ * This is a Sector helper class. Instance of this class can store Sector information.
  * @author ecabrerar
  */
-@XmlRootElement(name = "guest")
+@XmlRootElement(name="sector")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Guest {
-
+public class Sector {
     private int id;
-    private String firstName;
-    private String lastName;
+    private String sector;
 
     /**
      * @return the id
@@ -46,30 +45,18 @@ public class Guest {
     }
 
     /**
-     * @return the firstName
+     * @return the sector
      */
-    public String getFirstName() {
-        return firstName;
+    public String getSector() {
+        return sector;
     }
 
     /**
-     * @param firstName the firstName to set
+     * @param sector the sector to set
      */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
-
-    /**
-     * @return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @param lastName the lastName to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    
+    
 }

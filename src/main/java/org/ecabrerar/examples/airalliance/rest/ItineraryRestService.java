@@ -90,7 +90,5 @@ public class ItineraryRestService  {
     public String countREST() {
         return String.valueOf(itineraryService.count());
     }
-
-    
-    
+  
 }

@@ -18,7 +18,6 @@ package org.ecabrerar.examples.airalliance.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,7 +61,6 @@ public class Schedule implements Serializable {
     
     @ManyToOne
     private Flight flight;    
-
 
     public Schedule() {
 

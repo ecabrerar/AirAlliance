@@ -31,12 +31,12 @@ limitations under the License.
 
         </div>
 
-        <h:dataTable id="flightSchedule" class="table table-bordered" value="#{schedule.schedules}" var="s">
+        <h:dataTable id="flightSchedule" class="table table-bordered" value="#{scheduleController.schedules}" var="schedule">
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Travel Date"/>
                 </f:facet>                 
-                <h:outputText value="#{s.scheduleDate}">
+                <h:outputText value="#{schedule.scheduleDate}">
                     <f:convertDateTime pattern="yyyy-MM-dd"/>
                 </h:outputText>
             </h:column>
@@ -45,7 +45,7 @@ limitations under the License.
                     <h:outputText value="Flight"/>
                 </f:facet>                 
                 <h:form>
-                    <h:commandLink value="#{s.flight.name}" action="#{flight.viewFlight(s.flight)}" /> 
+                    <h:commandLink value="#{schedule.flight.name}" action="#{flightController.viewFlight(schedule.flight)}" /> 
                 </h:form>
             </h:column>
 
@@ -53,14 +53,14 @@ limitations under the License.
                 <f:facet name="header">
                     <h:outputText value="Flies From"/>
                 </f:facet>                 
-                <h:outputText value="#{s.flight.sourceSector.sector}"/>
+                <h:outputText value="#{schedule.flight.sourceSector.sector}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Flies To"/>
                 </f:facet>                 
-                <h:outputText value="#{s.flight.destSector.sector}"/>
+                <h:outputText value="#{schedule.flight.destSector.sector}"/>
             </h:column>                 
         </h:dataTable>
 

@@ -34,17 +34,17 @@ limitations under the License.
             <h:panelGrid >
                 <div class="form-group">
                     <h:outputLabel value="First Name : "/>
-                    <h:inputText  id="fname" class="form-control" value="#{itinerary.itinerary.guest.firstName}"/>
+                    <h:inputText  id="fname" class="form-control" value="#{itineraryController.itinerary.guest.firstName}"/>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Last Name : "/>
-                    <h:inputText  id="lname" class="form-control" value="#{itinerary.itinerary.guest.lastName}"/>
+                    <h:inputText  id="lname" class="form-control" value="#{itineraryController.itinerary.guest.lastName}"/>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel value="Select Source Sector : "/>
-                    <h:selectOneListbox id="sourcelist" value="#{itinerary.itinerary.flight.sourceSector.sector}" size="1">
-                        <f:selectItems value="#{sector.sectors}" var="source" itemValue="#{source.id}" itemLabel="#{source.sector}">
+                    <h:selectOneListbox id="sourcelist" value="#{itineraryController.itinerary.flight.sourceSector.sector}" size="1">
+                        <f:selectItems value="#{sectorController.sectors}" var="source" itemValue="#{source.id}" itemLabel="#{source.sector}">
                         </f:selectItems> 
 
                     </h:selectOneListbox>
@@ -52,15 +52,15 @@ limitations under the License.
 
                 <div class="form-group">
                     <h:outputLabel value="Select Destination Sector : "/>
-                    <h:selectOneListbox id="destlist" value="#{itinerary.itinerary.flight.destSector.sector}" size="1" >
-                        <f:selectItems value="#{sector.sectors}" var="dest" itemValue="#{dest.id}" itemLabel="#{dest.sector}">
+                    <h:selectOneListbox id="destlist" value="#{itineraryController.itinerary.flight.destSector.sector}" size="1" >
+                        <f:selectItems value="#{sectorController.sectors}" var="dest" itemValue="#{dest.id}" itemLabel="#{dest.sector}">
                         </f:selectItems> 
 
                     </h:selectOneListbox>
                 </div>
                 <div class="form-group">
                     <h:outputLabel value="Start Date: "/>
-                    <h:inputText id="sdate"  class="form-control" p:date="date"  value="#{itinerary.itinerary.schedule.scheduleDate}">
+                    <h:inputText id="sdate"  class="form-control" p:date="date"  value="#{itineraryController.itinerary.schedule.scheduleDate}">
                      <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:inputText>
                 </div>

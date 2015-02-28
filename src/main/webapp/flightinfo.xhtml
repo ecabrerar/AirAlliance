@@ -29,32 +29,32 @@ limitations under the License.
                 You can find out the sectors we support through our broad range of comfortable aircrafts.
             </p>
         </div>
-        <h:dataTable id="flightlist" class="table table-bordered" value="#{flight.retrieveFlights()}" var="f">
+        <h:dataTable id="flightlist" class="table table-bordered" value="#{flightController.retrieveFlights()}" var="flight">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flight ID"/>
                     </f:facet>                 
-                    <h:outputText value="#{f.id}"/>
+                    <h:outputText value="#{flight.id}"/>
                 </h:column>
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flight"/>
                     </f:facet>                 
-                     <h:outputText value="#{f.name}"/>
+                     <h:outputText value="#{flight.name}"/>
                 </h:column>
                 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flies From"/>
                     </f:facet>                 
-                     <h:outputText value="#{f.sourceSector.sector}"/>
+                     <h:outputText value="#{flight.sourceSector.sector}"/>
                 </h:column>
                 
                  <h:column>
                     <f:facet name="header">
                         <h:outputText value="Flies To"/>
                     </f:facet>                 
-                     <h:outputText value="#{f.destSector.sector}"/>
+                     <h:outputText value="#{flight.destSector.sector}"/>
                 </h:column>                 
             </h:dataTable>
         
