@@ -3,6 +3,9 @@
  
   <persistence-unit name="AirAlliancePU" transaction-type="JTA">
     <jta-data-source>jdbc/AirAlliance</jta-data-source>
-    <properties/>
+   <properties>
+        <property name="eclipselink.logging.level" value="FINE"/>
+        <property name="eclipselink.logging.level.sql" value="FINE"/>
+    </properties>
   </persistence-unit>
 </persistence>

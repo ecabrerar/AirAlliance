@@ -39,7 +39,7 @@ public class ItineraryController implements Serializable{
     private Itinerary itinerary;
     private List<Itinerary> itineraries;
     
-    FacesContext facesContext = FacesContext.getCurrentInstance();
+    FacesContext facesContext    = FacesContext.getCurrentInstance();
     
     @Inject
     ItineraryBean itineraryBean;

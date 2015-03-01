@@ -21,6 +21,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -62,9 +64,14 @@ public abstract class BaseEntityService<T> {
     }
 
     public List<T> findAll() {
-        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
-        cq.select(cq.from(entityClass));
-        return entityManager.createQuery(cq).getResultList();
+         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+           Root<T> root = criteriaQuery.from(entityClass);
+           criteriaQuery.select(root);
+           
+          TypedQuery<T> query = entityManager.createQuery(criteriaQuery);
+        
+        return query.getResultList();
     }
 
     public List<T> findRange(int[] range) {

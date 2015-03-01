@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -56,10 +57,12 @@ public class Schedule implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date scheduleDate;
     
-    @ManyToOne
+    @JoinColumn(name = "guest_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
     private Guest guest;
     
-    @ManyToOne
+    @JoinColumn(name = "flight_id",referencedColumnName = "id")
+    @ManyToOne(optional = false)
     private Flight flight;    
 
     public Schedule() {

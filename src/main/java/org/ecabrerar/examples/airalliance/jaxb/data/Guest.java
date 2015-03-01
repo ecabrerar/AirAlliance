@@ -17,10 +17,13 @@ package org.ecabrerar.examples.airalliance.jaxb.data;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is a Guest helper class. Instance of this class can store guest information.
+ * This is a Guest helper class. Instance of this class can store guest
+ * information.
+ *
  * @author ecabrerar
  */
 @XmlRootElement(name = "guest")
@@ -28,7 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Guest {
 
     private int id;
+    
+    @XmlElement(name = "firstname")
     private String firstName;
+
+    @XmlElement(name = "lastname")
     private String lastName;
 
     /**
