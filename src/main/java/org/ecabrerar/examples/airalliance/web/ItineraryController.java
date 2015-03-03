@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import org.ecabrerar.examples.airalliance.jaxb.data.Itinerary;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,14 +40,13 @@ public class ItineraryController implements Serializable{
     private Itinerary itinerary;
     private List<Itinerary> itineraries;
     
-    FacesContext facesContext    = FacesContext.getCurrentInstance();
+    FacesContext facesContext  = FacesContext.getCurrentInstance();
     
     @Inject
     ItineraryBean itineraryBean;
 
     @Inject
     FlightBean flightBean;
-
 
     public ItineraryController() {
     }
@@ -81,18 +81,11 @@ public class ItineraryController implements Serializable{
         return itineraries;
     }
 
-    private void getItineraries(int idItinerary) {
-        itineraries.add(itineraryBean.getItineraries(idItinerary));
-        Logger.getLogger(ItineraryController.class.getName()).log(Level.WARNING, "Itineraries {0}", itineraries);
-    }
-
     public void confirmReservation() {
 
-        if (this.itinerary.getId() > 0) {
-
-            int id = this.itinerary.getId();
-            getItineraries(id);
-
+        if (itinerary.getId() > 0) {                
+            itineraries = new ArrayList<>();
+            itineraries.add(itineraryBean.getItineraries(itinerary.getId()));
         } 
     }
 
@@ -100,12 +93,13 @@ public class ItineraryController implements Serializable{
      * This method accepts the itinerary information from the guests and updates
      * the DB.
      *
-     * @param itin
      * @return
      */
-    public String processReservation(Itinerary itin) {
+    public String processReservation() {
 
         String status = "message";
+        
+        final Itinerary itin = itinerary;
 
         try {
             
