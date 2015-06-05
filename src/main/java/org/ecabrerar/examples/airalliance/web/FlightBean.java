@@ -19,10 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -35,36 +34,33 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
 @Stateless
 public class FlightBean {
 
-    private  Client client;
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/flights";
+    private  WebTarget webTarget;
+    private final String baseUri = "bhttp://localhost:8080/AirAlliance/webapi";
 
     public FlightBean() {        
     }
         
     @PostConstruct
     private void init() {       
-        client = ClientBuilder.newClient();
+        webTarget  = ClientBuilder.newClient().target(baseUri);
     }
 
     public List<Flight> getFlights() {
 
-       List<Flight> flights = client.target(baseUri)
-                        .request(MediaType.APPLICATION_JSON)
-                        .get(new GenericType<List<Flight>>(){});
-
-       
-
-        return flights;
+     return webTarget.path("flights")
+                     .request(MediaType.APPLICATION_JSON)
+                     .get(new GenericType<List<Flight>>(){});
+         
     }
     
    public Flight getFlightById(int flightId){
-         Flight flight = client.target(baseUri)
-                        .path("{id}")
+         return webTarget
+                        .path("flights/{id}")
                         .resolveTemplate("id", String.valueOf(flightId))
                         .request(MediaType.APPLICATION_JSON)
                         .get(new GenericType<Flight>(){});
     
-        return flight;
+        
      }
    
      public int getAvailableFlights(Integer source, Integer dest){
@@ -73,7 +69,8 @@ public class FlightBean {
          templateValues.put("source", String.valueOf(source));
          templateValues.put("dest", String.valueOf(dest));
          
-         String availableFlights = client.target(baseUri)
+         String availableFlights = webTarget
+                        .path("flights")
                         .path("{source}")
                         .path("{dest}")
                         .resolveTemplates(templateValues)                        
@@ -82,12 +79,6 @@ public class FlightBean {
          
        return Integer.parseInt(availableFlights);
 
-     }    
-     
-
-    @PreDestroy
-    public void close() {
-        client.close();
-    }
+     }   
 
 }

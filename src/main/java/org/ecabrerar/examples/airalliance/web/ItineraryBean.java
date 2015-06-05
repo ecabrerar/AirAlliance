@@ -17,11 +17,10 @@ package org.ecabrerar.examples.airalliance.web;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -34,45 +33,42 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Itinerary;
 @Stateless
 public class ItineraryBean {
 
-    private Client client;
+    private  WebTarget webTarget;
 
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/itineraries";
+    private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
 
     public ItineraryBean() {
     }
 
     @PostConstruct
     private void init() {
-        client = ClientBuilder.newClient();
+        webTarget = ClientBuilder.newClient().target(baseUri);
     }
     
     public void createReservation(Itinerary itinerary){
-         client.target(baseUri)
+         webTarget
+                 .path("itineraries")
                  .request()
                  .post(Entity.entity(itinerary,MediaType.APPLICATION_JSON));
      }
     
 
     public Itinerary getItineraries(int idItinerary) {
-         Itinerary itinerary = client.target(baseUri)
-                .path("{id}")
-                .resolveTemplate("id", String.valueOf(idItinerary))
-                .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<Itinerary>(){});
+         return  webTarget
+                 .path("itineraries/{id}")                
+                 .resolveTemplate("id", String.valueOf(idItinerary))
+                 .request(MediaType.APPLICATION_JSON)
+                 .get(new GenericType<Itinerary>(){});
 
-        return itinerary;
+       
     }
 
     public List<Itinerary> getItineraries() {
-         List<Itinerary> itineraries = client.target(baseUri)
+         return webTarget
+                .path("itineraries")
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Itinerary>>(){});
         
-        return itineraries;
-    }  
-
-    @PreDestroy
-    public void close() {
-        client.close();
-    }
+       
+    }     
 }

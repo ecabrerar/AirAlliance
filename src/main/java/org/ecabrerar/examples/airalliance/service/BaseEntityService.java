@@ -47,8 +47,9 @@ public abstract class BaseEntityService<T> {
         return entityManager;
     }
 
-    public void create(T entity) {
+    public T create(T entity) {
         getEntityManager().persist(entity);
+        return entity;
     }
 
     public void edit(T entity) {

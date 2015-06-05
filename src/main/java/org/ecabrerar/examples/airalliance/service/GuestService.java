@@ -17,6 +17,7 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Guest;
 
 /**
@@ -30,4 +31,14 @@ public class GuestService extends BaseEntityService<Guest>{
         super(Guest.class);
     }
     
+    public Guest findGuest(@NotNull String firstName, @NotNull String lastName){
+        
+      return  getEntityManager()
+              .createQuery(" SELECT g FROM Guest g WHERE g.firstname=:firstName AND g.lastname=:lastName", Guest.class)
+              .setParameter("firstName", firstName)
+              .setParameter("lastName", lastName)
+              .getSingleResult();
+                   
+        
+    }
 }

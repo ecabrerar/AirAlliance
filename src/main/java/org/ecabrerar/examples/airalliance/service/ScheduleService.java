@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.service;
 
+import java.util.Date;
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 
 /**
@@ -29,5 +30,14 @@ public class ScheduleService extends BaseEntityService<Schedule> {
     public ScheduleService() {
         super(Schedule.class);
     }
-    
+
+    public Schedule findScheduleByDate(@NotNull Date scheduleDate) {
+
+        return  getEntityManager()
+                .createQuery("SELECT s FROM Schedule s WHERE s.scheduleDate=:scheduleDate", Schedule.class)
+                .setParameter("scheduleDate", scheduleDate)
+                .getSingleResult();
+       
+    }
+
 }

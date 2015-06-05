@@ -18,6 +18,7 @@ package org.ecabrerar.examples.airalliance.service;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
 
@@ -42,15 +43,15 @@ public class FlightService extends BaseEntityService<Flight> {
      * @param destSectorId
      * @return
     */
-    public List<Flight> getAvailableFlights(int sourceSectorId, int destSectorId){
+    public List<Flight> getAvailableFlights(@NotNull int sourceSectorId, @NotNull int destSectorId){
 
-    	List<Flight> listFlights = getEntityManager()
+    	return getEntityManager()
     			.createQuery("select f from Flight f where f.sourceSector.id=:sourceSectorId  AND f.destSector.id=:destSectorId", Flight.class)
     			.setParameter("sourceSectorId", sourceSectorId)
     			.setParameter("destSectorId", destSectorId)
     			.getResultList();
 
-        return listFlights;
+       
 
     }
 

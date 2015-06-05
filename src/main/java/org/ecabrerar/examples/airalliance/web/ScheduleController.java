@@ -24,6 +24,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -36,19 +37,14 @@ import javax.ws.rs.core.MediaType;
 public class ScheduleController  implements Serializable{
     
     private static final long serialVersionUID = -3240069895629955984L;
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/schedules";
+    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/schedules";    
     
-    private Client client;
     private Schedule schedule;   
     private List<Schedule> schedules;
 
     public ScheduleController() {
     }
-
-    @PostConstruct
-    private void init() {
-        client = ClientBuilder.newClient();
-    }
+   
 
     /**
      * @return the schedule
@@ -68,12 +64,15 @@ public class ScheduleController  implements Serializable{
      * @return the schedules
      */
     public List<Schedule> getSchedules() {
-        List<Schedule> returnedSchedules = client.target(baseUri)
+        
+         Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(baseUri);
+        
+        return webTarget
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Schedule>>() {
-                 });
+                .get(new GenericType<List<Schedule>>() {});
 
-        return returnedSchedules;
+        
 
     }
     
@@ -84,11 +83,6 @@ public class ScheduleController  implements Serializable{
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
     }
-    
-
-    @PreDestroy
-    public void close() {
-        client.close();
-    }
+   
 
 }

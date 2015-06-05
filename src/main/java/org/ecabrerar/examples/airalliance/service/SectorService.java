@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.service;
 
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 
 /**
@@ -29,5 +29,13 @@ public class SectorService extends BaseEntityService<Sector> {
     public SectorService() {
         super(Sector.class);
     }
-    
+
+    public Sector findSector(@NotNull String sector) {
+
+       return getEntityManager()
+               .createQuery("SELECT s FROM Sector s WHERE s.sector=:sector", Sector.class)
+               .setParameter("sector", sector)
+               .getSingleResult();
+        
+    }
 }

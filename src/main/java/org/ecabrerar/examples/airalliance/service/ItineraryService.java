@@ -13,48 +13,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.service;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
+import org.ecabrerar.examples.airalliance.entities.Guest;
 import org.ecabrerar.examples.airalliance.entities.Itinerary;
+import org.ecabrerar.examples.airalliance.entities.Schedule;
 
 /**
  *
  * @author ecabrerar
  */
 @Stateless
-public class ItineraryService extends BaseEntityService<Itinerary>{
+public class ItineraryService extends BaseEntityService<Itinerary> {
 
-    @PersistenceContext(unitName = "AirAlliancePU")
-    private EntityManager entityManager;
-    
+    @Inject
+    GuestService guestService;
+
+    @Inject
+    SectorService sectorService;
+
+    @Inject
+    ScheduleService scheduleService;
+
     public ItineraryService() {
         super(Itinerary.class);
     }
 
     @Override
-    public void create(Itinerary itinerary) {
-        
+    public Itinerary create(@NotNull Itinerary itinerary) {
 
-        
-        if(itinerary.getGuest() !=null && itinerary.getGuest().getId() == null){
-            entityManager.persist(itinerary.getGuest());
+        if (itinerary.getGuest() != null && itinerary.getGuest().getId() == 0) {
+
+            Guest guest = guestService.findGuest(itinerary.getGuest().getFirstname(), itinerary.getGuest().getLastname());
+
+            if (guest == null) {
+                getEntityManager().persist(itinerary.getGuest());
+                guest = itinerary.getGuest();
+            }
+
+            itinerary.setGuest(guest);
         }
-        
-        if(itinerary.getFlight()!=null && itinerary.getFlight().getId()==null){
-            entityManager.persist(itinerary.getFlight());
+
+        if (itinerary.getFlight() != null && itinerary.getFlight().getId() == 0) {
+
+            getEntityManager().persist(itinerary.getFlight());
         }
-        
-        if(itinerary.getScheduleId()!=null && itinerary.getScheduleId().getId()==null){
-            entityManager.persist(itinerary.getScheduleId());            
+
+        if (itinerary.getScheduleId() != null && itinerary.getScheduleId().getId() == 0) {
+
+            Schedule schedule = scheduleService.findScheduleByDate(itinerary.getScheduleId().getScheduleDate());
+
+            if (schedule == null) {
+                getEntityManager().persist(itinerary.getScheduleId());
+                schedule = itinerary.getScheduleId();
+            }
+
+            itinerary.setScheduleId(schedule);
+
         }
-        
-        entityManager.persist(itinerary);
+
+        getEntityManager().persist(itinerary);
+
+        return itinerary;
     }
-    
-    
-    
 }

@@ -111,14 +111,10 @@ public class ItineraryController implements Serializable{
 
             } else {
 
-                StringBuilder strMessage = new StringBuilder(45)
-                        .append(" Itinerary Rejected !.")
-                        .append(" Your itinerary has been rejected.")
-                        .append(" There is a similiar itinerary present in our records with the same guest name, flight details and travel date..");
+                String strMessage = " Itinerary Rejected !. Your itinerary has been rejected. There is a similiar itinerary present in our records with the same guest name, flight details and travel date..";
 
                  
-                facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        strMessage.toString(), null));
+                facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_WARN, strMessage, null));
 
             }
         } catch (Exception ex) {

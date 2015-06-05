@@ -24,6 +24,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -35,8 +36,7 @@ import javax.ws.rs.core.MediaType;
 @SessionScoped
 public class SectorController implements Serializable{
 
-    private Client client;
-
+   
     private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
 
     private Sector sector;   
@@ -45,11 +45,7 @@ public class SectorController implements Serializable{
     public SectorController() {
     }
 
-    @PostConstruct
-    private void init() {
-        client = ClientBuilder.newClient();
-    }
-
+   
     /**
      * @return the sector
      */
@@ -68,14 +64,16 @@ public class SectorController implements Serializable{
      * @return the sectors
      */
     public List<Sector> getSectors() {
+        
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(baseUri);
+        
+        return webTarget
+                        .path("sectors")
+                        .request(MediaType.APPLICATION_JSON)
+                        .get(new GenericType<List<Sector>>() {});
 
-        List<Sector> returnedSectors = client.target(baseUri)
-                                .path("/sectors")
-                                .request(MediaType.APPLICATION_JSON)
-                                .get(new GenericType<List<Sector>>() {
-                                      });
-
-        return returnedSectors;
+       
     }
     
     
@@ -85,11 +83,6 @@ public class SectorController implements Serializable{
     public void setSectors(List<Sector> sectors) {
         this.sectors = sectors;
     }
-
-    @PreDestroy
-    public void close() {
-        client.close();
-    }
-
+   
 
 }
