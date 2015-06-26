@@ -15,6 +15,7 @@
  */
 package org.ecabrerar.examples.airalliance.service;
 
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -47,11 +48,16 @@ public class ItineraryService extends BaseEntityService<Itinerary> {
 
         if (itinerary.getGuest() != null && itinerary.getGuest().getId() == 0) {
 
-            Guest guest = guestService.findGuest(itinerary.getGuest().getFirstname(), itinerary.getGuest().getLastname());
+            Optional<Guest> guestOptional = guestService.findGuest(itinerary.getGuest().getFirstname(), itinerary.getGuest().getLastname());
 
-            if (guest == null) {
+            Guest guest;
+            
+            if (!guestOptional.isPresent()) {
                 getEntityManager().persist(itinerary.getGuest());
                 guest = itinerary.getGuest();
+                
+            }else {
+              guest = guestOptional.get();
             }
 
             itinerary.setGuest(guest);
@@ -64,11 +70,14 @@ public class ItineraryService extends BaseEntityService<Itinerary> {
 
         if (itinerary.getScheduleId() != null && itinerary.getScheduleId().getId() == 0) {
 
-            Schedule schedule = scheduleService.findScheduleByDate(itinerary.getScheduleId().getScheduleDate());
-
-            if (schedule == null) {
+            Optional<Schedule> scheduleOptional = scheduleService.findScheduleByDate(itinerary.getScheduleId().getScheduleDate());
+            Schedule schedule;
+                    
+            if (!scheduleOptional.isPresent()) {
                 getEntityManager().persist(itinerary.getScheduleId());
                 schedule = itinerary.getScheduleId();
+            }else {
+                schedule = scheduleOptional.get();
             }
 
             itinerary.setScheduleId(schedule);

@@ -15,6 +15,7 @@
  */
 package org.ecabrerar.examples.airalliance.service;
 
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Sector;
@@ -30,12 +31,14 @@ public class SectorService extends BaseEntityService<Sector> {
         super(Sector.class);
     }
 
-    public Sector findSector(@NotNull String sector) {
+    public Optional<Sector> findSector(@NotNull String sector) {
 
        return getEntityManager()
                .createQuery("SELECT s FROM Sector s WHERE s.sector=:sector", Sector.class)
                .setParameter("sector", sector)
-               .getSingleResult();
+               .getResultList()
+               .stream()
+               .findFirst();
         
     }
 }

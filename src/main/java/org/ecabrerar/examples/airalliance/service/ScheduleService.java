@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import java.util.Date;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
@@ -31,12 +32,14 @@ public class ScheduleService extends BaseEntityService<Schedule> {
         super(Schedule.class);
     }
 
-    public Schedule findScheduleByDate(@NotNull Date scheduleDate) {
+    public Optional<Schedule> findScheduleByDate(@NotNull Date scheduleDate) {
 
         return  getEntityManager()
                 .createQuery("SELECT s FROM Schedule s WHERE s.scheduleDate=:scheduleDate", Schedule.class)
                 .setParameter("scheduleDate", scheduleDate)
-                .getSingleResult();
+                .getResultList()
+                .stream()
+                .findFirst();
        
     }
 
