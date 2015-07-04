@@ -16,13 +16,7 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -38,25 +32,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "itinerary")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Itinerary implements Serializable {
+public class Itinerary extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    
-    @JoinColumn(name = "guest_id",referencedColumnName = "id")
+    @JoinColumn(name = "guest_id")
     @ManyToOne(optional = false)
     private Guest guest;
-    
-    @JoinColumn(name = "flight_id",referencedColumnName = "id")
+
+    @JoinColumn(name = "flight_id")
     @ManyToOne(optional = false)
     private Flight flight;
-   
-    @JoinColumn(name = "schedule_id",referencedColumnName = "id")
+
+    @JoinColumn(name = "schedule_id")
     @ManyToOne(optional = false)
     private Schedule schedule;
 
@@ -64,23 +52,16 @@ public class Itinerary implements Serializable {
     }
 
     public Itinerary(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public Itinerary(Integer id, Guest guest, Flight flight, Schedule schedule) {
-        this.id = id;
+       super.setId(id);
         this.guest = guest;
         this.flight = flight;
         this.schedule = schedule;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Guest getGuest() {
         return guest;
@@ -109,7 +90,7 @@ public class Itinerary implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -123,12 +104,12 @@ public class Itinerary implements Serializable {
         }
 
         Itinerary other = (Itinerary) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        return (this.getId() != null || other.getId() == null) && (this.getId() == null || this.getId().equals(other.getId()));
     }
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return String.valueOf(getId());
     }
 
 }

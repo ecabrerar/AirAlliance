@@ -19,9 +19,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,21 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sector")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Sector implements Serializable {
+public class Sector extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "sector")
-    private String sector;   
+    private String sector;
 
 
     public Sector() {
@@ -59,21 +50,14 @@ public class Sector implements Serializable {
     }
 
     public Sector(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public Sector(Integer id, String sector) {
-        this.id = id;
+        super.setId(id);
         this.sector = sector;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getSector() {
         return sector;
@@ -86,7 +70,7 @@ public class Sector implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -101,11 +85,11 @@ public class Sector implements Serializable {
         }
 
         Sector other = (Sector) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        return (this.getId() != null || other.getId() == null) && (this.getId() == null || this.getId().equals(other.getId()));
     }
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return String.valueOf(getId());
     }
 }

@@ -19,9 +19,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,93 +34,74 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "guest")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Guest implements Serializable {
+public class Guest extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "firstname")
-    private String firstname;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "lastname")
-    private String lastname;
-    
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 20)
+	@Column(name = "firstname")
+	private String firstname;
 
-    public Guest() {
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 20)
+	@Column(name = "lastname")
+	private String lastname;
 
-    }
+	public Guest() {
 
-    public Guest(Integer id) {
-        this.id = id;
-    }
+	}
 
-    public Guest(Integer id, String firstname, String lastname) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+	public Guest(Integer id, String firstname, String lastname) {
+		super.setId(id);
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public String getLastname() {
+		return lastname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	@Override
+	public String toString() {
+		return String.valueOf(getId());
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (getId() != null ? getId().hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public String toString() {
-        return String.valueOf(id);
-    }
+	@Override
+	public boolean equals(Object object) {
 
+		if (this == object) {
+			return true;
+		}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
-    @Override
-    public boolean equals(Object object) {
+		Guest other = (Guest) object;
 
-        if (this == object) {
-            return true;
-        }
-        
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-
-        Guest other = (Guest) object;
-
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
-    }
+		return (this.getId() != null || other.getId() == null)
+				&& (this.getId() == null || this.getId().equals(other.getId()));
+	}
 }
