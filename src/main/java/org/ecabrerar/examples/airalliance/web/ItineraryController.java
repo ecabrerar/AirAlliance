@@ -35,13 +35,15 @@ import javax.inject.Inject;
 @Model
 public class ItineraryController implements Serializable{
 
-    private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
-   
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
+
     private Itinerary itinerary;
     private List<Itinerary> itineraries;
-    
+
     FacesContext facesContext  = FacesContext.getCurrentInstance();
-    
+
     @Inject
     ItineraryBean itineraryBean;
 
@@ -76,17 +78,17 @@ public class ItineraryController implements Serializable{
     public List<Itinerary> getItineraries() {
         return itineraryBean.getItineraries();
     }
-    
+
     public List<Itinerary> getListItinerary() {
         return itineraries;
     }
 
     public void confirmReservation() {
 
-        if (itinerary.getId() > 0) {                
+        if (itinerary.getId() > 0) {
             itineraries = new ArrayList<>();
             itineraries.add(itineraryBean.getItineraries(itinerary.getId()));
-        } 
+        }
     }
 
     /**
@@ -98,14 +100,14 @@ public class ItineraryController implements Serializable{
     public String processReservation() {
 
         String status = "message";
-        
+
         final Itinerary itin = itinerary;
 
         try {
-            
+
             if (validate()) {
                 itineraryBean.createReservation(itin);
-               
+
                 facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Your itinerary has been processed successfully.", itin.toString()));
 
@@ -113,7 +115,7 @@ public class ItineraryController implements Serializable{
 
                 String strMessage = " Itinerary Rejected !. Your itinerary has been rejected. There is a similiar itinerary present in our records with the same guest name, flight details and travel date..";
 
-                 
+
                 facesContext.addMessage(status, new FacesMessage(FacesMessage.SEVERITY_WARN, strMessage, null));
 
             }

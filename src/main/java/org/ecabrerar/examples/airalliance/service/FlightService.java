@@ -18,6 +18,8 @@ package org.ecabrerar.examples.airalliance.service;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
@@ -27,11 +29,16 @@ import org.ecabrerar.examples.airalliance.entities.Flight;
  * @author ecabrerar
  */
 @Stateless
-public class FlightService extends BaseEntityService<Flight> {
+public class FlightService extends BaseEntityService {
 
-    public FlightService() {
-        super(Flight.class);
-    }
+    @Inject
+    private EntityManager entityManager;
+    
+    @Override
+    protected EntityManager getEntityManager() {
+       return entityManager;
+    }   
+ 
 
     /**
      * This method accepts two sectors and returns all the available flights between
@@ -45,7 +52,7 @@ public class FlightService extends BaseEntityService<Flight> {
     */
     public List<Flight> getAvailableFlights(@NotNull int sourceSectorId, @NotNull int destSectorId){
 
-    	return getEntityManager()
+    	return entityManager
     			.createQuery("select f from Flight f where f.sourceSector.id=:sourceSectorId  AND f.destSector.id=:destSectorId", Flight.class)
     			.setParameter("sourceSectorId", sourceSectorId)
     			.setParameter("destSectorId", destSectorId)
@@ -54,5 +61,6 @@ public class FlightService extends BaseEntityService<Flight> {
        
 
     }
+
 
 }

@@ -59,34 +59,34 @@ public class SectorRestService {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        sectorService.remove(sectorService.find(id));
+        sectorService.remove(sectorService.find(Sector.class, id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Sector find(@PathParam("id") Integer id) {
-        return sectorService.find(id);
+        return sectorService.find(Sector.class, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Sector> findAll() {
-        return sectorService.findAll();
+        return sectorService.findAll(Sector.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Sector> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return sectorService.findRange(new int[]{from, to});
+        return sectorService.findRange(Sector.class, new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(sectorService.count());
+        return String.valueOf(sectorService.count(Sector.class));
     }
 
 }

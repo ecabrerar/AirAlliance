@@ -48,7 +48,7 @@ public class ItineraryRestService  {
     @POST   
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Itinerary entity) {
-        itineraryService.create(entity);
+        itineraryService.createItinerary(entity);
     }
 
     @PUT
@@ -61,34 +61,34 @@ public class ItineraryRestService  {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        itineraryService.remove(itineraryService.find(id));
+        itineraryService.remove(itineraryService.find(Itinerary.class, id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Itinerary find(@PathParam("id") Integer id) {
-        return itineraryService.find(id);
+        return itineraryService.find(Itinerary.class, id);
     }
 
     @GET   
     @Produces({MediaType.APPLICATION_JSON})
     public List<Itinerary> findAll() {
-        return itineraryService.findAll();
+        return itineraryService.findAll(Itinerary.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Itinerary> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return itineraryService.findRange(new int[]{from, to});
+        return itineraryService.findRange(Itinerary.class, new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(itineraryService.count());
+        return String.valueOf(itineraryService.count(Itinerary.class));
     }
   
 }

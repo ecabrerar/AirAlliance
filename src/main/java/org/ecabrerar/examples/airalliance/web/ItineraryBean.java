@@ -44,23 +44,22 @@ public class ItineraryBean {
     private void init() {
         webTarget = ClientBuilder.newClient().target(baseUri);
     }
-    
+
     public void createReservation(Itinerary itinerary){
          webTarget
                  .path("itineraries")
                  .request()
                  .post(Entity.entity(itinerary,MediaType.APPLICATION_JSON));
      }
-    
+
 
     public Itinerary getItineraries(int idItinerary) {
          return  webTarget
-                 .path("itineraries/{id}")                
+                 .path("itineraries/{id}")
                  .resolveTemplate("id", String.valueOf(idItinerary))
                  .request(MediaType.APPLICATION_JSON)
                  .get(new GenericType<Itinerary>(){});
 
-       
     }
 
     public List<Itinerary> getItineraries() {
@@ -68,7 +67,6 @@ public class ItineraryBean {
                 .path("itineraries")
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Itinerary>>(){});
-        
-       
-    }     
+
+    }
 }

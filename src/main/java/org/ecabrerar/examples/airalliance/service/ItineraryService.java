@@ -18,6 +18,7 @@ package org.ecabrerar.examples.airalliance.service;
 import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Guest;
 import org.ecabrerar.examples.airalliance.entities.Itinerary;
@@ -28,7 +29,11 @@ import org.ecabrerar.examples.airalliance.entities.Schedule;
  * @author ecabrerar
  */
 @Stateless
-public class ItineraryService extends BaseEntityService<Itinerary> {
+public class ItineraryService extends BaseEntityService {
+
+    @Inject
+    private EntityManager entityManager;
+
 
     @Inject
     GuestService guestService;
@@ -39,25 +44,26 @@ public class ItineraryService extends BaseEntityService<Itinerary> {
     @Inject
     ScheduleService scheduleService;
 
-    public ItineraryService() {
-        super(Itinerary.class);
-    }
 
     @Override
-    public Itinerary create(@NotNull Itinerary itinerary) {
+    protected EntityManager getEntityManager() {
+       return entityManager;
+    }
+
+
+    public Itinerary createItinerary(@NotNull Itinerary itinerary) {
 
         if (itinerary.getGuest() != null && itinerary.getGuest().getId() == 0) {
 
             Optional<Guest> guestOptional = guestService.findGuest(itinerary.getGuest().getFirstname(), itinerary.getGuest().getLastname());
 
             Guest guest;
-            
-            if (!guestOptional.isPresent()) {
-                getEntityManager().persist(itinerary.getGuest());
-                guest = itinerary.getGuest();
-                
+
+            if (guestOptional.isPresent()) {
+                guest = guestOptional.get();
             }else {
-              guest = guestOptional.get();
+            	getEntityManager().persist(itinerary.getGuest());
+            	guest = itinerary.getGuest();
             }
 
             itinerary.setGuest(guest);
@@ -72,19 +78,19 @@ public class ItineraryService extends BaseEntityService<Itinerary> {
 
             Optional<Schedule> scheduleOptional = scheduleService.findScheduleByDate(itinerary.getScheduleId().getScheduleDate());
             Schedule schedule;
-                    
-            if (!scheduleOptional.isPresent()) {
-                getEntityManager().persist(itinerary.getScheduleId());
-                schedule = itinerary.getScheduleId();
-            }else {
+
+            if (scheduleOptional.isPresent()) {
                 schedule = scheduleOptional.get();
+            }else {
+            	getEntityManager().persist(itinerary.getScheduleId());
+            	schedule = itinerary.getScheduleId();
             }
 
             itinerary.setScheduleId(schedule);
 
         }
 
-        getEntityManager().persist(itinerary);
+        entityManager.persist(itinerary);
 
         return itinerary;
     }

@@ -35,16 +35,16 @@ import javax.ws.rs.core.MediaType;
 @Named
 @SessionScoped
 public class ScheduleController  implements Serializable{
-    
+
     private static final long serialVersionUID = -3240069895629955984L;
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/schedules";    
-    
-    private Schedule schedule;   
+    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/schedules";
+
+    private Schedule schedule;
     private List<Schedule> schedules;
 
     public ScheduleController() {
     }
-   
+
 
     /**
      * @return the schedule
@@ -64,18 +64,16 @@ public class ScheduleController  implements Serializable{
      * @return the schedules
      */
     public List<Schedule> getSchedules() {
-        
+
          Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(baseUri);
-        
+
         return webTarget
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<List<Schedule>>() {});
 
-        
+   }
 
-    }
-    
 
     /**
      * @param schedules the schedules to set
@@ -83,6 +81,6 @@ public class ScheduleController  implements Serializable{
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
     }
-   
+
 
 }

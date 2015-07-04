@@ -29,16 +29,18 @@ import javax.inject.Inject;
  */
 @Model
 public class FlightController implements Serializable{
-   
-    private Flight currentFlight;  
-    
+
+    private static final long serialVersionUID = 1L;
+
+	private Flight currentFlight;
+
     @Inject
     private FlightBean flightBean;
-    
+
     public FlightController() {
-        
+
     }
-    
+
     /**
      * @return the currentFlight
      */
@@ -51,26 +53,26 @@ public class FlightController implements Serializable{
      */
     public void setCurrentFlight(Flight currentFlight) {
         this.currentFlight = currentFlight;
-         
+
     }
-    
-     public List<Flight> retrieveFlights() {      
+
+     public List<Flight> retrieveFlights() {
         List<Flight> flights;
-         
-        if (this.currentFlight == null) {        
-            
+
+        if (this.currentFlight == null) {
+
             flights = flightBean.getFlights();
         } else {
             flights = new ArrayList<>();
             flights.add(flightBean.getFlightById(currentFlight.getId()));
         }
-        
-        return flights;        
+
+        return flights;
     }
 
     public String viewFlight(Flight flight){
         this.setCurrentFlight(flight);
-        
+
         return "flightinfo";
     }
 }

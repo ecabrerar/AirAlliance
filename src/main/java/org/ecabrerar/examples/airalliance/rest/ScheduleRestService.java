@@ -58,34 +58,34 @@ public class ScheduleRestService {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        scheduleService.remove(scheduleService.find(id));
+        scheduleService.remove(scheduleService.find(Schedule.class, id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Schedule find(@PathParam("id") Integer id) {
-        return scheduleService.find(id);
+        return scheduleService.find(Schedule.class, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Schedule> findAll() {
-        return scheduleService.findAll();
+        return scheduleService.findAll(Schedule.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Schedule> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return scheduleService.findRange(new int[]{from, to});
+        return scheduleService.findRange(Schedule.class, new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(scheduleService.count());
+        return String.valueOf(scheduleService.count(Schedule.class));
     }
 
   

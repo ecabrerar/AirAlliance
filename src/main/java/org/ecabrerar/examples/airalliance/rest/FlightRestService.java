@@ -59,27 +59,27 @@ public class FlightRestService {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        flightService.remove(flightService.find(id));
+        flightService.remove(flightService.find(Flight.class,id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Flight find(@PathParam("id") Integer id) {
-        return flightService.find(id);
+        return flightService.find(Flight.class,id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findAll() {
-        return flightService.findAll();
+        return flightService.findAll(Flight.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return flightService.findRange(new int[]{from, to});
+        return flightService.findRange(Flight.class,new int[]{from, to});
     }
 
     @GET
@@ -94,7 +94,7 @@ public class FlightRestService {
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(flightService.count());
+        return String.valueOf(flightService.count(Flight.class));
     }
 
 
