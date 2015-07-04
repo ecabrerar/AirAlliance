@@ -1,0 +1,9 @@
+{
+    "guest": [
+        {
+            "id": 1,
+            "firstname": "Frank",
+            "lastname": "Jennings"
+        }
+    ]
+}
