@@ -15,9 +15,8 @@
  */
 package org.ecabrerar.examples.airalliance.service;
 
-
 import javax.inject.Inject;
-
+import javax.persistence.EntityManager;
 
 import static junit.framework.TestCase.assertNotNull;
 
@@ -29,6 +28,9 @@ import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.ShouldMatchDataSet;
+import org.jboss.arquillian.persistence.UsingDataSet;
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -45,6 +47,9 @@ public class ScheduleServiceTest {
 
     @Inject
     private ScheduleService scheduleService;
+
+    @Inject
+    private EntityManager entityManager;
 
     @Deployment
     public static Archive<?> deployment() {
@@ -63,4 +68,28 @@ public class ScheduleServiceTest {
     public void scheduleServiceShouldNotBeNull() {
         assertNotNull(scheduleService);
     }
+
+    @Test
+    @UsingDataSet(value = {"guests.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
+    public void save_NewSchedule_ShouldBeCreated() throws Exception {
+
+        Guest guest = entityManager.find(Guest.class, 1);
+        Flight flight = entityManager.find(Flight.class, 1);
+
+        Schedule saved = scheduleService.create(createSchedule(flight, guest));
+
+        assertNotNull(saved);
+        assertNotNull(saved.getId());
+    }
+    
+    @Test
+    @UsingDataSet({"schedule.yml","sector.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
+    public void get_ExistingSchedule_Found() throws Exception {
+
+        Schedule schedule = scheduleService.find(Schedule.class, 1);
+        assertNotNull(schedule);
+    }
+
 }

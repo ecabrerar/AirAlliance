@@ -16,9 +16,9 @@
 package org.ecabrerar.examples.airalliance.service;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import static junit.framework.TestCase.assertNotNull;
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
-
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
@@ -30,7 +30,10 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createItinerary;
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
+import org.jboss.arquillian.persistence.ShouldMatchDataSet;
+import org.jboss.arquillian.persistence.UsingDataSet;
 
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -46,6 +49,9 @@ public class ItineraryServiceTest {
 
     @Inject
     private ItineraryService itineraryService;
+
+    @Inject
+    private EntityManager entityManager;
 
     @Deployment
     public static Archive<?> deployment() {
@@ -64,8 +70,32 @@ public class ItineraryServiceTest {
 
     @Test
     public void itineraryServiceShouldNotBeNull() {
-    	assertNotNull(itineraryService);
+        assertNotNull(itineraryService);
     }
+    
+    @Test
+    @UsingDataSet(value = {"guests.json", "flight.json","schedule.yml"})
+    @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
+    public void save_NewItinerary_ShouldBeCreated() throws Exception {
 
+        Guest guest = entityManager.find(Guest.class, 1);
+        Flight flight = entityManager.find(Flight.class, 1);
+        Schedule schedule = entityManager.find(Schedule.class, 1);
+                
+        Itinerary  saved =  itineraryService.createItinerary(createItinerary(flight, guest, schedule));
+        
+        assertNotNull(saved);
+        assertNotNull(saved.getId());
+    }
+    
+    @Test
+    @UsingDataSet({"schedule.yml","sector.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
+    public void get_ExistingItinerary_Found() throws Exception {
+
+        Itinerary itinerary = itineraryService.find(Itinerary.class, 1);
+        assertNotNull(itinerary);
+    }
+   
 
 }

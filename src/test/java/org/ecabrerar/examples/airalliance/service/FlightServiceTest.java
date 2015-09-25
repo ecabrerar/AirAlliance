@@ -54,9 +54,9 @@ public class FlightServiceTest {
     @Deployment
     public static Archive<?> deployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(FlightService.class, Flight.class, Sector.class,Guest.class, EntityManagerProducer.class, BaseEntityService.class,
-                			 BaseEntity.class,TestHelpers.class
-                			)
+                .addClasses(FlightService.class, Flight.class, Sector.class, Guest.class, EntityManagerProducer.class, BaseEntityService.class,
+                        BaseEntity.class, TestHelpers.class
+                )
                 .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         System.out.println(webArchive.toString(true));
@@ -70,24 +70,24 @@ public class FlightServiceTest {
 
     @Test
     @UsingDataSet(value = {"sectors.json"})
-	@ShouldMatchDataSet(value = { "flight.json" }, excludeColumns = { "id" })
-	public void save_NewFlight_ShouldBeCreated() throws Exception {
+    @ShouldMatchDataSet(value = {"flight.json"}, excludeColumns = {"id"})
+    public void save_NewFlight_ShouldBeCreated() throws Exception {
 
-    	Sector sourceSector = entityManager.find(Sector.class, 1);
-		Sector destSector = entityManager.find(Sector.class, 3);
+        Sector sourceSector = entityManager.find(Sector.class, 1);
+        Sector destSector = entityManager.find(Sector.class, 3);
 
-		Flight saved = flightService.create(createFlight(destSector,sourceSector));
+        Flight saved = flightService.create(createFlight(destSector, sourceSector));
 
-		assertNotNull(saved);
-		assertNotNull(saved.getId());
-	}
+        assertNotNull(saved);
+        assertNotNull(saved.getId());
+    }
 
     @Test
-    @UsingDataSet({"sector.json","flight.json"})
+    @UsingDataSet({"sector.json", "flight.json"})
     @ShouldMatchDataSet(value = {"flight.json"}, excludeColumns = {"id"})
     public void get_ExistingFlight_Found() throws Exception {
 
-    	Flight flight = flightService.find(Flight.class, 1);
+        Flight flight = flightService.find(Flight.class, 1);
         assertNotNull(flight);
     }
 
