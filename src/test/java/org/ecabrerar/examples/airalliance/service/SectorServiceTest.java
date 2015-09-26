@@ -17,9 +17,7 @@ package org.ecabrerar.examples.airalliance.service;
 
 import java.util.List;
 
-
 import javax.inject.Inject;
-
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -56,8 +54,8 @@ public class SectorServiceTest {
     public static Archive<?> deployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
                 .addClasses(Sector.class, SectorService.class, EntityManagerProducer.class,
-                		     BaseEntityService.class, BaseEntity.class,TestHelpers.class
-                		    )
+                        BaseEntityService.class, BaseEntity.class, TestHelpers.class
+                )
                 .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
@@ -72,40 +70,39 @@ public class SectorServiceTest {
     }
 
     @Test
-	@ShouldMatchDataSet(value = { "sector.json" }, excludeColumns = { "id" })
-	public void save_NewSector_ShouldBeCreated() throws Exception {
+    @ShouldMatchDataSet(value = {"sector.json"}, excludeColumns = {"id"})
+    public void save_NewSector_ShouldBeCreated() throws Exception {
 
-		Sector saved = sectorService.create(createSector());
+        Sector saved = sectorService.create(createSector());
 
-		assertNotNull(saved);
-		assertNotNull(saved.getId());
-	}
+        assertNotNull(saved);
+        assertNotNull(saved.getId());
+    }
 
-	@Test
+    @Test
     @UsingDataSet({"sector.json"})
     @ShouldMatchDataSet(value = {"sector.json"}, excludeColumns = {"id"})
     public void get_ExistingSector_Found() throws Exception {
 
-		Sector sector = sectorService.find(Sector.class, 1);
+        Sector sector = sectorService.find(Sector.class, 1);
         assertNotNull(sector);
     }
 
-	@Test
+    @Test
     @UsingDataSet({"sectors.json"})
     public void findAll_sectorStoredInDatabase_3SectorFound() throws Exception {
 
-		List<Sector> result = sectorService.findAll(Sector.class);
+        List<Sector> result = sectorService.findAll(Sector.class);
         assertThat(result, hasSize(4));
     }
 
-
-	@Test
+    @Test
     @UsingDataSet({"sectors.json"})
-	 public void count_sectorStoredInDatabase_3SectorFound() throws Exception {
+    public void count_sectorStoredInDatabase_3SectorFound() throws Exception {
 
-	     int count  = sectorService.count(Sector.class);
+        int count = sectorService.count(Sector.class);
 
-	     assertTrue(count==4);
-	 }
+        assertTrue(count == 4);
+    }
 
 }

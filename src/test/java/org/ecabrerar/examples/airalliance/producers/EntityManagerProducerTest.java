@@ -49,9 +49,9 @@ public class EntityManagerProducerTest {
 		WebArchive webArchive = ShrinkWrap
 				.create(WebArchive.class)
 				.addAsLibraries(ShrinkWrap.create(JavaArchive.class)
-								.addClass(EntityManagerProducer.class)
-								.addAsManifestResource(new StringAsset(persistenceXml),	"persistence.xml")
-								.addAsManifestResource(EmptyAsset.INSTANCE,	"beans.xml"))
+				.addClass(EntityManagerProducer.class)
+				.addAsManifestResource(new StringAsset(persistenceXml),	"persistence.xml")
+				.addAsManifestResource(EmptyAsset.INSTANCE,	"beans.xml"))
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
 		System.out.println(webArchive.toString(true));
