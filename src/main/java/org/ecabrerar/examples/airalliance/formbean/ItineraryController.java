@@ -18,12 +18,13 @@ package org.ecabrerar.examples.airalliance.formbean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 
 /**
@@ -33,16 +34,14 @@ import org.ecabrerar.examples.airalliance.jaxrs.client.ItineraryRestClient;
 @Named(value = "itinerary")
 @RequestScoped
 public class ItineraryController {
-    
+
     @Inject
     ItineraryRestClient rc;
-    
+
     private Itinerary itinerary = new Itinerary();
     private List<Itinerary> itineraries = new ArrayList<>();
     FacesContext facesContext = FacesContext.getCurrentInstance();
     private String message;
-    
-    private static final Logger logger = Logger.getLogger(ItineraryController.class.getName());
 
     public ItineraryController() {
     }
@@ -66,20 +65,20 @@ public class ItineraryController {
      */
     public List<Itinerary> getItineraries() {
          itineraries = rc.getItineraries();
-        
+
         return itineraries;
-    }  
-    
+    }
+
     public List<Itinerary> getListItinerary() {
          return itineraries;
-    }      
-    
+    }
+
     private void getItineraries(int idItinerary) {
-         itineraries = rc.getItineraries(idItinerary);      
-    }  
-    
-    
-    
+         itineraries = rc.getItineraries(idItinerary);
+    }
+
+
+
     /**
      * @return the message
      */
@@ -93,24 +92,24 @@ public class ItineraryController {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    public void confirmReservation(AjaxBehaviorEvent event){        
-       
+
+    public void confirmReservation(AjaxBehaviorEvent event){
+
         if (this.itinerary.getId().trim().length() > 0) {
-            
+
            int  id= Integer.parseInt(this.itinerary.getId());
             getItineraries(id);
-            
-            if(itineraries.isEmpty()){                             
-                setMessage("No record found. Please check the Itinerary ID");                
+
+            if(itineraries.isEmpty()){
+                setMessage("No record found. Please check the Itinerary ID");
             }
-            
+
         } else {
-             setMessage("No record found. Please check the Itinerary ID");  
+             setMessage("No record found. Please check the Itinerary ID");
         }
     }
 
-    /** 
+    /**
      *   Guests are allowed to cancel reservation based on their Itinerary
      *   IID. This method flushes the itinerary records from the Itinerary table and the Schedule table.
      *   However, the guest information is retained.
@@ -120,10 +119,10 @@ public class ItineraryController {
     public void cancelReservation(Itinerary itinerary){
         rc.remove(itinerary);
     }
-    
+
     public void processReservation(){
-        
+
     }
-    
-    
+
+
 }

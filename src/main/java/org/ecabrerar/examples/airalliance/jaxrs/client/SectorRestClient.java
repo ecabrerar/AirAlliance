@@ -17,9 +17,9 @@
 package org.ecabrerar.examples.airalliance.jaxrs.client;
 
 import java.io.StringReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -30,6 +30,7 @@ import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
+
 import org.ecabrerar.examples.airalliance.formbean.Sector;
 
 /**
@@ -38,26 +39,26 @@ import org.ecabrerar.examples.airalliance.formbean.Sector;
  */
 @Stateless
 public class SectorRestClient {
-  
+
     private  Client client;
-    
+
     private final String baseUri = "http://localhost:8080/AirAlliance/webapi/sectors";
-    
-    public SectorRestClient() {         
+
+    public SectorRestClient() {
     }
-    
+
     @PostConstruct
-    private void init() {        
+    private void init() {
         client = ClientBuilder.newClient();
     }
-    
+
     public List<Sector> getAllSector() {
 
         String data = client.target(baseUri)
                 .request(MediaType.APPLICATION_JSON)
                 .get(String.class);
 
-        /* Parse the data using the document object model approach */    
+        /* Parse the data using the document object model approach */
         List<Sector> sectors = new ArrayList<>();
 
         try (JsonReader reader = Json.createReader(new StringReader(data))) {

@@ -32,28 +32,23 @@ public class FlightService extends BaseEntityService<Flight> {
     public FlightService() {
         super(Flight.class);
     }
-    
+
     /**
-     * This method accepts two sectors and returns all the available flights 
+     * This method accepts two sectors and returns all the available flights
      * between  those two sectors querying the Flights table.
-     * Pass the source sector (Example, SFO) and the destination sector. 
-     * 
+     * Pass the source sector (Example, SFO) and the destination sector.
+     *
      * @param source
      * @param dest
-     * @return 
+     * @return
      */
     public List<Flight> getAvailableFlights(Sector source, Sector dest){
-        
+
          Query query = getEntityManager().createQuery("SELECT f FROM Flight f WHERE f.sourceSector.id=:sourceId and f.destSector.id=:destId");
          query.setParameter("sourceId", source.getId());
          query.setParameter("destId", dest.getId());
-        
-        
-        List<Flight> list = query.getResultList();
-        
-        
-        return list;
-        
+
+        return (List<Flight>) query.getResultList();
     }
 
 }
