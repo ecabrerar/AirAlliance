@@ -15,7 +15,9 @@
  */
 package org.ecabrerar.examples.airalliance.rest;
 
+import java.util.ServiceLoader;
 import java.util.Set;
+
 import javax.ws.rs.core.Application;
 
 /**
@@ -28,7 +30,15 @@ public class ApplicationConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
-        addRestResourceClasses(resources);
+
+        ServiceLoader<IRestService> sl = ServiceLoader.load(IRestService.class);
+
+        for (IRestService iRestService : sl) {
+			resources.add(iRestService.getClass());
+
+		}
+
+        //addRestResourceClasses(resources);
         return resources;
     }
 
@@ -44,8 +54,8 @@ public class ApplicationConfig extends Application {
         resources.add(org.ecabrerar.examples.airalliance.rest.ItineraryRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.ScheduleRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.SectorRestService.class);
-        
+
     }
-        
-    
+
+
 }

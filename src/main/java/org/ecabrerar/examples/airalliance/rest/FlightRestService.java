@@ -39,7 +39,7 @@ import org.ecabrerar.examples.airalliance.service.FlightService;
  */
 
 @Path("/flights")
-public class FlightRestService {
+public class FlightRestService implements IRestService{
 
     @Inject
     FlightService flightService;
