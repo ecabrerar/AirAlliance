@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.service;
 
+import java.util.Optional;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 
 /**
@@ -24,10 +27,24 @@ import org.ecabrerar.examples.airalliance.entities.Sector;
  * @author ecabrerar
  */
 @Stateless
-public class SectorService extends BaseEntityService<Sector> {
+public class SectorService extends BaseEntityService {
 
-    public SectorService() {
-        super(Sector.class);
-    }
+   @Inject
+    private EntityManager entityManager;
     
+    @Override
+    protected EntityManager getEntityManager() {
+       return entityManager;
+    }
+
+    public Optional<Sector> findSector(@NotNull String sector) {
+
+       return entityManager
+               .createQuery("SELECT s FROM Sector s WHERE s.sector=:sector", Sector.class)
+               .setParameter("sector", sector)
+               .getResultList()
+               .stream()
+               .findFirst();
+        
+    }
 }

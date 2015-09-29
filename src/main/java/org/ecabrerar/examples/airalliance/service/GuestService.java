@@ -16,7 +16,11 @@
 
 package org.ecabrerar.examples.airalliance.service;
 
+import java.util.Optional;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
 import org.ecabrerar.examples.airalliance.entities.Guest;
 
 /**
@@ -24,10 +28,25 @@ import org.ecabrerar.examples.airalliance.entities.Guest;
  * @author ecabrerar
  */
 @Stateless
-public class GuestService extends BaseEntityService<Guest>{
+public class GuestService extends BaseEntityService{
 
-    public GuestService() {
-        super(Guest.class);
+   @Inject
+    private EntityManager entityManager;
+    
+    @Override
+    protected EntityManager getEntityManager() {
+       return entityManager;
     }
     
+    public Optional<Guest> findGuest(@NotNull String firstName, @NotNull String lastName){
+        
+      return  entityManager
+              .createQuery(" SELECT g FROM Guest g WHERE g.firstname=:firstName AND g.lastname=:lastName", Guest.class)
+              .setParameter("firstName", firstName)
+              .setParameter("lastName", lastName)
+              .getResultList()
+              .stream()
+              .findFirst();   
+        
+    }
 }

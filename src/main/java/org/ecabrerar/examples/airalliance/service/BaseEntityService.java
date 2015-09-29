@@ -16,72 +16,71 @@
 
 package org.ecabrerar.examples.airalliance.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 
 /**
  *
  * @author ecabrerar
- * @param <T>
+ *
  */
-public abstract class BaseEntityService<T> {
+public abstract class BaseEntityService {
 
-    private final Class<T> entityClass;
+    protected abstract EntityManager getEntityManager();
 
-    @PersistenceContext(unitName = "AirAlliancePU")
-    private EntityManager entityManager;
-
-
-    public BaseEntityService(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
-
-    protected EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void create(T entity) {
+    public <T extends BaseEntity> T create(T entity) {
         getEntityManager().persist(entity);
+        return entity;
     }
 
-    public void edit(T entity) {
-        entityManager.merge(entity);
+    public <T extends BaseEntity> void edit(T entity) {
+        getEntityManager().merge(entity);
     }
 
-    public void remove(T entity) {
-        entityManager.remove(entityManager.merge(entity));
+    public <T extends BaseEntity> void remove(T entity) {
+        getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
-        return entityManager.find(entityClass, id);
+    public <T extends BaseEntity, ID extends Serializable> T find(Class<T> entityClass, ID id) {
+        return getEntityManager().find(entityClass, id);
     }
 
-    public List<T> findAll() {
-        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
+    public <T extends BaseEntity> List<T> findAll(Class<T> entityClass) {
+         final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+           Root<T> root = criteriaQuery.from(entityClass);
+           criteriaQuery.select(root);
+
+          TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
+
+        return query.getResultList();
+    }
+
+    public <T extends BaseEntity> List<T> findRange(Class<T> entityClass, int[] range) {
+        CriteriaQuery<T> cq = getEntityManager().getCriteriaBuilder().createQuery(entityClass);
         cq.select(cq.from(entityClass));
-        return entityManager.createQuery(cq).getResultList();
-    }
 
-    public List<T> findRange(int[] range) {
-        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
-        cq.select(cq.from(entityClass));
-        Query q = entityManager.createQuery(cq);
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
         q.setMaxResults(range[1] - range[0] + 1);
         q.setFirstResult(range[0]);
+
         return q.getResultList();
     }
 
-    public int count() {
-        CriteriaQuery<T> cq = entityManager.getCriteriaBuilder().createQuery(entityClass);
+    public <T extends BaseEntity> int count(Class<T> entityClass) {
+        CriteriaQuery<T> cq = getEntityManager().getCriteriaBuilder().createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
         cq.select(rt);
-        Query q = entityManager.createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
+        Query q = getEntityManager().createQuery(cq);
+        return q.getResultList().size();
     }
 
 }

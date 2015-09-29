@@ -1,0 +1,6 @@
+flight:
+      -id: 1,
+      name: AA056,
+      source_sector_id: 1,
+      dest_sector_id: 3
+ 

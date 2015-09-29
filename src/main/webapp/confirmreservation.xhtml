@@ -34,48 +34,54 @@ limitations under the License.
         <h:form id="form" class="form-inline" >
 
             <div class="form-group">                    
-                <h:inputText  id="itineraryID" p:required="required"  p:title="Enter the Itinerary ID. (Example: 5)" class="form-control"  value="#{itinerary.itinerary.id}"/>
-                <h:commandButton id="idSubmit" class="btn btn-default" value="Submit" action="#{itinerary.confirmReservation}">
+                <h:inputText  id="itineraryID" p:required="required" p:type="number" p:min="0"  
+                              p:title="Enter the Itinerary ID. (Example: 5)" 
+                              class="form-control"  
+                              value="#{itineraryController.itinerary.id}">
+                  
+                </h:inputText>
+                <h:commandButton id="idSubmit" class="btn btn-default" value="Submit" action="#{itineraryController.confirmReservation}">
                 </h:commandButton>
             </div>
+
+            <div id="note">
+                <p>Enter the Itinerary ID. (Example: 5)</p>
+                <h:message for="itineraryID" style="color:red" />
+            </div>  
         </h:form>
-
-        <div id="note">
-            <p>Enter the Itinerary ID. (Example: 5)</p>
-        </div>  
-
-        <h:dataTable id="itinList" class="table table-bordered" rendered="#{itinerary.listItinerary.size()>0}" value="#{itinerary.listItinerary}" var="i"  >
+        
+        <h:dataTable id="itinList" class="table table-bordered" rendered="#{itineraryController.listItinerary.size()>0}" value="#{itineraryController.listItinerary}" var="itinerary"  >
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Guest Name"/>
                 </f:facet>                 
-                <h:outputText value="#{i.guest.firstName} #{i.guest.lastName}"/>
+                <h:outputText value="#{itinerary.guest.firstName} #{itinerary.guest.lastName}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Flight"/>
                 </f:facet>                 
-                <h:outputText value="#{i.flight.name}"/>                  
+                <h:outputText value="#{itinerary.flight.name}"/>                  
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Source"/>
                 </f:facet>                 
-                <h:outputText value="#{i.flight.source.sector}"/>
+                <h:outputText value="#{itinerary.flight.sourceSector.sector}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Destination"/>
                 </f:facet>                 
-                <h:outputText value="#{i.flight.dest.sector}"/>
+                <h:outputText value="#{itinerary.flight.destSector.sector}"/>
             </h:column> 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Travel Date"/>
                 </f:facet>                 
-                <h:outputText value="#{i.schedule.scheduleDate}">
+                <h:outputText value="#{itinerary.schedule.scheduleDate}">
                     <f:convertDateTime pattern="yyyy-MM-dd"/>
                 </h:outputText>
             </h:column>  

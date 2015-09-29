@@ -54,8 +54,15 @@ public class ApplicationConfig extends Application {
         resources.add(org.ecabrerar.examples.airalliance.rest.ItineraryRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.ScheduleRestService.class);
         resources.add(org.ecabrerar.examples.airalliance.rest.SectorRestService.class);
+<<<<<<< HEAD
 
     }
 
 
+=======
+    
+}
+        
+    
+>>>>>>> e5becf98c5d67b19e56d95c7175fd3f3f96c8c58
 }

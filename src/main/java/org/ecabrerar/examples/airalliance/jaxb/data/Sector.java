@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.jaxb.data;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This is a Sector helper class. Instance of this class can store Sector information.
  * @author ecabrerar
  */
+@XmlRootElement(name="sector")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Sector {
-    private String id;
+    private int id;
     private String sector;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

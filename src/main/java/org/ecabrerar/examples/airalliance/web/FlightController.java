@@ -14,35 +14,33 @@
  * limitations under the License.
  */
 
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.web;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
-import org.ecabrerar.examples.airalliance.jaxrs.client.FlightRestClient;
 
 /**
  *
  * @author ecabrerar
  */
-@Named(value = "flight")
-@RequestScoped
-public class FlightController {
+@Model
+public class FlightController implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
+	private Flight currentFlight;
+
     @Inject
-    private FlightRestClient rc;
-    private Flight currentFlight;   
-    FacesContext facesContext = FacesContext.getCurrentInstance();
-    private static final Logger logger = Logger.getLogger(FlightController.class.getName());
-    
+    private FlightBean flightBean;
+
     public FlightController() {
-        
+
     }
 
-    
     /**
      * @return the currentFlight
      */
@@ -55,27 +53,26 @@ public class FlightController {
      */
     public void setCurrentFlight(Flight currentFlight) {
         this.currentFlight = currentFlight;
-         logger.log(Level.INFO, "current flight {0}",currentFlight);
+
     }
-    
-     public List<Flight> retrieveFlights() {      
+
+     public List<Flight> retrieveFlights() {
         List<Flight> flights;
-         
+
         if (this.currentFlight == null) {
-            logger.log(Level.WARNING, "current flight is null");
-            
-            flights = rc.getFlights();
+
+            flights = flightBean.getFlights();
         } else {
-             logger.log(Level.INFO, "current flight id {0}",currentFlight.getId());
-            flights = rc.getFlightById(Integer.parseInt(currentFlight.getId()));
+            flights = new ArrayList<>();
+            flights.add(flightBean.getFlightById(currentFlight.getId()));
         }
-        
-        return flights;        
+
+        return flights;
     }
 
     public String viewFlight(Flight flight){
         this.setCurrentFlight(flight);
-        
+
         return "flightinfo";
     }
 }

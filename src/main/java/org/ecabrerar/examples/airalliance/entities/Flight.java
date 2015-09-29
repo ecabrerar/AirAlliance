@@ -16,23 +16,18 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,58 +37,36 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "flight")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Flight implements Serializable {
+public class Flight extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "name")
     private String name;
-    
-    @JoinColumn(name = "source_sector_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+
+    @JoinColumn(name = "sector_id",insertable=false,updatable=false)
+    @ManyToOne( optional = false)
     private Sector sourceSector;
-    
-    @JoinColumn(name = "dest_sector_id", referencedColumnName = "id")
-    @ManyToOne (optional = false)
+
+    @JoinColumn(name = "sector_id",insertable=false,updatable=false)
+    @ManyToOne(optional = false)
     private Sector destSector;
-    
-    @OneToMany(mappedBy = "flight")
-    @XmlTransient
-    private List<Schedule> schedules;
-    
-    @OneToMany(mappedBy = "flight")
-    @XmlTransient
-    private List<Itinerary> itineraries;
 
     public Flight() {
-        this.itineraries = new ArrayList<>();
-        this.schedules = new ArrayList<>();
     }
 
     public Flight(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public Flight(Integer id, String name, Sector sourceSectorId, Sector destSectorId) {
-        this.id = id;
+    	super.setId(id);
         this.name = name;
         this.sourceSector = sourceSectorId;
         this.destSector = destSectorId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -120,26 +93,10 @@ public class Flight implements Serializable {
         this.destSector = destSectorId;
     }
 
-    public Collection<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-
-    public Collection<Itinerary> getItineraries() {
-        return itineraries;
-    }
-
-    public void setItineraries(List<Itinerary> itineraries) {
-        this.itineraries = itineraries;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -153,11 +110,11 @@ public class Flight implements Serializable {
         }
 
         Flight other = (Flight) object;
-        return this.id.equals(other.id);
+        return this.getId().equals(other.getId());
     }
 
     @Override
     public String toString() {
-        return String.valueOf(id);
+        return String.valueOf(getId());
     }
 }

@@ -13,60 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.ecabrerar.examples.airalliance.jaxb.data;
 
-package org.ecabrerar.examples.airalliance.formbean;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-/** 
- * This is a Schedule Backing Bean. 
- * Instance of this class can store Schedule information.
+/**
+ *
+ * This is an Itinerary Backing Bean. Instance of this class can store flight
+ * information.
+ *
  * @author ecabrerar
  */
+@XmlRootElement(name = "itinerary")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Itinerary {
 
-public class Schedule {
-    private String id;
-    private Date scheduleDate;
-    private Guest guest;
-    private Flight flight;
+    private int id;
+    @XmlElement
+    private Guest guest = new Guest();
+    @XmlElement
+    private Flight flight = new Flight();
+    @XmlElement
+    private Schedule schedule = new Schedule();
 
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @return the scheduleDate
+     * @return the schedule
      */
-    public Date getScheduleDate() {
-        return scheduleDate;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     /**
-     * @param scheduleDate the scheduleDate to set
+     * @param schedule the schedule to set
      */
-   
-    public void setScheduleDate(String scheduleDate) {
-        try {
-            this.scheduleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(scheduleDate);
-        } catch (ParseException ex) {
-            Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     /**
@@ -95,7 +93,6 @@ public class Schedule {
      */
     public void setFlight(Flight flight) {
         this.flight = flight;
-    }       
+    }
 
-    
 }

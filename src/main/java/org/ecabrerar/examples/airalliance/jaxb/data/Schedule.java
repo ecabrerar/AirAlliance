@@ -13,51 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.ecabrerar.examples.airalliance.jaxb.data;
 
-package org.ecabrerar.examples.airalliance.formbean;
+import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * This is a Schedule Backing Bean. Instance of this class can store Schedule
+ * information.
  *
- * This is an Itinerary Backing Bean.
- * Instance of this class can store flight information. 
- * 
  * @author ecabrerar
  */
-public class Itinerary{
-    
-   private String id;     
-   private Guest guest;   
-   private Flight flight;
-   private Schedule schedule;    
-     
+@XmlRootElement(name = "schedule")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Schedule {
+
+    private int id;
+    private Date scheduleDate;
+    @XmlElement
+    private Guest guest = new Guest();
+    @XmlElement
+    private Flight flight = new Flight();
+
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
-    }
-    
-    
-   
-    /**
-     * @return the schedule
-     */
-    public Schedule getSchedule() {
-        return schedule;
     }
 
     /**
-     * @param schedule the schedule to set
+     * @return the scheduleDate
      */
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public Date getScheduleDate() {
+        return scheduleDate;
+    }
+
+    /**
+     * @param scheduleDate the scheduleDate to set
+     */
+    public void setScheduleDate(Date scheduleDate) {
+        this.scheduleDate = scheduleDate;
     }
 
     /**
@@ -87,5 +93,5 @@ public class Itinerary{
     public void setFlight(Flight flight) {
         this.flight = flight;
     }
-    
+
 }

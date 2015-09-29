@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.ecabrerar.examples.airalliance.service;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.validation.constraints.NotNull;
+
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 
 /**
@@ -24,10 +30,25 @@ import org.ecabrerar.examples.airalliance.entities.Schedule;
  * @author ecabrerar
  */
 @Stateless
-public class ScheduleService extends BaseEntityService<Schedule> {
+public class ScheduleService extends BaseEntityService {
 
-    public ScheduleService() {
-        super(Schedule.class);
+   @Inject
+    private EntityManager entityManager;
+
+    @Override
+    protected EntityManager getEntityManager() {
+       return entityManager;
     }
-    
+
+    public Optional<Schedule> findScheduleByDate(@NotNull LocalDate scheduleDate) {
+
+        return  entityManager
+                .createQuery("SELECT s FROM Schedule s WHERE s.scheduleDate=:scheduleDate", Schedule.class)
+                .setParameter("scheduleDate", scheduleDate)
+                .getResultList()
+                .stream()
+                .findFirst();
+
+    }
+
 }

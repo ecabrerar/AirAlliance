@@ -27,9 +27,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.service.ScheduleService;
 
@@ -44,9 +42,6 @@ public class ScheduleRestService {
     @Inject
     ScheduleService  scheduleService;
     
-     @Context
-    private UriInfo uriInfo;
-
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Schedule entity) {
@@ -63,34 +58,34 @@ public class ScheduleRestService {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        scheduleService.remove(scheduleService.find(id));
+        scheduleService.remove(scheduleService.find(Schedule.class, id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Schedule find(@PathParam("id") Integer id) {
-        return scheduleService.find(id);
+        return scheduleService.find(Schedule.class, id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Schedule> findAll() {
-        return scheduleService.findAll();
+        return scheduleService.findAll(Schedule.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Schedule> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return scheduleService.findRange(new int[]{from, to});
+        return scheduleService.findRange(Schedule.class, new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(scheduleService.count());
+        return String.valueOf(scheduleService.count(Schedule.class));
     }
 
   

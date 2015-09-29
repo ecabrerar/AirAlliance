@@ -27,9 +27,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.service.FlightService;
 
@@ -44,8 +42,6 @@ public class FlightRestService implements IRestService{
     @Inject
     FlightService flightService;
 
-    @Context
-    private UriInfo uriInfo;
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -63,27 +59,27 @@ public class FlightRestService implements IRestService{
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        flightService.remove(flightService.find(id));
+        flightService.remove(flightService.find(Flight.class,id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Flight find(@PathParam("id") Integer id) {
-        return flightService.find(id);
+        return flightService.find(Flight.class,id);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findAll() {
-        return flightService.findAll();
+        return flightService.findAll(Flight.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Flight> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return flightService.findRange(new int[]{from, to});
+        return flightService.findRange(Flight.class,new int[]{from, to});
     }
 
     @GET
@@ -94,12 +90,11 @@ public class FlightRestService implements IRestService{
 
     }
 
-
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(flightService.count());
+        return String.valueOf(flightService.count(Flight.class));
     }
 
 

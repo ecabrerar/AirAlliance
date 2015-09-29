@@ -28,9 +28,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import org.ecabrerar.examples.airalliance.entities.Guest;
 import org.ecabrerar.examples.airalliance.service.GuestService;
 
@@ -46,8 +44,6 @@ public class GuestRestService  {
     @Inject
     GuestService guestService;
     
-    @Context
-    private UriInfo uriInfo;
 
     @POST    
     @Consumes({MediaType.APPLICATION_JSON})
@@ -65,34 +61,34 @@ public class GuestRestService  {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        guestService.remove(guestService.find(id));
+        guestService.remove(guestService.find(Guest.class,id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Guest find(@PathParam("id") Integer id) {
-        return guestService.find(id);
+        return guestService.find(Guest.class,id);
     }
 
     @GET   
     @Produces({MediaType.APPLICATION_JSON})
     public List<Guest> findAll() {
-        return guestService.findAll();
+        return guestService.findAll(Guest.class);
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Guest> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return guestService.findRange(new int[]{from, to});
+        return guestService.findRange(Guest.class, new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces("text/plain")
     public String countREST() {
-        return String.valueOf(guestService.count());
+        return String.valueOf(guestService.count(Guest.class));
     }
 
     

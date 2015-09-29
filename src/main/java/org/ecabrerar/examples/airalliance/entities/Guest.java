@@ -16,22 +16,15 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,114 +34,74 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "guest")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Guest implements Serializable {
+public class Guest extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "firstname")
-    private String firstname;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "lastname")
-    private String lastname;
-    
-    @OneToMany(mappedBy = "guest")
-    @XmlTransient
-    private List<Schedule> schedules;
-    
-    @OneToMany(mappedBy = "guest")
-    @XmlTransient
-    private List<Itinerary> itineraries;
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 20)
+	@Column(name = "firstname")
+	private String firstname;
 
-    public Guest() {
-        this.schedules = new ArrayList<>();
-        this.itineraries = new ArrayList<>();
-    }
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 20)
+	@Column(name = "lastname")
+	private String lastname;
 
-    public Guest(Integer id) {
-        this.id = id;
-    }
+	public Guest() {
 
-    public Guest(Integer id, String firstname, String lastname) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Guest(Integer id, String firstname, String lastname) {
+		super.setId(id);
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public String getLastname() {
+		return lastname;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	@Override
+	public String toString() {
+		return String.valueOf(getId());
+	}
 
-    @Override
-    public String toString() {
-        return String.valueOf(id);
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (getId() != null ? getId().hashCode() : 0);
+		return hash;
+	}
 
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
+	@Override
+	public boolean equals(Object object) {
 
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
+		if (this == object) {
+			return true;
+		}
 
-    public List<Itinerary> getItineraryList() {
-        return itineraries;
-    }
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
-    public void setItineraryList(List<Itinerary> itineraryList) {
-        this.itineraries = itineraryList;
-    }
+		Guest other = (Guest) object;
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-
-        if (this == object) {
-            return true;
-        }
-        
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-
-        Guest other = (Guest) object;
-
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
-    }
+		return (this.getId() != null || other.getId() == null)
+				&& (this.getId() == null || this.getId().equals(other.getId()));
+	}
 }

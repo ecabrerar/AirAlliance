@@ -13,30 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.formbean;
+package org.ecabrerar.examples.airalliance.jaxb.data;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is a Guest helper class. Instance of this class can store Guest information.
+ * This is a Guest helper class. Instance of this class can store guest
+ * information.
+ *
  * @author ecabrerar
  */
-
+@XmlRootElement(name = "guest")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Guest {
 
-    private String id;
+    private int id;
+    
+    @XmlElement(name = "firstname")
     private String firstName;
+
+    @XmlElement(name = "lastname")
     private String lastName;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
