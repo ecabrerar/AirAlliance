@@ -38,31 +38,7 @@ public class ApplicationConfig extends Application {
 
 		}
 
-        //addRestResourceClasses(resources);
         return resources;
     }
 
-    /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
-     */
-    private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(org.ecabrerar.examples.airalliance.rest.FlightRestService.class);
-        resources.add(org.ecabrerar.examples.airalliance.rest.GuestRestService.class);
-        resources.add(org.ecabrerar.examples.airalliance.rest.ItineraryRestService.class);
-        resources.add(org.ecabrerar.examples.airalliance.rest.ScheduleRestService.class);
-        resources.add(org.ecabrerar.examples.airalliance.rest.SectorRestService.class);
-<<<<<<< HEAD
-
-    }
-
-
-=======
-    
-}
-        
-    
->>>>>>> e5becf98c5d67b19e56d95c7175fd3f3f96c8c58
 }

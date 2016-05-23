@@ -16,10 +16,8 @@
 package org.ecabrerar.examples.airalliance.web;
 
 import java.io.Serializable;
-import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
@@ -27,6 +25,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+
+import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
 
 /**
  *

@@ -36,16 +36,17 @@ import javax.ws.rs.core.MediaType;
 @SessionScoped
 public class SectorController implements Serializable{
 
-   
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
+	private static final long serialVersionUID = 1L;
 
-    private Sector sector;   
+	private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
+
+    private Sector sector;
     private List<Sector> sectors;
 
     public SectorController() {
     }
 
-   
+
     /**
      * @return the sector
      */
@@ -64,25 +65,25 @@ public class SectorController implements Serializable{
      * @return the sectors
      */
     public List<Sector> getSectors() {
-        
+
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(baseUri);
-        
+
         return webTarget
                         .path("sectors")
                         .request(MediaType.APPLICATION_JSON)
                         .get(new GenericType<List<Sector>>() {});
 
-       
+
     }
-    
-    
+
+
     /**
      * @param sectors the sectors to set
      */
     public void setSectors(List<Sector> sectors) {
         this.sectors = sectors;
     }
-   
+
 
 }
