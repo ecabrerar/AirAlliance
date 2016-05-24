@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +24,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.ecabrerar.examples.airalliance.converters.LocalDateAdapter;
 
 /**
  *
@@ -44,6 +48,7 @@ public class Itinerary extends BaseEntity implements Serializable {
     @ManyToOne(optional = false)
     private Flight flight;
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @JoinColumn(name = "schedule_id")
     @ManyToOne(optional = false)
     private Schedule schedule;
