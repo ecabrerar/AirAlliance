@@ -18,6 +18,7 @@
 package org.ecabrerar.examples.airalliance.rest;
 
 import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -29,6 +30,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.ecabrerar.examples.airalliance.entities.Itinerary;
 import org.ecabrerar.examples.airalliance.service.ItineraryService;
 
@@ -39,13 +41,12 @@ import org.ecabrerar.examples.airalliance.service.ItineraryService;
 
 @Path("/itineraries")
 @ApplicationScoped
-public class ItineraryRestService  {
-    
+public class ItineraryRestService implements IRestService {
+
     @Inject
     ItineraryService itineraryService;
-    
 
-    @POST   
+    @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Itinerary entity) {
         itineraryService.createItinerary(entity);
@@ -71,7 +72,7 @@ public class ItineraryRestService  {
         return itineraryService.find(Itinerary.class, id);
     }
 
-    @GET   
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<Itinerary> findAll() {
         return itineraryService.findAll(Itinerary.class);
@@ -90,5 +91,5 @@ public class ItineraryRestService  {
     public String countREST() {
         return String.valueOf(itineraryService.count(Itinerary.class));
     }
-  
+
 }

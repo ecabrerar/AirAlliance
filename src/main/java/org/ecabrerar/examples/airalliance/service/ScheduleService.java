@@ -32,23 +32,23 @@ import org.ecabrerar.examples.airalliance.entities.Schedule;
 @Stateless
 public class ScheduleService extends BaseEntityService {
 
-   @Inject
-    private EntityManager entityManager;
+	@Inject
+	private EntityManager entityManager;
 
-    @Override
-    protected EntityManager getEntityManager() {
-       return entityManager;
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return entityManager;
+	}
 
-    public Optional<Schedule> findScheduleByDate(@NotNull LocalDate scheduleDate) {
+	public Optional<Schedule> findScheduleByDate(@NotNull LocalDate scheduleDate) {
 
-        return  entityManager
-                .createQuery("SELECT s FROM Schedule s WHERE s.scheduleDate=:scheduleDate", Schedule.class)
-                .setParameter("scheduleDate", scheduleDate)
-                .getResultList()
-                .stream()
-                .findFirst();
+		return entityManager
+				.createQuery("SELECT s FROM Schedule s WHERE s.scheduleDate=:scheduleDate", Schedule.class)
+				.setParameter("scheduleDate", scheduleDate)
+				.getResultList()
+				.stream()
+				.findFirst();
 
-    }
+	}
 
 }

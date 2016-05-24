@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.rest;
 
 import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -27,6 +28,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.service.SectorService;
 
@@ -37,11 +39,11 @@ import org.ecabrerar.examples.airalliance.service.SectorService;
 
 @Path("/sectors")
 @ApplicationScoped
-public class SectorRestService {
+public class SectorRestService implements IRestService{
 
     @Inject
     SectorService sectorService;
-    
+
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})

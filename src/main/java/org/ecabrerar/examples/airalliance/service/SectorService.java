@@ -29,9 +29,9 @@ import org.ecabrerar.examples.airalliance.entities.Sector;
 @Stateless
 public class SectorService extends BaseEntityService {
 
-   @Inject
+    @Inject
     private EntityManager entityManager;
-    
+
     @Override
     protected EntityManager getEntityManager() {
        return entityManager;
@@ -45,6 +45,6 @@ public class SectorService extends BaseEntityService {
                .getResultList()
                .stream()
                .findFirst();
-        
+
     }
 }

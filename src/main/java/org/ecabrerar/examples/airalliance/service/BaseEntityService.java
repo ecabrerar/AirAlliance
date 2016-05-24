@@ -56,10 +56,11 @@ public abstract class BaseEntityService {
     public <T extends BaseEntity> List<T> findAll(Class<T> entityClass) {
          final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
          final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-           Root<T> root = criteriaQuery.from(entityClass);
-           criteriaQuery.select(root);
+         Root<T> root = criteriaQuery.from(entityClass);
 
-          TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
+         criteriaQuery.select(root);
+
+         TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
 
         return query.getResultList();
     }

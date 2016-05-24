@@ -18,6 +18,7 @@
 package org.ecabrerar.examples.airalliance.rest;
 
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.service.ScheduleService;
 
@@ -37,11 +39,11 @@ import org.ecabrerar.examples.airalliance.service.ScheduleService;
  */
 
 @Path("/schedules")
-public class ScheduleRestService {
-    
+public class ScheduleRestService implements IRestService{
+
     @Inject
     ScheduleService  scheduleService;
-    
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Schedule entity) {
@@ -88,6 +90,6 @@ public class ScheduleRestService {
         return String.valueOf(scheduleService.count(Schedule.class));
     }
 
-  
-    
+
+
 }

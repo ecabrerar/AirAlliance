@@ -44,9 +44,7 @@ public class Sector extends BaseEntity implements Serializable {
     @Column(name = "sector")
     private String sector;
 
-
     public Sector() {
-
     }
 
     public Sector(Integer id) {

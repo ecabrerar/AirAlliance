@@ -20,9 +20,6 @@ import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -34,10 +31,9 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
  */
 @Named
 @SessionScoped
-public class ScheduleController  implements Serializable{
+public class ScheduleController extends AbstractBaseRestClient implements Serializable{
 
     private static final long serialVersionUID = -3240069895629955984L;
-    private final String baseUri = "http://localhost:8080/webapi/schedules";
 
     private Schedule schedule;
     private List<Schedule> schedules;
@@ -65,12 +61,12 @@ public class ScheduleController  implements Serializable{
      */
     public List<Schedule> getSchedules() {
 
-         Client client = ClientBuilder.newClient();
-        WebTarget webTarget = client.target(baseUri);
+    	schedules = getWebTarget()
+    				.path("schedules")
+                	.request(MediaType.APPLICATION_JSON)
+                	.get(new GenericType<List<Schedule>>() {});
 
-        return webTarget
-                .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<List<Schedule>>() {});
+       return schedules;
 
    }
 

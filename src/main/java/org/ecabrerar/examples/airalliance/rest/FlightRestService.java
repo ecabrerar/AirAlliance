@@ -35,13 +35,11 @@ import org.ecabrerar.examples.airalliance.service.FlightService;
  *
  * @author ecabrerar
  */
-
 @Path("/flights")
 public class FlightRestService implements IRestService{
 
     @Inject
     FlightService flightService;
-
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})

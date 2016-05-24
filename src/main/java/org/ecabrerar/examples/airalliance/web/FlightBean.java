@@ -18,9 +18,9 @@ package org.ecabrerar.examples.airalliance.web;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -32,17 +32,16 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
  * @author ecabrerar
  */
 @Stateless
-public class FlightBean {
+public class FlightBean extends AbstractBaseRestClient{
 
     private  WebTarget webTarget;
-    private final String baseUri = "http://localhost:8080/webapi";
 
-    public FlightBean() {        
+    public FlightBean() {
     }
-        
+
     @PostConstruct
-    private void init() {       
-        webTarget  = ClientBuilder.newClient().target(baseUri);
+    private void initWebTarget() {
+        webTarget  = getWebTarget();
     }
 
     public List<Flight> getFlights() {
@@ -50,35 +49,35 @@ public class FlightBean {
      return webTarget.path("flights")
                      .request(MediaType.APPLICATION_JSON)
                      .get(new GenericType<List<Flight>>(){});
-         
+
     }
-    
+
    public Flight getFlightById(int flightId){
          return webTarget
                         .path("flights/{id}")
                         .resolveTemplate("id", String.valueOf(flightId))
                         .request(MediaType.APPLICATION_JSON)
                         .get(new GenericType<Flight>(){});
-    
-        
+
+
      }
-   
+
      public int getAvailableFlights(Integer source, Integer dest){
-         
+
          Map<String,Object> templateValues = new HashMap<>();
          templateValues.put("source", String.valueOf(source));
          templateValues.put("dest", String.valueOf(dest));
-         
+
          String availableFlights = webTarget
                         .path("flights")
                         .path("{source}")
                         .path("{dest}")
-                        .resolveTemplates(templateValues)                        
+                        .resolveTemplates(templateValues)
                         .request(MediaType.TEXT_PLAIN)
                         .get(String.class);
-         
+
        return Integer.parseInt(availableFlights);
 
-     }   
+     }
 
 }

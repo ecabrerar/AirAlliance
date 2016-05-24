@@ -16,9 +16,9 @@
 package org.ecabrerar.examples.airalliance.web;
 
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -31,18 +31,16 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Itinerary;
  * @author ecabrerar
  */
 @Stateless
-public class ItineraryBean {
+public class ItineraryBean extends AbstractBaseRestClient {
 
     private  WebTarget webTarget;
-
-    private final String baseUri = "http://localhost:8080/webapi";
 
     public ItineraryBean() {
     }
 
     @PostConstruct
-    private void init() {
-        webTarget = ClientBuilder.newClient().target(baseUri);
+    private void initClient() {
+        webTarget = getWebTarget();
     }
 
     public void createReservation(Itinerary itinerary){

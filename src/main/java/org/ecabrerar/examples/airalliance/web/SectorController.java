@@ -20,9 +20,6 @@ import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -34,18 +31,15 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Sector;
  */
 @Named
 @SessionScoped
-public class SectorController implements Serializable{
+public class SectorController extends AbstractBaseRestClient implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
-	private final String baseUri = "http://localhost:8080/webapi";
 
     private Sector sector;
     private List<Sector> sectors;
 
     public SectorController() {
     }
-
 
     /**
      * @return the sector
@@ -66,15 +60,12 @@ public class SectorController implements Serializable{
      */
     public List<Sector> getSectors() {
 
-        Client client = ClientBuilder.newClient();
-        WebTarget webTarget = client.target(baseUri);
+       sectors = getWebTarget()
+                 .path("sectors")
+                 .request(MediaType.APPLICATION_JSON)
+                 .get(new GenericType<List<Sector>>() {});
 
-        return webTarget
-                        .path("sectors")
-                        .request(MediaType.APPLICATION_JSON)
-                        .get(new GenericType<List<Sector>>() {});
-
-
+        return sectors;
     }
 
 
