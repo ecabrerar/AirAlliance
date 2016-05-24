@@ -38,7 +38,7 @@ public class SectorController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
+	private final String baseUri = "http://localhost:8080/webapi";
 
     private Sector sector;
     private List<Sector> sectors;

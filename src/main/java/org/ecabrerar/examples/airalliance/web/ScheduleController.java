@@ -37,7 +37,7 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
 public class ScheduleController  implements Serializable{
 
     private static final long serialVersionUID = -3240069895629955984L;
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi/schedules";
+    private final String baseUri = "http://localhost:8080/webapi/schedules";
 
     private Schedule schedule;
     private List<Schedule> schedules;

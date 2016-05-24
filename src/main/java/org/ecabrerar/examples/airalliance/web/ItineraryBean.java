@@ -35,7 +35,7 @@ public class ItineraryBean {
 
     private  WebTarget webTarget;
 
-    private final String baseUri = "http://localhost:8080/AirAlliance/webapi";
+    private final String baseUri = "http://localhost:8080/webapi";
 
     public ItineraryBean() {
     }

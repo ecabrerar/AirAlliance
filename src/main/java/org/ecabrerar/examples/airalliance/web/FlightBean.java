@@ -35,7 +35,7 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
 public class FlightBean {
 
     private  WebTarget webTarget;
-    private final String baseUri = "bhttp://localhost:8080/AirAlliance/webapi";
+    private final String baseUri = "http://localhost:8080/webapi";
 
     public FlightBean() {        
     }
