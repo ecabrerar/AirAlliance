@@ -27,10 +27,13 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<version.wildfly>8.2.0.Final</version.wildfly>
 		<version.arquillian_persistence>1.0.0.Alpha6</version.arquillian_persistence>
-		<mysql.driver.version>5.1.39</mysql.driver.version>
+		<mysql.driver.version>5.1.29</mysql.driver.version>
 		<mysql.groupId>mysql</mysql.groupId>
 		<mysql.artifactId>mysql-connector-java</mysql.artifactId>
-		<mysql.driver.name>mysql</mysql.driver.name>
+		<mysql.driver.name>${mysql.artifactId}-${mysql.driver.version}.jar</mysql.driver.name>
+		<mysql.username>root</mysql.username>
+		<mysql.password>rootweb</mysql.password>
+		<db.jdbc.url>jdbc:mysql://localhost:3306/AirAlliance</db.jdbc.url>
 	</properties>
 
 	<licenses>
@@ -185,12 +188,13 @@
 							</execution>
 
 							<execution>
-								<id>deploy-driver</id>
+								<id>deploy-mysql-driver</id>
 								<phase>install</phase>
 								<configuration>
 									<groupId>${mysql.groupId}</groupId>
 									<artifactId>${mysql.artifactId}</artifactId>
-									<name>${mysql.artifactId}-${mysql.driver.version}.jar</name>
+									<name>${mysql.driver.name}</name>
+                                    <driver-name>${mysql.driver.name}</driver-name>
 								</configuration>
 								<goals>
 									<goal>deploy-artifact</goal>
@@ -206,12 +210,13 @@
 									<resources>
 										<resource>
 											<properties>
-												<connection-url>jdbc:mysql://localhost:3306/AirAlliance</connection-url>
+												<connection-url>${db.jdbc.url}</connection-url>
 												<jndi-name>java:jboss/datasources/MySQLDS</jndi-name>
 												<enable>true</enable>
 												<enabled>true</enabled>
-												<user-name>root</user-name>
-												<password>rootweb</password>
+												<user-name>${mysql.username}</user-name>
+												<password>{mysql.password}</password>
+												<pool-name>mysql_AirAlliance_rootPool</pool-name>
 												<driver-name>${mysql.driver.name}</driver-name>
 												<use-ccm>false</use-ccm>
 											</properties>
