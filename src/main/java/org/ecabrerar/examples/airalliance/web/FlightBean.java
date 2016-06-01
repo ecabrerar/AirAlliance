@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -32,16 +33,18 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Flight;
  * @author ecabrerar
  */
 @Stateless
-public class FlightBean extends AbstractBaseRestClient{
+public class FlightBean{
 
     private  WebTarget webTarget;
+
+    @Inject ServiceConfigRestClient serviceConfig;
 
     public FlightBean() {
     }
 
     @PostConstruct
     private void initWebTarget() {
-        webTarget  = getWebTarget();
+        webTarget  = serviceConfig.getWebTarget();
     }
 
     public List<Flight> getFlights() {

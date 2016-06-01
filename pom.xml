@@ -27,7 +27,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<version.wildfly>8.2.0.Final</version.wildfly>
 		<version.arquillian_persistence>1.0.0.Alpha6</version.arquillian_persistence>
-		<mysql.driver.version>5.1.29</mysql.driver.version>
+		<mysql.driver.version>5.1.25</mysql.driver.version>
 		<mysql.groupId>mysql</mysql.groupId>
 		<mysql.artifactId>mysql-connector-java</mysql.artifactId>
 		<mysql.driver.name>${mysql.artifactId}-${mysql.driver.version}.jar</mysql.driver.name>
@@ -77,7 +77,12 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>javax.faces-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
+		</dependency>
 		<!--Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -151,7 +156,7 @@
 				<maven.test.skip>true</maven.test.skip>
 			</properties>
 			<build>
-			    <finalName>${project.artifactId}</finalName>
+				<finalName>${project.artifactId}</finalName>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -186,25 +191,70 @@
 									<ignoreMissingDeployment>true</ignoreMissingDeployment>
 								</configuration>
 							</execution>
-
+							<!-- Deploy the application on install -->
+							<execution>
+								<id>deploy</id>
+								<phase>install</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>install-driver</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<build>
+				<finalName>${project.artifactId}</finalName>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.1</version>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<failOnMissingWebXml>false</failOnMissingWebXml>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.wildfly.plugins</groupId>
+						<artifactId>wildfly-maven-plugin</artifactId>
+						<version>1.0.2.Final</version>
+						<executions>
 							<execution>
 								<id>deploy-mysql-driver</id>
 								<phase>install</phase>
+								<goals>
+									<goal>deploy-artifact</goal>
+								</goals>
 								<configuration>
 									<groupId>${mysql.groupId}</groupId>
 									<artifactId>${mysql.artifactId}</artifactId>
 									<name>${mysql.driver.name}</name>
-                                    <driver-name>${mysql.driver.name}</driver-name>
+									<driver-name>${mysql.driver.name}</driver-name>
 								</configuration>
-								<goals>
-									<goal>deploy-artifact</goal>
-								</goals>
 							</execution>
 
 							<!-- Add a data source -->
 							<execution>
 								<id>add-datasource</id>
 								<phase>install</phase>
+								<goals>
+									<goal>add-resource</goal>
+								</goals>
 								<configuration>
 									<address>subsystem=datasources,data-source=MySQLDS</address>
 									<resources>
@@ -215,26 +265,13 @@
 												<enable>true</enable>
 												<enabled>true</enabled>
 												<user-name>${mysql.username}</user-name>
-												<password>{mysql.password}</password>
-												<pool-name>mysql_AirAlliance_rootPool</pool-name>
+												<password>${mysql.password}</password>
 												<driver-name>${mysql.driver.name}</driver-name>
 												<use-ccm>false</use-ccm>
 											</properties>
 										</resource>
 									</resources>
 								</configuration>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-							</execution>
-
-							<!-- Deploy the application on install -->
-							<execution>
-								<id>deploy</id>
-								<phase>install</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
 							</execution>
 						</executions>
 					</plugin>
@@ -264,7 +301,7 @@
 		<profile>
 			<id>integration-test</id>
 			<build>
-			 <finalName>${project.artifactId}</finalName>
+				<finalName>${project.artifactId}</finalName>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>

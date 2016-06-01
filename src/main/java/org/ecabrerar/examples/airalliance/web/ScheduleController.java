@@ -18,8 +18,8 @@ package org.ecabrerar.examples.airalliance.web;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -29,18 +29,18 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Schedule;
  *
  * @author ecabrerar
  */
-@Named
-@SessionScoped
-public class ScheduleController extends AbstractBaseRestClient implements Serializable{
+@Model
+public class ScheduleController implements Serializable{
 
     private static final long serialVersionUID = -3240069895629955984L;
 
     private Schedule schedule;
     private List<Schedule> schedules;
 
+    @Inject ServiceConfigRestClient serviceConfig;
+
     public ScheduleController() {
     }
-
 
     /**
      * @return the schedule
@@ -61,7 +61,7 @@ public class ScheduleController extends AbstractBaseRestClient implements Serial
      */
     public List<Schedule> getSchedules() {
 
-    	schedules = getWebTarget()
+    	schedules = serviceConfig.getWebTarget()
     				.path("schedules")
                 	.request(MediaType.APPLICATION_JSON)
                 	.get(new GenericType<List<Schedule>>() {});

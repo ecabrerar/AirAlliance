@@ -18,8 +18,8 @@ package org.ecabrerar.examples.airalliance.web;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
@@ -29,14 +29,15 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Sector;
  *
  * @author ecabrerar
  */
-@Named
-@SessionScoped
-public class SectorController extends AbstractBaseRestClient implements Serializable{
+@Model
+public class SectorController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
     private Sector sector;
     private List<Sector> sectors;
+
+    @Inject ServiceConfigRestClient serviceConfig;
 
     public SectorController() {
     }
@@ -60,7 +61,7 @@ public class SectorController extends AbstractBaseRestClient implements Serializ
      */
     public List<Sector> getSectors() {
 
-       sectors = getWebTarget()
+       sectors = serviceConfig.getWebTarget()
                  .path("sectors")
                  .request(MediaType.APPLICATION_JSON)
                  .get(new GenericType<List<Sector>>() {});

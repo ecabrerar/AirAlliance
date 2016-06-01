@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -31,16 +32,18 @@ import org.ecabrerar.examples.airalliance.jaxb.data.Itinerary;
  * @author ecabrerar
  */
 @Stateless
-public class ItineraryBean extends AbstractBaseRestClient {
+public class ItineraryBean {
 
     private  WebTarget webTarget;
+
+    @Inject ServiceConfigRestClient serviceConfig;
 
     public ItineraryBean() {
     }
 
     @PostConstruct
     private void initClient() {
-        webTarget = getWebTarget();
+        webTarget = serviceConfig.getWebTarget();
     }
 
     public void createReservation(Itinerary itinerary){
