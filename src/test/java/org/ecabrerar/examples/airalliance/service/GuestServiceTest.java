@@ -26,7 +26,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
+import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.entities.Itinerary;
+import org.ecabrerar.examples.airalliance.entities.Schedule;
+import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
 import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -55,11 +59,11 @@ public class GuestServiceTest {
 
 		WebArchive webArchive = ShrinkWrap
 				.create(WebArchive.class)
-				.addClasses(GuestService.class, Guest.class,
-						EntityManagerProducer.class, BaseEntityService.class,
-						BaseEntity.class,TestHelpers.class)
-				.addAsResource("META-INF/test_persistence.xml",
-						"META-INF/persistence.xml")
+				.addClasses(BaseEntity.class, Flight.class, Guest.class,
+						Itinerary.class, Schedule.class, Sector.class,
+						BaseEntityService.class, GuestService.class,
+						EntityManagerProducer.class, TestHelpers.class)
+				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
 		System.out.println(webArchive.toString(true));
@@ -84,7 +88,7 @@ public class GuestServiceTest {
 	}
 
 	@Test
-	@UsingDataSet({ "guest.json" })
+	@UsingDataSet(value = { "guest.json" })
 	@ShouldMatchDataSet(value = { "guest.json" }, excludeColumns = { "id" })
 	public void get_ExistingGuest_Found() throws Exception {
 
@@ -93,7 +97,7 @@ public class GuestServiceTest {
 	}
 
 	@Test
-	@UsingDataSet({ "guests.json" })
+	@UsingDataSet(value = { "guests.json" })
 	public void findAll_guestStoredInDatabase_3GuestFound() throws Exception {
 
 		List<Guest> result = guestService.findAll(Guest.class);
@@ -101,7 +105,7 @@ public class GuestServiceTest {
 	}
 
 	@Test
-	@UsingDataSet({ "guests.json" })
+	@UsingDataSet(value = { "guests.json" })
 	public void count_guestStoredInDatabase_3GuestFound() throws Exception {
 
 		int count = guestService.count(Guest.class);

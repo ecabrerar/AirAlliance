@@ -30,23 +30,23 @@ import org.ecabrerar.examples.airalliance.entities.Guest;
 @Stateless
 public class GuestService extends BaseEntityService{
 
-   @Inject
+    @Inject
     private EntityManager entityManager;
-    
+
     @Override
     protected EntityManager getEntityManager() {
        return entityManager;
     }
-    
+
     public Optional<Guest> findGuest(@NotNull String firstName, @NotNull String lastName){
-        
+
       return  entityManager
               .createQuery(" SELECT g FROM Guest g WHERE g.firstname=:firstName AND g.lastname=:lastName", Guest.class)
               .setParameter("firstName", firstName)
               .setParameter("lastName", lastName)
               .getResultList()
               .stream()
-              .findFirst();   
-        
+              .findFirst();
+
     }
 }

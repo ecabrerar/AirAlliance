@@ -19,11 +19,12 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createFlight;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.entities.Itinerary;
+import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
 import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
@@ -49,18 +50,21 @@ public class FlightServiceTest {
     private FlightService flightService;
 
     @Inject
-    private EntityManager entityManager;
+    private SectorService sectorService;
 
     @Deployment
     public static Archive<?> deployment() {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(FlightService.class, Flight.class, Sector.class, Guest.class, EntityManagerProducer.class, BaseEntityService.class,
-                        BaseEntity.class, TestHelpers.class
-                )
-                .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        System.out.println(webArchive.toString(true));
-        return webArchive;
+		WebArchive webArchive = ShrinkWrap
+				.create(WebArchive.class)
+				.addClasses(BaseEntity.class, Flight.class, Guest.class,
+						Itinerary.class, Schedule.class, Sector.class,
+						EntityManagerProducer.class, BaseEntityService.class,
+						SectorService.class, FlightService.class, TestHelpers.class)
+				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+
+		System.out.println(webArchive.toString(true));
+		return webArchive;
     }
 
     @Test
@@ -73,8 +77,8 @@ public class FlightServiceTest {
     @ShouldMatchDataSet(value = {"flight.json"}, excludeColumns = {"id"})
     public void save_NewFlight_ShouldBeCreated() throws Exception {
 
-        Sector sourceSector = entityManager.find(Sector.class, 1);
-        Sector destSector = entityManager.find(Sector.class, 3);
+        Sector sourceSector = sectorService.find(Sector.class, 1);
+        Sector destSector = sectorService.find(Sector.class, 3);
 
         Flight saved = flightService.create(createFlight(destSector, sourceSector));
 
@@ -83,7 +87,7 @@ public class FlightServiceTest {
     }
 
     @Test
-    @UsingDataSet({"sector.json", "flight.json"})
+    @UsingDataSet(value = {"sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"flight.json"}, excludeColumns = {"id"})
     public void get_ExistingFlight_Found() throws Exception {
 

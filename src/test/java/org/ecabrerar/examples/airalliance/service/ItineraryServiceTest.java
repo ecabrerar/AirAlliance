@@ -19,7 +19,6 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createItinerary;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
@@ -28,6 +27,7 @@ import org.ecabrerar.examples.airalliance.entities.Itinerary;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
+import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
@@ -36,6 +36,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,6 +44,7 @@ import org.junit.runner.RunWith;
  *
  * @author ecabrerar
  */
+@Ignore
 @RunWith(Arquillian.class)
 public class ItineraryServiceTest {
 
@@ -50,18 +52,25 @@ public class ItineraryServiceTest {
     private ItineraryService itineraryService;
 
     @Inject
-    private EntityManager entityManager;
+    private ScheduleService scheduleService;
+
+    @Inject
+    private FlightService flightService;
+
+    @Inject
+	private GuestService guestService;
 
     @Deployment
     public static Archive<?> deployment() {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(Itinerary.class, Guest.class, Flight.class, Sector.class, Schedule.class,
-                        ItineraryService.class, GuestService.class, ScheduleService.class,
-                        SectorService.class, EntityManagerProducer.class, BaseEntityService.class,
-                        BaseEntity.class
-                )
-                .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		WebArchive webArchive = ShrinkWrap
+				.create(WebArchive.class)
+				.addClasses(BaseEntity.class, Flight.class, Guest.class,
+						Itinerary.class, Schedule.class, Sector.class,
+						EntityManagerProducer.class, BaseEntityService.class,
+						ItineraryService.class, GuestService.class,
+						ScheduleService.class,FlightService.class, TestHelpers.class)
+				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         System.out.println(webArchive.toString(true));
         return webArchive;
@@ -73,13 +82,13 @@ public class ItineraryServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"guests.json", "flight.json","schedule.yml"})
+    @UsingDataSet(value = {"schedule.yml","guest.json", "flight.json"})
     @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void save_NewItinerary_ShouldBeCreated() throws Exception {
 
-        Guest guest = entityManager.find(Guest.class, 1);
-        Flight flight = entityManager.find(Flight.class, 1);
-        Schedule schedule = entityManager.find(Schedule.class, 1);
+        Guest guest = guestService.find(Guest.class, 1);
+        Flight flight = flightService.find(Flight.class, 1);
+        Schedule schedule = scheduleService.find(Schedule.class, 1);
 
         Itinerary  saved =  itineraryService.createItinerary(createItinerary(flight, guest, schedule));
 
@@ -88,8 +97,8 @@ public class ItineraryServiceTest {
     }
 
     @Test
-    @UsingDataSet({"schedule.yml","sector.json", "flight.json"})
-    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
+    @UsingDataSet(value = {"schedule.yml","guest.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void get_ExistingItinerary_Found() throws Exception {
 
         Itinerary itinerary = itineraryService.find(Itinerary.class, 1);

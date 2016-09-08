@@ -16,9 +16,13 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -44,6 +48,12 @@ public class Sector extends BaseEntity implements Serializable {
     @Column(name = "sector")
     private String sector;
 
+    @OneToMany(mappedBy="sourceSector", fetch = FetchType.LAZY)
+    private List<Flight> sources;
+
+    @OneToMany(mappedBy="destSector", fetch = FetchType.LAZY)
+    private List<Flight> dests;
+
     public Sector() {
     }
 
@@ -65,7 +75,23 @@ public class Sector extends BaseEntity implements Serializable {
         this.sector = sector;
     }
 
-    @Override
+    public List<Flight> getSources() {
+		return sources;
+	}
+
+	public void setSources(List<Flight> sources) {
+		this.sources = sources;
+	}
+
+	public List<Flight> getDests() {
+		return dests;
+	}
+
+	public void setDests(List<Flight> dests) {
+		this.dests = dests;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (getId() != null ? getId().hashCode() : 0);

@@ -15,26 +15,28 @@
  */
 package org.ecabrerar.examples.airalliance.service;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
 import static junit.framework.TestCase.assertNotNull;
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
+
+import javax.inject.Inject;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.entities.Itinerary;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
+import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
-import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,6 +44,7 @@ import org.junit.runner.RunWith;
  *
  * @author ecabrerar
  */
+@Ignore
 @RunWith(Arquillian.class)
 public class ScheduleServiceTest {
 
@@ -49,15 +52,22 @@ public class ScheduleServiceTest {
     private ScheduleService scheduleService;
 
     @Inject
-    private EntityManager entityManager;
+    private FlightService flightService;
+
+    @Inject
+	private GuestService guestService;
 
     @Deployment
     public static Archive<?> deployment() {
 
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(ScheduleService.class, Schedule.class, Sector.class, Guest.class, Flight.class, EntityManagerProducer.class, BaseEntityService.class, BaseEntity.class)
-                .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		WebArchive webArchive = ShrinkWrap
+				.create(WebArchive.class)
+				.addClasses(BaseEntity.class, Flight.class, Guest.class,
+						Itinerary.class, Schedule.class, Sector.class,
+						ScheduleService.class, TestHelpers.class,GuestService.class,
+						FlightService.class, EntityManagerProducer.class, BaseEntityService.class)
+				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         System.out.println(webArchive.toString(true));
 
@@ -70,21 +80,21 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"guests.json", "flight.json"})
+    @UsingDataSet(value = {"guest.json", "flight.json"})
     @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
     public void save_NewSchedule_ShouldBeCreated() throws Exception {
 
-        Guest guest = entityManager.find(Guest.class, 1);
-        Flight flight = entityManager.find(Flight.class, 1);
+        Guest guest = guestService.find(Guest.class, 1);
+        Flight flight = flightService.find(Flight.class, 1);
 
         Schedule saved = scheduleService.create(createSchedule(flight, guest));
 
         assertNotNull(saved);
         assertNotNull(saved.getId());
     }
-    
+
     @Test
-    @UsingDataSet({"schedule.yml","sector.json", "flight.json"})
+    @UsingDataSet(value = {"schedule.yml","sector.json", "flight.json"})
     @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
     public void get_ExistingSchedule_Found() throws Exception {
 

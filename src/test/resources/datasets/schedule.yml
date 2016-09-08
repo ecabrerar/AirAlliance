@@ -1,5 +1,5 @@
 schedule:
-    -id : 1
+  - id : 1
     guest_id : 1
     flight_id : 1
     schedule_date : 2015-07-17

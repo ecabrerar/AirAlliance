@@ -23,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
+import org.ecabrerar.examples.airalliance.entities.Sector;
 
 /**
  *
@@ -33,12 +34,39 @@ public class FlightService extends BaseEntityService {
 
     @Inject
     private EntityManager entityManager;
-    
+
+    @Inject
+    private SectorService sectorService;
+
     @Override
     protected EntityManager getEntityManager() {
        return entityManager;
-    }   
- 
+    }
+
+    public Flight create(@NotNull Flight flight){
+
+    	if(flight.getDestSectorId() !=null && flight.getDestSectorId().getId() == 0){
+
+    		  Sector destSector = sectorService.findSector(flight.getDestSectorId().getSector())
+    				  			  .orElse(sectorService.create(flight.getDestSectorId()));
+
+              flight.setDestSectorId(destSector);
+    	}
+
+
+    	if(flight.getSourceSector() !=null && flight.getSourceSector().getId() == 0){
+
+    		 Sector sourceSector = sectorService.findSector(flight.getSourceSector().getSector())
+    				 			   .orElse(sectorService.create(flight.getSourceSector()));
+
+            flight.setSourceSector(sourceSector);
+
+    	}
+
+    	return create(flight);
+
+    }
+
 
     /**
      * This method accepts two sectors and returns all the available flights between
@@ -58,7 +86,7 @@ public class FlightService extends BaseEntityService {
     			.setParameter("destSectorId", destSectorId)
     			.getResultList();
 
-       
+
 
     }
 

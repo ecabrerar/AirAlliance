@@ -26,6 +26,10 @@ import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.create
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
+import org.ecabrerar.examples.airalliance.entities.Flight;
+import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.entities.Itinerary;
+import org.ecabrerar.examples.airalliance.entities.Schedule;
 import org.ecabrerar.examples.airalliance.entities.Sector;
 import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
 import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
@@ -52,12 +56,14 @@ public class SectorServiceTest {
 
     @Deployment
     public static Archive<?> deployment() {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(Sector.class, SectorService.class, EntityManagerProducer.class,
-                        BaseEntityService.class, BaseEntity.class, TestHelpers.class
-                )
-                .addAsResource("META-INF/test_persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		WebArchive webArchive = ShrinkWrap
+				.create(WebArchive.class)
+				.addClasses(BaseEntity.class, Flight.class, Guest.class,
+						Itinerary.class, Schedule.class, Sector.class,
+						SectorService.class, EntityManagerProducer.class,
+						BaseEntityService.class, TestHelpers.class)
+				.addAsResource("META-INF/test_persistence.xml",	"META-INF/persistence.xml")
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         System.out.println(webArchive.toString(true));
 
@@ -80,7 +86,7 @@ public class SectorServiceTest {
     }
 
     @Test
-    @UsingDataSet({"sector.json"})
+    @UsingDataSet(value = {"sector.json"})
     @ShouldMatchDataSet(value = {"sector.json"}, excludeColumns = {"id"})
     public void get_ExistingSector_Found() throws Exception {
 
@@ -89,7 +95,7 @@ public class SectorServiceTest {
     }
 
     @Test
-    @UsingDataSet({"sectors.json"})
+    @UsingDataSet(value = {"sectors.json"})
     public void findAll_sectorStoredInDatabase_3SectorFound() throws Exception {
 
         List<Sector> result = sectorService.findAll(Sector.class);
@@ -97,7 +103,7 @@ public class SectorServiceTest {
     }
 
     @Test
-    @UsingDataSet({"sectors.json"})
+    @UsingDataSet(value = {"sectors.json"})
     public void count_sectorStoredInDatabase_3SectorFound() throws Exception {
 
         int count = sectorService.count(Sector.class);

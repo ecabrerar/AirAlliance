@@ -41,18 +41,18 @@ public class Flight extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
+    @Basic(optional = false)
     @Column(name = "name")
     private String name;
 
-    @JoinColumn(name = "source_sector_id",insertable=false,updatable=false)
     @ManyToOne( optional = false)
+    @JoinColumn(name = "source_sector_id",insertable=false,updatable=false)
     private Sector sourceSector;
 
-    @JoinColumn(name = "dest_sector_id",insertable=false,updatable=false)
     @ManyToOne(optional = false)
+    @JoinColumn(name = "dest_sector_id",insertable=false,updatable=false)
     private Sector destSector;
 
     public Flight() {
