@@ -48,11 +48,11 @@ public class Flight extends BaseEntity implements Serializable {
     private String name;
 
     @ManyToOne( optional = false)
-    @JoinColumn(name = "source_sector_id",insertable=false,updatable=false)
+    @JoinColumn(name = "source_sector_id")
     private Sector sourceSector;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "dest_sector_id",insertable=false,updatable=false)
+    @JoinColumn(name = "dest_sector_id")
     private Sector destSector;
 
     public Flight() {

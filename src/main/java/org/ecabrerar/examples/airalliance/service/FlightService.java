@@ -63,7 +63,7 @@ public class FlightService extends BaseEntityService {
 
     	}
 
-    	return create(flight);
+    	return super.create(flight);
 
     }
 

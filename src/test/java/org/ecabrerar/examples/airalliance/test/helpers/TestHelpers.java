@@ -45,7 +45,7 @@ public class TestHelpers {
 		Schedule schedule = new Schedule();
 		schedule.setFlight(flight);
 		schedule.setGuest(guest);
-		schedule.setScheduleDate(LocalDate.of(2008,11,01));
+		schedule.setScheduleDate(LocalDate.of(2015,07,17));
 
 		return schedule;
 	}

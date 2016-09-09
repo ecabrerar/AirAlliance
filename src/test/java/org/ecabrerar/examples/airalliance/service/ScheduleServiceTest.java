@@ -20,6 +20,7 @@ import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.create
 
 import javax.inject.Inject;
 
+import org.ecabrerar.examples.airalliance.converters.LocalDateConverter;
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
@@ -36,7 +37,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,7 +44,6 @@ import org.junit.runner.RunWith;
  *
  * @author ecabrerar
  */
-@Ignore
 @RunWith(Arquillian.class)
 public class ScheduleServiceTest {
 
@@ -64,8 +63,9 @@ public class ScheduleServiceTest {
 				.create(WebArchive.class)
 				.addClasses(BaseEntity.class, Flight.class, Guest.class,
 						Itinerary.class, Schedule.class, Sector.class,
-						ScheduleService.class, TestHelpers.class,GuestService.class,
-						FlightService.class, EntityManagerProducer.class, BaseEntityService.class)
+						ScheduleService.class, TestHelpers.class, GuestService.class,
+						FlightService.class,SectorService.class, LocalDateConverter.class,
+						EntityManagerProducer.class, BaseEntityService.class)
 				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
@@ -80,7 +80,7 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"guest.json", "flight.json"})
+    @UsingDataSet(value = {"guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
     public void save_NewSchedule_ShouldBeCreated() throws Exception {
 
@@ -94,7 +94,7 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"schedule.yml","sector.json", "flight.json"})
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
     public void get_ExistingSchedule_Found() throws Exception {
 

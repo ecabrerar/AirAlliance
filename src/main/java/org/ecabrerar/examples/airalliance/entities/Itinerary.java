@@ -40,17 +40,17 @@ public class Itinerary extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JoinColumn(name = "guest_id")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "guest_id")
     private Guest guest;
 
-    @JoinColumn(name = "flight_id")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "flight_id")
     private Flight flight;
 
+    @ManyToOne(optional = false)
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @JoinColumn(name = "schedule_id")
-    @ManyToOne(optional = false)
     private Schedule schedule;
 
     public Itinerary() {

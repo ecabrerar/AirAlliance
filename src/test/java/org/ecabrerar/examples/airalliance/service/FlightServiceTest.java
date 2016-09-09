@@ -78,6 +78,7 @@ public class FlightServiceTest {
     public void save_NewFlight_ShouldBeCreated() throws Exception {
 
         Sector sourceSector = sectorService.find(Sector.class, 1);
+
         Sector destSector = sectorService.find(Sector.class, 3);
 
         Flight saved = flightService.create(createFlight(destSector, sourceSector));

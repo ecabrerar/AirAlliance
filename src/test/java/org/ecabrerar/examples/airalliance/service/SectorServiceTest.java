@@ -15,15 +15,15 @@
  */
 package org.ecabrerar.examples.airalliance.service;
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSector;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import javax.inject.Inject;
-
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSector;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;

@@ -20,6 +20,7 @@ import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.create
 
 import javax.inject.Inject;
 
+import org.ecabrerar.examples.airalliance.converters.LocalDateConverter;
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
@@ -36,7 +37,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,7 +44,6 @@ import org.junit.runner.RunWith;
  *
  * @author ecabrerar
  */
-@Ignore
 @RunWith(Arquillian.class)
 public class ItineraryServiceTest {
 
@@ -67,8 +66,9 @@ public class ItineraryServiceTest {
 				.addClasses(BaseEntity.class, Flight.class, Guest.class,
 						Itinerary.class, Schedule.class, Sector.class,
 						EntityManagerProducer.class, BaseEntityService.class,
-						ItineraryService.class, GuestService.class,
-						ScheduleService.class,FlightService.class, TestHelpers.class)
+						ItineraryService.class, GuestService.class,LocalDateAdapter.class,
+						ScheduleService.class,SectorService.class, LocalDateConverter.class,
+						FlightService.class, TestHelpers.class)
 				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
@@ -82,7 +82,7 @@ public class ItineraryServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"schedule.yml","guest.json", "flight.json"})
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void save_NewItinerary_ShouldBeCreated() throws Exception {
 
@@ -97,7 +97,7 @@ public class ItineraryServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"schedule.yml","guest.json", "flight.json"})
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void get_ExistingItinerary_Found() throws Exception {
 

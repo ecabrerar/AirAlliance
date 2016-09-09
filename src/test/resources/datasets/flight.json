@@ -3,8 +3,8 @@
         {
             "id": 1,
             "name": "AA056",
-            "sector_id": 1,
-            "sector_id": 3
+            "source_sector_id": 1,
+            "dest_sector_id": 3
         }
     ]
 }
