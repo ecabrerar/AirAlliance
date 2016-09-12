@@ -20,6 +20,7 @@ import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.create
 
 import javax.inject.Inject;
 
+import org.ecabrerar.examples.airalliance.converters.LocalDateAdapter;
 import org.ecabrerar.examples.airalliance.converters.LocalDateConverter;
 import org.ecabrerar.examples.airalliance.entities.BaseEntity;
 import org.ecabrerar.examples.airalliance.entities.Flight;
@@ -65,10 +66,10 @@ public class ItineraryServiceTest {
 				.create(WebArchive.class)
 				.addClasses(BaseEntity.class, Flight.class, Guest.class,
 						Itinerary.class, Schedule.class, Sector.class,
+						ItineraryService.class, GuestService.class,	ScheduleService.class,
 						EntityManagerProducer.class, BaseEntityService.class,
-						ItineraryService.class, GuestService.class,LocalDateAdapter.class,
-						ScheduleService.class,SectorService.class, LocalDateConverter.class,
-						FlightService.class, TestHelpers.class)
+						SectorService.class, FlightService.class, LocalDateAdapter.class,
+						LocalDateConverter.class,TestHelpers.class)
 				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
@@ -97,7 +98,7 @@ public class ItineraryServiceTest {
     }
 
     @Test
-    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
+    @UsingDataSet(value = {"itinerary.yml","schedule.yml","guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void get_ExistingItinerary_Found() throws Exception {
 

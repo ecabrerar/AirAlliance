@@ -1,5 +1,5 @@
 itinerary:
   - id: 1
-    guest_id : 1
-    flight_id : 1 
-    schedule_id : 1
+    guest_id: 1
+    flight_id: 1
+    schedule_id: 1

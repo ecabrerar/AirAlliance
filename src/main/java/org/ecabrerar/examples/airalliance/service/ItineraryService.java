@@ -35,10 +35,10 @@ public class ItineraryService extends BaseEntityService {
     private EntityManager entityManager;
 
     @Inject
-    GuestService guestService;
+    private GuestService guestService;
 
     @Inject
-    ScheduleService scheduleService;
+    private ScheduleService scheduleService;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -69,6 +69,6 @@ public class ItineraryService extends BaseEntityService {
 
         }
 
-        return create(itinerary);
+        return super.create(itinerary);
     }
 }
