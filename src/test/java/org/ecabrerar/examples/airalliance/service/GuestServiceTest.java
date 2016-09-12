@@ -25,21 +25,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.ecabrerar.examples.airalliance.entities.BaseEntity;
-import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
-import org.ecabrerar.examples.airalliance.entities.Itinerary;
-import org.ecabrerar.examples.airalliance.entities.Schedule;
-import org.ecabrerar.examples.airalliance.entities.Sector;
-import org.ecabrerar.examples.airalliance.producers.EntityManagerProducer;
-import org.ecabrerar.examples.airalliance.test.helpers.TestHelpers;
+import org.ecabrerar.examples.airalliance.util.Deployments;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,14 +49,7 @@ public class GuestServiceTest {
 	@Deployment
 	public static Archive<?> deployment() {
 
-		WebArchive webArchive = ShrinkWrap
-				.create(WebArchive.class)
-				.addClasses(BaseEntity.class, Flight.class, Guest.class,
-						Itinerary.class, Schedule.class, Sector.class,
-						BaseEntityService.class, GuestService.class,
-						EntityManagerProducer.class, TestHelpers.class)
-				.addAsResource("META-INF/test_persistence.xml","META-INF/persistence.xml")
-				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		WebArchive webArchive = Deployments.getBaseDeployment();
 
 		System.out.println(webArchive.toString(true));
 

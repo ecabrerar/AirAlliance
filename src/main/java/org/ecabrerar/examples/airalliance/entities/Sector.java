@@ -16,6 +16,7 @@
 package org.ecabrerar.examples.airalliance.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -29,6 +30,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 /**
  *
@@ -48,11 +53,13 @@ public class Sector extends BaseEntity implements Serializable {
     @Column(name = "sector")
     private String sector;
 
+    @JsonIgnore
     @OneToMany(mappedBy="sourceSector", fetch = FetchType.LAZY)
-    private List<Flight> sources;
+    private List<Flight> sources = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy="destSector", fetch = FetchType.LAZY)
-    private List<Flight> dests;
+    private List<Flight> dests = new ArrayList<>();
 
     public Sector() {
     }
