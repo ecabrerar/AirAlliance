@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.service;
+package org.ecabrerar.examples.airalliance.it.service;
 
 import static junit.framework.TestCase.assertNotNull;
-import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
+import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createItinerary;
 
 import javax.inject.Inject;
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
 import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.entities.Itinerary;
 import org.ecabrerar.examples.airalliance.entities.Schedule;
+import org.ecabrerar.examples.airalliance.service.FlightService;
+import org.ecabrerar.examples.airalliance.service.GuestService;
+import org.ecabrerar.examples.airalliance.service.ItineraryService;
+import org.ecabrerar.examples.airalliance.service.ScheduleService;
 import org.ecabrerar.examples.airalliance.util.Deployments;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -38,7 +43,10 @@ import org.junit.runner.RunWith;
  * @author ecabrerar
  */
 @RunWith(Arquillian.class)
-public class ScheduleServiceTest {
+public class ItineraryServiceTest {
+
+    @Inject
+    private ItineraryService itineraryService;
 
     @Inject
     private ScheduleService scheduleService;
@@ -51,39 +59,40 @@ public class ScheduleServiceTest {
 
     @Deployment
     public static Archive<?> deployment() {
-
     	WebArchive webArchive = Deployments.getBaseDeployment();
-        System.out.println(webArchive.toString(true));
 
+        System.out.println(webArchive.toString(true));
         return webArchive;
     }
 
     @Test
-    public void scheduleServiceShouldNotBeNull() {
-        assertNotNull(scheduleService);
+    public void itineraryServiceShouldNotBeNull() {
+        assertNotNull(itineraryService);
     }
 
     @Test
-    @UsingDataSet(value = {"guests.json","sectors.json", "flight.json"})
-    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
-    public void save_NewSchedule_ShouldBeCreated() throws Exception {
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
+    public void save_NewItinerary_ShouldBeCreated() throws Exception {
 
         Guest guest = guestService.find(Guest.class, 1);
         Flight flight = flightService.find(Flight.class, 1);
+        Schedule schedule = scheduleService.find(Schedule.class, 1);
 
-        Schedule saved = scheduleService.create(createSchedule(flight, guest));
+        Itinerary  saved =  itineraryService.createItinerary(createItinerary(flight, guest, schedule));
 
         assertNotNull(saved);
         assertNotNull(saved.getId());
     }
 
     @Test
-    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
-    @ShouldMatchDataSet(value = {"schedule.yml"}, excludeColumns = {"id"})
-    public void get_ExistingSchedule_Found() throws Exception {
+    @UsingDataSet(value = {"itinerary.yml","schedule.yml","guests.json","sectors.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
+    public void get_ExistingItinerary_Found() throws Exception {
 
-        Schedule schedule = scheduleService.find(Schedule.class, 1);
-        assertNotNull(schedule);
+        Itinerary itinerary = itineraryService.find(Itinerary.class, 1);
+        assertNotNull(itinerary);
     }
+
 
 }

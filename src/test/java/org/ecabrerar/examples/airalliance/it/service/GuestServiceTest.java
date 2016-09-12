@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ecabrerar.examples.airalliance.service;
+package org.ecabrerar.examples.airalliance.it.service;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createGuest;
@@ -26,6 +26,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.ecabrerar.examples.airalliance.entities.Guest;
+import org.ecabrerar.examples.airalliance.service.GuestService;
 import org.ecabrerar.examples.airalliance.util.Deployments;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
