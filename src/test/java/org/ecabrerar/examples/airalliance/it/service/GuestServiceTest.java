@@ -75,6 +75,19 @@ public class GuestServiceTest {
 
 	@Test
 	@UsingDataSet(value = { "guest.json" })
+	@ShouldMatchDataSet(value = { "guest_updated.json" }, excludeColumns = { "id" })
+	public void shouldUpdateGuest(){
+
+		Guest guest = guestService.find(Guest.class, 1);
+		guest.setFirstname("James");
+		guest.setLastname("Gosling");
+
+		guestService.edit(guest);
+
+	}
+
+	@Test
+	@UsingDataSet(value = { "guest.json" })
 	@ShouldMatchDataSet(value = { "guest.json" }, excludeColumns = { "id" })
 	public void get_ExistingGuest_Found() throws Exception {
 

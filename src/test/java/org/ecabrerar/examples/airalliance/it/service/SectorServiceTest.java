@@ -73,6 +73,17 @@ public class SectorServiceTest {
 
     @Test
     @UsingDataSet(value = {"sector.json"})
+    @ShouldMatchDataSet(value = {"sector_updated.json"}, excludeColumns = {"id"})
+    public void shouldUpdateSector(){
+
+    	Sector sector = sectorService.find(Sector.class, 1);
+    	sector.setSector("DEL");
+
+    	sectorService.edit(sector);
+    }
+
+    @Test
+    @UsingDataSet(value = {"sector.json"})
     @ShouldMatchDataSet(value = {"sector.json"}, excludeColumns = {"id"})
     public void get_ExistingSector_Found() throws Exception {
 
