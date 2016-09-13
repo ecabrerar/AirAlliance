@@ -2,6 +2,7 @@ package org.ecabrerar.examples.airalliance.it.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasItem;
 
 import java.net.URL;
 
@@ -26,7 +27,10 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class SectorRestServiceTest {
 
-	@Deployment(testable = false)
+        @ArquillianResource
+        URL basePath;
+        
+	@Deployment
 	public static Archive<?> deployment() {
 		WebArchive war = Deployments.getBaseDeployment();
 
@@ -39,25 +43,21 @@ public class SectorRestServiceTest {
 		return war;
 	}
 
-	@ArquillianResource
-	URL basePath;
+	
 
-	@Test
+	@Test 
 	@UsingDataSet(value = { "sectors.json" })
 	public void shouldListSectors() {
 
-		System.out.println(basePath+"AirAlliance/webapi/sectors");
+		System.out.println(basePath+"webapi/sectors");
 
 		given()
 		.when()
-				.get(basePath+"AirAlliance/webapi/sectors")
+				.get(basePath+"webapi/sectors")
 				.then()
 				.statusCode(Status.OK.getStatusCode())
-				.body("", hasSize(4));
-//				.// dataset has 4 cars
-//				body("model", hasItem("Ferrari"))
-//				.body("price", hasItem(2450.8f))
-//				.body(containsString("Porche274"));
+				.body("", hasSize(4))
+				.body("sector", hasItem("CAL"));
 
 	}
 }

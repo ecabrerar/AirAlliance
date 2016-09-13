@@ -57,6 +57,19 @@
 		</developer>
 	</developers>
 
+	<dependencyManagement>
+
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.1.11.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 
 		<dependency>
@@ -92,7 +105,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -104,8 +117,7 @@
 
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<version>1.1.1.Final</version>
+			<artifactId>arquillian-junit-container</artifactId>			
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -122,14 +134,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-			<artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
-			<version>2.0.0-alpha-6</version>
+			<artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>			
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-			<version>2.2.0-beta-1</version>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>			
 			<scope>test</scope>
 		</dependency>
 		<dependency>
