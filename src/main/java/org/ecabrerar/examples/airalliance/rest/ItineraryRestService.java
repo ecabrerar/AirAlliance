@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.OptimisticLockException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,6 +32,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import org.ecabrerar.examples.airalliance.entities.Itinerary;
 import org.ecabrerar.examples.airalliance.service.ItineraryService;
@@ -48,28 +53,71 @@ public class ItineraryRestService implements IRestService {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Itinerary entity) {
+    public Response create(Itinerary entity) {
         itineraryService.createItinerary(entity);
+
+        return Response.created(UriBuilder.fromPath(String.valueOf(entity.getId())).build()).build();
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Itinerary entity) {
-        itineraryService.edit(entity);
+    public Response edit(@PathParam("id") Integer id, Itinerary entity) {
+
+    	if (entity == null) {
+    		return Response.status(Status.BAD_REQUEST).build();
+    	}
+
+    	if (!id.equals(entity.getId())) {
+    		return Response.status(Status.CONFLICT).entity(entity).build();
+    	}
+
+    	if (itineraryService.count(Itinerary.class) == 0) {
+    		return Response.status(Status.NOT_FOUND).build();
+    	}
+
+    	try {
+
+    		itineraryService.edit(entity);
+
+    	} catch (OptimisticLockException e) {
+    		return Response.status(Status.CONFLICT).entity(e.getEntity()).build();
+    	}
+
+    	return Response.noContent().build();
+
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
-        itineraryService.remove(itineraryService.find(Itinerary.class, id));
+    public Response remove(@PathParam("id") Integer id) {
+
+    	Itinerary entity =itineraryService.find(Itinerary.class, id);
+
+    	  if (entity == null) {
+              return Response.status(Status.NOT_FOUND).build();
+          }
+
+    	  itineraryService.remove(entity);
+
+    	  return Response.noContent().build();
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Itinerary find(@PathParam("id") Integer id) {
-        return itineraryService.find(Itinerary.class, id);
+    public Response find(@PathParam("id") Integer id) {
+
+    	Itinerary entity;
+
+    	try {
+
+    		 entity = itineraryService.find(Itinerary.class, id);
+    	}catch (NoResultException nre){
+    		return Response.status(Status.NOT_FOUND).build();
+    	}
+
+        return Response.ok(entity).build();
     }
 
     @GET

@@ -113,9 +113,7 @@ public class GuestRestService  implements IRestService{
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        Response.ResponseBuilder builder = Response.ok(guest);
-
-        return  builder.build();
+        return  Response.ok(guest).build();
     }
 
     @GET
