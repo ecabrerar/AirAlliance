@@ -87,6 +87,20 @@ public class ItineraryServiceTest {
 
     @Test
     @UsingDataSet(value = {"itinerary.yml","schedule.yml","guests.json","sectors.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"itinerary_updated.yml"}, excludeColumns = {"id"})
+    public void shouldUpdateItinerary(){
+
+    	Itinerary itinerary = itineraryService.find(Itinerary.class, 1);
+
+    	Guest guest = guestService.find(Guest.class, 2);
+
+    	itinerary.setGuest(guest);
+
+    	itineraryService.edit(itinerary);
+    }
+
+    @Test
+    @UsingDataSet(value = {"itinerary.yml","schedule.yml","guests.json","sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"itinerary.yml"}, excludeColumns = {"id"})
     public void get_ExistingItinerary_Found() throws Exception {
 

@@ -18,6 +18,8 @@ package org.ecabrerar.examples.airalliance.it.service;
 import static junit.framework.TestCase.assertNotNull;
 import static org.ecabrerar.examples.airalliance.test.helpers.TestHelpers.createSchedule;
 
+import java.time.LocalDate;
+
 import javax.inject.Inject;
 
 import org.ecabrerar.examples.airalliance.entities.Flight;
@@ -78,6 +80,18 @@ public class ScheduleServiceTest {
 
         assertNotNull(saved);
         assertNotNull(saved.getId());
+    }
+
+    @Test
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"schedule_updated.yml"}, excludeColumns = {"id"})
+    public void shouldUpdateSchedule(){
+
+    	 Schedule schedule = scheduleService.find(Schedule.class, 1);
+
+    	 schedule.setScheduleDate(LocalDate.of(2016,9,14));
+
+    	 scheduleService.edit(schedule);
     }
 
     @Test

@@ -131,12 +131,14 @@ public class GuestRestServiceTest {
 
 			given().
 		           content(guestToCreate.toString()).
-		           contentType("application/json").
-		    when().
-		           post(basePath+"webapi/guests").
-		    then().
-		                statusCode(Status.BAD_REQUEST.getStatusCode()).
-		                body("message", equalTo("Guest firstname cannot be empty"));
+		           contentType("application/json")
+
+		    .expect()
+		              .statusCode(Status.BAD_REQUEST.getStatusCode())
+
+		   .when().
+		           post(basePath+"webapi/guests");
+
 
     }
 

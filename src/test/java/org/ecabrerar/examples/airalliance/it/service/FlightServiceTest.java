@@ -79,6 +79,22 @@ public class FlightServiceTest {
 
     @Test
     @UsingDataSet(value = {"sectors.json", "flight.json"})
+    @ShouldMatchDataSet(value = {"flight_updated.json"}, excludeColumns = {"id"})
+    public void shouldUpdateFlight(){
+
+    	   Flight flight = flightService.find(Flight.class, 1);
+
+    	   Sector destSector = sectorService.find(Sector.class, 9);
+
+    	   flight.setName("AA057");
+    	   flight.setDestSectorId(destSector);
+
+    	   flightService.edit(flight);
+
+    }
+
+    @Test
+    @UsingDataSet(value = {"sectors.json", "flight.json"})
     @ShouldMatchDataSet(value = {"flight.json"}, excludeColumns = {"id"})
     public void get_ExistingFlight_Found() throws Exception {
 

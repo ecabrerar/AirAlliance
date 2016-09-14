@@ -1,0 +1,5 @@
+schedule:
+  - id : 1
+    guest_id : 1
+    flight_id : 1
+    schedule_date : 2016-09-14

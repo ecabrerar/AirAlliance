@@ -89,6 +89,44 @@ public class FlightRestServiceTest {
 			}
     }
 
+    @Test
+    @UsingDataSet(value = {"sectors.json"})
+	public void shouldCreateFlight() {
+
+    	JsonObject flightToCreate = Json.createObjectBuilder()
+								    .add("name", "AA003")
+					      		    .add("sourceSector",
+					      				  			Json.createObjectBuilder()
+					      				  			     .add("id", 1)
+					      				  			     .add("sector", "BLR")
+					      				  			     .build())
+					      		    .add("destSector",
+						                				  Json.createObjectBuilder()
+					   				  			     .add("id", 3)
+					   				  			     .add("sector", "BOM")
+					   				  			     .build())
+					      		    .build();
+
+			given()
+			        .content(flightToCreate.toString())
+					.contentType("application/json")
+			.when()
+					.post(basePath + "webapi/flights")
+			.then()
+					.statusCode(Status.CREATED.getStatusCode()).extract()
+					.asString();
+
+			// new flight should be there
+			given()
+			.when()
+					.get(basePath + "webapi/flights")
+			.then()
+					.statusCode(Status.OK.getStatusCode())
+					.body("name", hasItem("AA003"));
+
+
+	}
+
 
     @Test
     @UsingDataSet(value = {"sectors.json", "flight.json"})
@@ -96,13 +134,13 @@ public class FlightRestServiceTest {
 
 		JsonObject flightToUpdate = Json.createObjectBuilder()
 									  .add("id", 1)
-			                		  .add("name", "AA056 updated")
-			                		  .add("destSector",
+			                		  .add("name", "AA057")
+			                		  .add("sourceSector",
 			                				  			Json.createObjectBuilder()
 			                				  			     .add("id", 1)
 			                				  			     .add("sector", "BLR")
 			                				  			     .build())
-			                		  .add("sourceSector",
+			                		  .add("destSector",
 						                				  Json.createObjectBuilder()
 			             				  			     .add("id", 3)
 			             				  			     .add("sector", "BOM")

@@ -109,7 +109,7 @@ public class SectorRestServiceTest {
 
 		JsonObject sectorToUpdate = Json.createObjectBuilder()
 									.add("id", 1)
-									.add("sector", "BLR updated")
+									.add("sector", "FL")
 									.build();
 
 		given().content(sectorToUpdate.toString())

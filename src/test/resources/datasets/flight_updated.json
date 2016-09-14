@@ -1,0 +1,10 @@
+{
+    "flight": [
+        {
+            "id": 1,
+            "name": "AA057",
+            "source_sector_id": 1,
+            "dest_sector_id": 9
+        }
+    ]
+}

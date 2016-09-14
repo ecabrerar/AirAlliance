@@ -5,7 +5,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import java.net.URL;
+import java.time.LocalDate;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.core.Response.Status;
 
 import org.ecabrerar.examples.airalliance.util.Deployments;
@@ -62,6 +65,85 @@ public class ScheduleRestServiceTest {
 				.body("", hasSize(1));
 
     }
+
+    @Test
+    @UsingDataSet(value = {"guests.json","sectors.json", "flight.json"})
+    public void shouldCreateSchedule(){
+
+    	JsonObject scheduleToCreate = Json.createObjectBuilder()
+    									.add("guest",  Json.createObjectBuilder()
+    											 		.add("id", 1)
+	    											    .add("firstname", "Frank")
+	    											    .add("lastname","Jennings")
+	    											    .build())
+    									.add("flight",  Json.createObjectBuilder()
+		    											  .add("id", 1)
+		    					                		  .add("name", "AA056")
+		    					                		  .add("sourceSector",
+		    					                				  			Json.createObjectBuilder()
+		    					                				  			     .add("id", 1)
+		    					                				  			     .add("sector", "BLR")
+		    					                				  			     .build())
+		    					                		  .add("destSector",
+		    								                				  Json.createObjectBuilder()
+		    					             				  			     .add("id", 3)
+		    					             				  			     .add("sector", "BOM")
+		    					             				  			     .build())
+		    					                		  .build())
+		    									 .add("scheduleDate",LocalDate.of(2015,07,17).toString())
+    									.build();
+
+
+			given()
+					.content(scheduleToCreate.toString())
+					.contentType("application/json")
+			.when()
+					.post(basePath + "webapi/schedules")
+			.then()
+					.statusCode(Status.CREATED.getStatusCode()).extract().asString();
+
+    }
+
+    @Test
+    @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
+    public void shouldUpdateSchedule(){
+
+    	JsonObject scheduleToUpdate = Json.createObjectBuilder()
+    								  .add("id", 1)
+									  .add("guest",  Json.createObjectBuilder()
+												 		.add("id", 1)
+													    .add("firstname", "Frank")
+													    .add("lastname","Jennings")
+													    .build())
+									  .add("flight",  Json.createObjectBuilder()
+													  .add("id", 1)
+							                		  .add("name", "AA056")
+							                		  .add("sourceSector",
+							                				  			Json.createObjectBuilder()
+							                				  			     .add("id", 1)
+							                				  			     .add("sector", "BLR")
+							                				  			     .build())
+							                		  .add("destSector",
+										                				  Json.createObjectBuilder()
+							             				  			     .add("id", 3)
+							             				  			     .add("sector", "BOM")
+							             				  			     .build())
+							                		  .build())
+											 .add("scheduleDate",LocalDate.of(2015,07,17).toString())
+				.build();
+
+
+		given()
+				.content(scheduleToUpdate.toString())
+				.contentType("application/json")
+		.when()
+				.put(basePath+"webapi/schedules/1")  //dataset has schedule with id =1
+		.then()
+		       .statusCode(Status.NO_CONTENT.getStatusCode());
+
+
+    }
+
 
     @Test
     @UsingDataSet(value = {"schedule.yml","guests.json","sectors.json", "flight.json"})
