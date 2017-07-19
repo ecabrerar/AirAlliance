@@ -25,7 +25,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<version.wildfly>8.2.0.Final</version.wildfly>
+		<version.wildfly>10.1.0.Final</version.wildfly>
 		<version.arquillian_persistence>1.0.0.Alpha6</version.arquillian_persistence>
 		<mysql.driver.version>5.1.25</mysql.driver.version>
 		<mysql.groupId>mysql</mysql.groupId>
@@ -117,13 +117,13 @@
 
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>			
+			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.wildfly</groupId>
+			<groupId>org.wildfly.arquillian</groupId>
 			<artifactId>wildfly-arquillian-container-managed</artifactId>
-			<version>${version.wildfly}</version>
+			<version>2.0.2.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -134,12 +134,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-			<artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>			
+			<artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
-			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>			
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
